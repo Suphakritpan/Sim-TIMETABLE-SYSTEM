@@ -1,0 +1,11 @@
+{
+ "jobId": "job_d46ceec4768646451d7ecf3c240ef571",
+ "status": "failed",
+ "progress": null,
+ "seed": 1,
+ "method": "team",
+ "result": null,
+ "error": {
+  "code": "INTERNAL_ERROR"
+ }
+}

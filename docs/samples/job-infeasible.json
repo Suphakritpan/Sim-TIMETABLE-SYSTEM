@@ -1,0 +1,79 @@
+{
+ "jobId": "job_abdbf90ea6b142c2e74fec7973c86f78",
+ "status": "infeasible",
+ "progress": null,
+ "seed": 1,
+ "method": "team",
+ "result": {
+  "items": [],
+  "stats": {
+   "penalty": 0,
+   "scheduled": 0,
+   "unscheduled": 10,
+   "roomConflicts": 0,
+   "elapsedSeconds": 0.0,
+   "groupConflicts": 0,
+   "otherViolations": 0,
+   "teacherConflicts": 0,
+   "totalAssignments": 10
+  },
+  "conflicts": [],
+  "explanation": "",
+  "unscheduled": [
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S1"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S2"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S3"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S4"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S5"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S6"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S7"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S8"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S9"
+   },
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 4 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S10"
+   }
+  ],
+  "requestResults": [],
+  "infeasibleReasons": [
+   "ห้องบรรยาย ต้องใช้ 40 คาบ แต่ทุกห้องรวมกันมี 38 คาบ"
+  ]
+ }
+}

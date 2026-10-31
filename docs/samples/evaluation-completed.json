@@ -1,0 +1,66 @@
+{
+ "evaluationId": "eval_fbd8f8bf7354293016e55142ececd183",
+ "status": "completed",
+ "progress": 0.95,
+ "seed": 42,
+ "isSimulated": false,
+ "methods": [
+  {
+   "method": "baseline",
+   "metrics": {
+    "penalty": 71,
+    "conflicts": 0,
+    "unscheduled": 0,
+    "elapsedSeconds": 0.017,
+    "otherViolations": 0
+   },
+   "description": {
+    "method": "วางทีละรายการตามลำดับในไฟล์ ลงช่องแรกที่ว่าง ไม่ย้ายรายการที่วางแล้ว",
+    "settings": "ไม่มี",
+    "whereAiUsed": "ไม่ใช้ AI"
+   }
+  },
+  {
+   "method": "team",
+   "metrics": {
+    "penalty": 6,
+    "conflicts": 0,
+    "unscheduled": 0,
+    "elapsedSeconds": 0.766,
+    "otherViolations": 0
+   },
+   "description": {
+    "method": "จัดบล็อกที่ยากที่สุดก่อน คือบล็อกที่มีเวลาและห้องให้เลือกน้อย คาบติดกันยาว และเรียนรวมหลายกลุ่ม เพราะถ้าเก็บไว้ท้ายจะไม่เหลือที่ลง จากนั้นย้ายบล็อกอื่นเพื่อวางส่วนที่เหลือ แล้วค้นหาตำแหน่งที่คะแนนโทษน้อยลง",
+    "settings": "seed กำหนดผล, ค้นหาไม่เกิน 120,000 รอบ, คำขอที่พลาดคิดโทษ 1 ต่อคาบ",
+    "whereAiUsed": "ใช้การค้นหาแบบสุ่มเฉพาะที่ (local search) ซึ่งเป็นเทคนิค AI ในการปรับตารางให้คะแนนโทษน้อยลง"
+   }
+  }
+ ],
+ "metricDefinitions": [
+  {
+   "key": "unscheduled",
+   "label": "รายการที่จัดไม่ได้",
+   "higherIsBetter": false
+  },
+  {
+   "key": "conflicts",
+   "label": "จุดที่ชน",
+   "higherIsBetter": false
+  },
+  {
+   "key": "otherViolations",
+   "label": "ผิดกฎข้ออื่น",
+   "higherIsBetter": false
+  },
+  {
+   "key": "penalty",
+   "label": "คะแนนโทษ",
+   "higherIsBetter": false
+  },
+  {
+   "key": "elapsedSeconds",
+   "label": "เวลาที่ใช้ (วินาที)",
+   "higherIsBetter": false
+  }
+ ]
+}

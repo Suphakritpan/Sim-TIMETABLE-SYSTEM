@@ -1,0 +1,5 @@
+# Same line endings on Windows and Linux, so files don't show fake changes.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary

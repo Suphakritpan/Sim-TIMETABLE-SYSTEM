@@ -1,0 +1,651 @@
+{
+ "importId": "imp_f7a9b07a0a402b117a2ca2f3ad092974",
+ "status": "valid",
+ "createdAt": "2026-10-31T07:04:20.617730+00:00",
+ "summary": {
+  "teachers": 8,
+  "rooms": 8,
+  "groups": 4,
+  "courses": 13,
+  "assignments": 32,
+  "requests": 6
+ },
+ "issues": [],
+ "periods": {
+  "days": [
+   "MON",
+   "TUE",
+   "WED",
+   "THU",
+   "FRI"
+  ],
+  "perDay": 8,
+  "morning": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "afternoon": [
+   5,
+   6,
+   7,
+   8
+  ],
+  "blocked": [
+   {
+    "day": "WED",
+    "fromPeriod": 7,
+    "toPeriod": 8
+   }
+  ]
+ },
+ "teachers": [
+  {
+   "id": "TIT01",
+   "name": "ครูลลิตา มูลเมือง",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 5,
+   "unavailable": [
+    {
+     "day": "FRI",
+     "fromPeriod": 1,
+     "toPeriod": 1
+    }
+   ]
+  },
+  {
+   "id": "TIT02",
+   "name": "ครูวรรณา พันธุ์ทอง",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 6,
+   "unavailable": []
+  },
+  {
+   "id": "TIT03",
+   "name": "ครูสมชาย รักษา",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 5,
+   "unavailable": [
+    {
+     "day": "WED",
+     "fromPeriod": 4,
+     "toPeriod": 5
+    }
+   ]
+  },
+  {
+   "id": "TEL01",
+   "name": "ครูวรรณา สิริวัฒน์",
+   "dept": "ไฟฟ้ากำลัง",
+   "maxPerDay": 5,
+   "unavailable": [
+    {
+     "day": "FRI",
+     "fromPeriod": 5,
+     "toPeriod": 6
+    },
+    {
+     "day": "FRI",
+     "fromPeriod": 1,
+     "toPeriod": 3
+    }
+   ]
+  },
+  {
+   "id": "TEL02",
+   "name": "ครูพิมพ์ชนก ใจดี",
+   "dept": "ไฟฟ้ากำลัง",
+   "maxPerDay": 8,
+   "unavailable": [
+    {
+     "day": "MON",
+     "fromPeriod": 6,
+     "toPeriod": 7
+    }
+   ]
+  },
+  {
+   "id": "TEL03",
+   "name": "ครูนภัสสร แก้วประเสริฐ",
+   "dept": "ไฟฟ้ากำลัง",
+   "maxPerDay": 7,
+   "unavailable": [
+    {
+     "day": "TUE",
+     "fromPeriod": 5,
+     "toPeriod": 7
+    },
+    {
+     "day": "THU",
+     "fromPeriod": 7,
+     "toPeriod": 8
+    }
+   ]
+  },
+  {
+   "id": "TGEN01",
+   "name": "ครูอำไพ ภูมิใจ",
+   "dept": "สามัญสัมพันธ์",
+   "maxPerDay": 8,
+   "unavailable": [
+    {
+     "day": "TUE",
+     "fromPeriod": 3,
+     "toPeriod": 4
+    },
+    {
+     "day": "WED",
+     "fromPeriod": 7,
+     "toPeriod": 8
+    }
+   ]
+  },
+  {
+   "id": "TGEN02",
+   "name": "ครูรัตนา ทองดี",
+   "dept": "สามัญสัมพันธ์",
+   "maxPerDay": 6,
+   "unavailable": [
+    {
+     "day": "WED",
+     "fromPeriod": 1,
+     "toPeriod": 3
+    }
+   ]
+  }
+ ],
+ "rooms": [
+  {
+   "id": "LR-01",
+   "name": "ห้องบรรยาย LR-01",
+   "type": "ห้องบรรยาย",
+   "capacity": 45,
+   "building": "อาคาร 1"
+  },
+  {
+   "id": "LR-02",
+   "name": "ห้องบรรยาย LR-02",
+   "type": "ห้องบรรยาย",
+   "capacity": 45,
+   "building": "อาคาร 2"
+  },
+  {
+   "id": "LR-03",
+   "name": "ห้องบรรยาย LR-03",
+   "type": "ห้องบรรยาย",
+   "capacity": 45,
+   "building": "อาคาร 3"
+  },
+  {
+   "id": "AUD-01",
+   "name": "ห้องบรรยายรวม AUD-01",
+   "type": "ห้องบรรยาย",
+   "capacity": 90,
+   "building": "อาคาร 3"
+  },
+  {
+   "id": "COM-01",
+   "name": "ห้องคอมพิวเตอร์ COM-01",
+   "type": "ห้องคอมพิวเตอร์",
+   "capacity": 40,
+   "building": "อาคาร 1"
+  },
+  {
+   "id": "COM-02",
+   "name": "ห้องคอมพิวเตอร์ COM-02",
+   "type": "ห้องคอมพิวเตอร์",
+   "capacity": 40,
+   "building": "อาคาร 2"
+  },
+  {
+   "id": "EL-01",
+   "name": "ห้องปฏิบัติการไฟฟ้า EL-01",
+   "type": "ห้องปฏิบัติการไฟฟ้า",
+   "capacity": 40,
+   "building": "อาคาร 1"
+  },
+  {
+   "id": "EL-02",
+   "name": "ห้องปฏิบัติการไฟฟ้า EL-02",
+   "type": "ห้องปฏิบัติการไฟฟ้า",
+   "capacity": 40,
+   "building": "อาคาร 2"
+  }
+ ],
+ "groups": [
+  {
+   "id": "IT-H11",
+   "name": "ปวส.1/1 เทคโนโลยีสารสนเทศ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "size": 31
+  },
+  {
+   "id": "IT-H21",
+   "name": "ปวส.2/1 เทคโนโลยีสารสนเทศ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "size": 30
+  },
+  {
+   "id": "ELEC-H11",
+   "name": "ปวส.1/1 ไฟฟ้ากำลัง",
+   "dept": "ไฟฟ้ากำลัง",
+   "size": 33
+  },
+  {
+   "id": "ELEC-H21",
+   "name": "ปวส.2/1 ไฟฟ้ากำลัง",
+   "dept": "ไฟฟ้ากำลัง",
+   "size": 22
+  }
+ ],
+ "courses": [
+  {
+   "code": "30000-1101",
+   "name": "วิชาสามัญ 1",
+   "theory": 2,
+   "practice": 0,
+   "credit": 2,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30000-1102",
+   "name": "วิชาสามัญ 2",
+   "theory": 2,
+   "practice": 0,
+   "credit": 2,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30000-1103",
+   "name": "วิชาสามัญ 3",
+   "theory": 3,
+   "practice": 0,
+   "credit": 3,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30001-2001",
+   "name": "วิชาชีพ เทคโนโลยีสารสนเทศ 1",
+   "theory": 2,
+   "practice": 2,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2002",
+   "name": "วิชาชีพ เทคโนโลยีสารสนเทศ 2",
+   "theory": 1,
+   "practice": 3,
+   "credit": 2,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2003",
+   "name": "วิชาชีพ เทคโนโลยีสารสนเทศ 3",
+   "theory": 0,
+   "practice": 4,
+   "credit": 2,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2004",
+   "name": "วิชาชีพ เทคโนโลยีสารสนเทศ 4",
+   "theory": 1,
+   "practice": 2,
+   "credit": 2,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2005",
+   "name": "วิชาชีพ เทคโนโลยีสารสนเทศ 5",
+   "theory": 3,
+   "practice": 0,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": null
+  },
+  {
+   "code": "31001-2001",
+   "name": "วิชาชีพ ไฟฟ้ากำลัง 1",
+   "theory": 2,
+   "practice": 2,
+   "credit": 3,
+   "dept": "ไฟฟ้ากำลัง",
+   "practiceRoomType": "ห้องปฏิบัติการไฟฟ้า"
+  },
+  {
+   "code": "31001-2002",
+   "name": "วิชาชีพ ไฟฟ้ากำลัง 2",
+   "theory": 1,
+   "practice": 3,
+   "credit": 2,
+   "dept": "ไฟฟ้ากำลัง",
+   "practiceRoomType": "ห้องปฏิบัติการไฟฟ้า"
+  },
+  {
+   "code": "31001-2003",
+   "name": "วิชาชีพ ไฟฟ้ากำลัง 3",
+   "theory": 0,
+   "practice": 4,
+   "credit": 2,
+   "dept": "ไฟฟ้ากำลัง",
+   "practiceRoomType": "ห้องปฏิบัติการไฟฟ้า"
+  },
+  {
+   "code": "31001-2004",
+   "name": "วิชาชีพ ไฟฟ้ากำลัง 4",
+   "theory": 1,
+   "practice": 2,
+   "credit": 2,
+   "dept": "ไฟฟ้ากำลัง",
+   "practiceRoomType": "ห้องปฏิบัติการไฟฟ้า"
+  },
+  {
+   "code": "31001-2005",
+   "name": "วิชาชีพ ไฟฟ้ากำลัง 5",
+   "theory": 3,
+   "practice": 0,
+   "credit": 3,
+   "dept": "ไฟฟ้ากำลัง",
+   "practiceRoomType": null
+  }
+ ],
+ "assignments": [
+  {
+   "id": "S0001",
+   "courseCode": "30001-2001",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0002",
+   "courseCode": "30001-2002",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0003",
+   "courseCode": "30001-2003",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0004",
+   "courseCode": "30001-2004",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0005",
+   "courseCode": "30001-2005",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0006",
+   "courseCode": "30001-2001",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0007",
+   "courseCode": "30001-2002",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0008",
+   "courseCode": "30001-2003",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0009",
+   "courseCode": "30001-2004",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT03"
+  },
+  {
+   "id": "S0010",
+   "courseCode": "30001-2005",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT03"
+  },
+  {
+   "id": "S0011",
+   "courseCode": "31001-2001",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TEL01"
+  },
+  {
+   "id": "S0012",
+   "courseCode": "31001-2002",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TEL01"
+  },
+  {
+   "id": "S0013",
+   "courseCode": "31001-2003",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TEL01"
+  },
+  {
+   "id": "S0014",
+   "courseCode": "31001-2004",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TEL01"
+  },
+  {
+   "id": "S0015",
+   "courseCode": "31001-2005",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TEL02"
+  },
+  {
+   "id": "S0016",
+   "courseCode": "31001-2001",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TEL02"
+  },
+  {
+   "id": "S0017",
+   "courseCode": "31001-2002",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TEL02"
+  },
+  {
+   "id": "S0018",
+   "courseCode": "31001-2003",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TEL02"
+  },
+  {
+   "id": "S0019",
+   "courseCode": "31001-2004",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TEL03"
+  },
+  {
+   "id": "S0020",
+   "courseCode": "31001-2005",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TEL03"
+  },
+  {
+   "id": "S0021",
+   "courseCode": "30000-1101",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0022",
+   "courseCode": "30000-1102",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0023",
+   "courseCode": "30000-1103",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0024",
+   "courseCode": "30000-1101",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0025",
+   "courseCode": "30000-1102",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0026",
+   "courseCode": "30000-1103",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0027",
+   "courseCode": "30000-1101",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0028",
+   "courseCode": "30000-1102",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0029",
+   "courseCode": "30000-1103",
+   "groupIds": [
+    "ELEC-H11"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0030",
+   "courseCode": "30000-1101",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0031",
+   "courseCode": "30000-1102",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0032",
+   "courseCode": "30000-1103",
+   "groupIds": [
+    "ELEC-H21"
+   ],
+   "teacherId": "TGEN02"
+  }
+ ],
+ "requests": [
+  {
+   "id": "R01",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูลลิตา มูลเมือง ต้องไปนิเทศนักศึกษาฝึกงานทุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น"
+  },
+  {
+   "id": "R02",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูวรรณา พันธุ์ทอง ติดภารกิจศึกษาต่อทุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น"
+  },
+  {
+   "id": "R03",
+   "sender": "หัวหน้าแผนกวิชาเทคโนโลยีสารสนเทศ",
+   "text": "แผนกวิชาเทคโนโลยีสารสนเทศขอให้จัดคาบปฏิบัติไว้ช่วงเช้าให้มากที่สุดเท่าที่ทำได้ เพราะช่วงบ่ายห้องปฏิบัติการร้อนมาก"
+  },
+  {
+   "id": "R04",
+   "sender": "ครูสมชาย รักษา",
+   "text": "ครูสมชาย รักษา บ้านอยู่ต่างอำเภอ เดินทางไกล ถ้าเลี่ยงได้ขอไม่สอนคาบแรก (08.00 น.)"
+  },
+  {
+   "id": "R05",
+   "sender": "ครูที่ปรึกษา",
+   "text": "กลุ่ม ปวส.1/1 เทคโนโลยีสารสนเทศ (IT-H11) เป็นนักกีฬาของวิทยาลัย ต้องซ้อมกีฬาทุกวันพฤหัสบดี ขอให้เลิกเรียนไม่เกิน 15.00 น."
+  },
+  {
+   "id": "R06",
+   "sender": "ครูวรรณา สิริวัฒน์",
+   "text": "ครูวรรณา สิริวัฒน์ ขอสอนเฉพาะวันจันทร์และวันอังคาร เพื่อนำวันที่เหลือไปทำผลงานวิชาการ"
+  }
+ ]
+}

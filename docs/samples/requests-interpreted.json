@@ -1,0 +1,130 @@
+[
+ {
+  "request": {
+   "id": "R01",
+   "text": "ครูลลิตา มูลเมือง ต้องไปนิเทศนักศึกษาฝึกงานทุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น",
+   "sender": "ฝ่ายวิชาการ",
+   "kind": "teacher_unavailable",
+   "category": "must",
+   "params": {
+    "teacherId": "TIT01",
+    "days": [
+     "WED"
+    ],
+    "periods": [
+     5,
+     6,
+     7,
+     8
+    ]
+   },
+   "understanding": "ครู TIT01 / ไม่สอนพุธ คาบ 5-8 / ต้องทำตาม",
+   "status": "proposed"
+  },
+  "confidence": "high",
+  "ambiguities": []
+ },
+ {
+  "request": {
+   "id": "R02",
+   "text": "ครูวรรณา พันธุ์ทอง ติดภารกิจศึกษาต่อทุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น",
+   "sender": "ฝ่ายวิชาการ",
+   "kind": "teacher_unavailable",
+   "category": "must",
+   "params": {
+    "teacherId": "TIT02",
+    "days": [
+     "WED"
+    ],
+    "periods": [
+     5,
+     6,
+     7,
+     8
+    ]
+   },
+   "understanding": "ครู TIT02 / ไม่สอนพุธ คาบ 5-8 / ต้องทำตาม",
+   "status": "proposed"
+  },
+  "confidence": "high",
+  "ambiguities": []
+ },
+ {
+  "request": {
+   "id": "R03",
+   "text": "แผนกวิชาเทคโนโลยีสารสนเทศขอให้จัดคาบปฏิบัติไว้ช่วงเช้าให้มากที่สุดเท่าที่ทำได้ เพราะช่วงบ่ายห้องปฏิบัติการร้อนมาก",
+   "sender": "หัวหน้าแผนกวิชาเทคโนโลยีสารสนเทศ",
+   "kind": "prefer_practice_morning",
+   "category": "best_effort",
+   "params": {
+    "dept": "เทคโนโลยีสารสนเทศ"
+   },
+   "understanding": "แผนกเทคโนโลยีสารสนเทศ / จัดปฏิบัติช่วงเช้า / ทำถ้าทำได้",
+   "status": "proposed"
+  },
+  "confidence": "high",
+  "ambiguities": []
+ },
+ {
+  "request": {
+   "id": "R04",
+   "text": "ครูสมชาย รักษา บ้านอยู่ต่างอำเภอ เดินทางไกล ถ้าเลี่ยงได้ขอไม่สอนคาบแรก (08.00 น.)",
+   "sender": "ครูสมชาย รักษา",
+   "kind": "teacher_avoid_periods",
+   "category": "best_effort",
+   "params": {
+    "teacherId": "TIT03",
+    "periods": [
+     1
+    ]
+   },
+   "understanding": "ครู TIT03 / ไม่สอนคาบ 1 / ทำถ้าทำได้",
+   "status": "proposed"
+  },
+  "confidence": "high",
+  "ambiguities": []
+ },
+ {
+  "request": {
+   "id": "R05",
+   "text": "กลุ่ม ปวส.1/1 เทคโนโลยีสารสนเทศ (IT-H11) เป็นนักกีฬาของวิทยาลัย ต้องซ้อมกีฬาทุกวันพฤหัสบดี ขอให้เลิกเรียนไม่เกิน 15.00 น.",
+   "sender": "ครูที่ปรึกษา",
+   "kind": "group_unavailable",
+   "category": "must",
+   "params": {
+    "groupId": "IT-H11",
+    "days": [
+     "THU"
+    ],
+    "periods": [
+     7,
+     8
+    ]
+   },
+   "understanding": "กลุ่ม IT-H11 / งดเรียนพฤหัสบดี คาบ 7-8 / ต้องทำตาม",
+   "status": "proposed"
+  },
+  "confidence": "high",
+  "ambiguities": []
+ },
+ {
+  "request": {
+   "id": "R06",
+   "text": "ครูวรรณา สิริวัฒน์ ขอสอนเฉพาะวันจันทร์และวันอังคาร เพื่อนำวันที่เหลือไปทำผลงานวิชาการ",
+   "sender": "ครูวรรณา สิริวัฒน์",
+   "kind": "teacher_only_days",
+   "category": "best_effort",
+   "params": {
+    "teacherId": "TEL01",
+    "days": [
+     "MON",
+     "TUE"
+    ]
+   },
+   "understanding": "ครู TEL01 / สอนเฉพาะ จันทร์ อังคาร / ทำถ้าทำได้",
+   "status": "proposed"
+  },
+  "confidence": "high",
+  "ambiguities": []
+ }
+]
