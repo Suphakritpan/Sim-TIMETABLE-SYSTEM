@@ -13,6 +13,7 @@ import JobProgress from '../components/schedule/JobProgress'
 import ResultPanel from '../components/schedule/ResultPanel'
 import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
 import useJobPolling from '../hooks/useJobPolling'
 import { scheduleService } from '../services'
@@ -21,6 +22,7 @@ import { indexImport } from '../utils/timetable'
 const SEED_PATTERN = /^\d+$/
 
 export default function GeneratePage() {
+  usePageMeta('generate')
   const nav = useNavigate()
   const { importData: imp, confirmed, requests, seed, setSeed, job: finished, setJob } = useSession()
   const [seedText, setSeedText] = useState(String(seed))

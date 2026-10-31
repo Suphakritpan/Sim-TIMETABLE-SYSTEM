@@ -11,7 +11,6 @@ import Field from '../common/Field'
 import { ErrorState } from '../common/StateBox'
 
 const KIND_FIELD = { teacher_unavailable: 'teacherId', group_unavailable: 'groupId', room_closed: 'roomId' }
-const PERIODS = [1, 2, 3, 4, 5, 6, 7, 8]
 let manualCounter = 0
 
 function targetOptions(kind, imp) {
@@ -25,6 +24,7 @@ export default function AddRequestForm({ imp, onAdd }) {
   const [kind, setKind] = useState('teacher_unavailable')
   const [form, setForm] = useState({ target: '', day: 'MON', from: 1, to: 8, category: 'must' })
   const interpret = useAsync()
+  const PERIODS = Array.from({ length: imp.periods.perDay }, (_, i) => i + 1)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
   const invalid = Number(form.from) > Number(form.to)
 
@@ -33,7 +33,7 @@ export default function AddRequestForm({ imp, onAdd }) {
     const out = await interpret.run(() => requestService.interpret(imp.importId, text.trim()))
     if (!out) return
     const { request, confidence } = out
-    onAdd({ ...request, sender: 'ผู้ใช้', confidence, confirmed: false, failed: false })
+    onAdd({ ...request, sender: MSG.requests.userSender, confidence, confirmed: false, failed: false })
     setText('')
   }
 
@@ -44,7 +44,7 @@ export default function AddRequestForm({ imp, onAdd }) {
     const periods = PERIODS.filter((p) => p >= Number(form.from) && p <= Number(form.to))
     const label = targetOptions(kind, imp).find((o) => o.id === form.target).label
     const understanding = MSG.requests.manualUnderstanding(label, DAY_LABELS[form.day], form.from, form.to)
-    onAdd({ id: `M${manualCounter}`, text: understanding, sender: 'ผู้ใช้', kind, category: form.category, params: { [KIND_FIELD[kind]]: form.target, day: form.day, periods }, understanding, status: 'manual', confirmed: true, failed: false })
+    onAdd({ id: `M${manualCounter}`, text: understanding, sender: MSG.requests.userSender, kind, category: form.category, params: { [KIND_FIELD[kind]]: form.target, day: form.day, periods }, understanding, status: 'manual', confirmed: true, failed: false })
   }
 
   return (

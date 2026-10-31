@@ -10,11 +10,13 @@ import ImportResult from '../components/import/ImportResult'
 import SampleDownloads from '../components/import/SampleDownloads'
 import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
 import { importService } from '../services'
 import { ApiError } from '../utils/errors'
 
 export default function ImportPage() {
+  usePageMeta('import')
   const nav = useNavigate()
   const session = useSession()
   const upload = useAsync()

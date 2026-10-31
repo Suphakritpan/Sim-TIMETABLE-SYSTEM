@@ -8,6 +8,11 @@ function requireNumber(name, raw) {
   return value
 }
 
+function requireUrl(name, raw) {
+  if (!/^https?:\/\/[^/]+$/.test(raw ?? '')) throw new Error(`ตัวแปรสภาพแวดล้อม ${name} ต้องเป็น URL แบบ absolute ไม่มี / ท้าย (ได้ "${raw}")`)
+  return raw
+}
+
 const dataMode = import.meta.env.VITE_DATA_MODE
 if (dataMode !== 'mock' && dataMode !== 'api') {
   throw new Error(`VITE_DATA_MODE ต้องเป็น mock หรือ api (ได้ "${dataMode}")`)
@@ -21,6 +26,7 @@ if (dataMode === 'api' && !apiBaseUrl) {
 export const ENV = {
   dataMode,
   apiBaseUrl,
+  siteUrl: requireUrl('VITE_SITE_URL', import.meta.env.VITE_SITE_URL),
   mockScenario: import.meta.env.VITE_MOCK_SCENARIO ?? 'success',
   pollIntervalMs: requireNumber('VITE_POLL_INTERVAL_MS', import.meta.env.VITE_POLL_INTERVAL_MS),
   maxUploadMb: requireNumber('VITE_MAX_UPLOAD_MB', import.meta.env.VITE_MAX_UPLOAD_MB),

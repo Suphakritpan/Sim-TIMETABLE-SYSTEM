@@ -19,7 +19,7 @@ export default function RequestList({ rows, onChange }) {
           <div>
             <p className="text-xs text-ink-muted">{MSG.requests.colUnderstood}</p>
             <p className="flex items-start gap-1 text-sm font-medium">{r.failed && <CircleHelp size={16} className="mt-1 shrink-0 text-warning-text" aria-hidden />}{r.failed ? MSG.requests.interpretFailed : r.understanding}</p>
-            {r.confidence && <span className="mt-1 inline-block"><StatusPill kind={CONFIDENCE_KIND[r.confidence]}>{r.confidence}</StatusPill></span>}
+            {r.confidence && <span className="mt-1 inline-block"><StatusPill kind={CONFIDENCE_KIND[r.confidence]}>{MSG.requests.confidence[r.confidence]}</StatusPill></span>}
           </div>
           <label className="block text-xs text-ink-muted">{MSG.requests.colCategory}
             <select value={r.category} onChange={(e) => update(r.id, { category: e.target.value })} className="mt-1 min-h-11 w-full rounded-sm border border-line-control bg-page px-2 text-sm text-ink hover:border-action">

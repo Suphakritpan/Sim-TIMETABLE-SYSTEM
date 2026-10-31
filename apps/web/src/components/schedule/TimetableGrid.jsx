@@ -50,7 +50,7 @@ export default function TimetableGrid({ slots, periods, view, courseTone }) {
                 })}
               </tr>
               {p === LUNCH_AFTER_PERIOD && (
-                <tr key="lunch"><td colSpan={periods.days.length + 1} className="rounded-sm bg-subtle p-1 text-center text-xs text-ink-muted">{T.lunch} 12.00–13.00</td></tr>
+                <tr key="lunch"><td colSpan={periods.days.length + 1} className="rounded-sm bg-subtle p-1 text-center text-xs text-ink-muted">{T.lunch}</td></tr>
               )}
             </Fragment>
           ))}

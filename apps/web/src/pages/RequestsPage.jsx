@@ -10,6 +10,7 @@ import AddRequestForm from '../components/requests/AddRequestForm'
 import RequestList from '../components/requests/RequestList'
 import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
 import { requestService } from '../services'
 
@@ -24,6 +25,7 @@ async function interpretAll(imp) {
 }
 
 export default function RequestsPage() {
+  usePageMeta('requests')
   const nav = useNavigate()
   const { importData: imp, confirmed, requests: rows, setRequests } = useSession()
   const load = useAsync()

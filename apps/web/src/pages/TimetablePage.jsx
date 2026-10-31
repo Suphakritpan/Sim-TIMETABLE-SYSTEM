@@ -10,11 +10,13 @@ import EntityPicker from '../components/schedule/EntityPicker'
 import TimetableGrid from '../components/schedule/TimetableGrid'
 import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import usePageMeta from '../hooks/usePageMeta'
 import { buildSlotMap, entityOptions, indexImport, itemsFor, weeklyPeriods } from '../utils/timetable'
 
 const TOTAL_TEXT = { teacher: MSG.timetable.total, group: MSG.timetable.totalGroup, room: MSG.timetable.totalRoom }
 
 export default function TimetablePage() {
+  usePageMeta('timetable')
   const nav = useNavigate()
   const { importData: imp, job } = useSession()
   const [view, setView] = useState('group')

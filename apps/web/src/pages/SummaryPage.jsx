@@ -11,6 +11,7 @@ import { EmptyState, ErrorState } from '../components/common/StateBox'
 import StatusPill from '../components/common/StatusPill'
 import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
 import { exportService } from '../services'
 import { groupGaps, roomUtilization, teacherLoad } from '../utils/summary'
@@ -29,6 +30,7 @@ function saveBlob({ blob, filename }) {
 }
 
 export default function SummaryPage() {
+  usePageMeta('summary')
   const nav = useNavigate()
   const { importData: imp, job, requests } = useSession()
   const pdf = useAsync()

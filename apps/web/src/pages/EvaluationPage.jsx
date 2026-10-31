@@ -12,6 +12,7 @@ import { EmptyState, ErrorState, Skeleton } from '../components/common/StateBox'
 import StatusPill from '../components/common/StatusPill'
 import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
 import { evaluationService } from '../services'
 
@@ -26,6 +27,7 @@ function sameResult(a, b) {
 }
 
 export default function EvaluationPage() {
+  usePageMeta('evaluation')
   const nav = useNavigate()
   const { importData: imp, confirmed, requests, seed } = useSession()
   const [seedText, setSeedText] = useState(String(seed))

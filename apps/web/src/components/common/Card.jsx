@@ -2,7 +2,7 @@
 export default function Card({ feature = false, deep = false, title, children, className = '', ...rest }) {
   return (
     <section className={`border border-line-subtle p-4 shadow-card md:p-6 ${deep ? 'rounded-xl border-action-press bg-action-press text-on-action' : feature ? 'rounded-xl bg-tint' : 'rounded-lg bg-page'} ${className}`} {...rest}>
-      {title && <h3 className="mb-4 font-display text-lg font-semibold">{title}</h3>}
+      {title && <h2 className="mb-4 font-display text-lg font-semibold">{title}</h2>}
       {children}
     </section>
   )
