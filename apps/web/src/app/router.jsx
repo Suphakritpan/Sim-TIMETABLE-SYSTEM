@@ -1,0 +1,27 @@
+/** เส้นทางของทั้ง 6 หน้า โหลดแบบ lazy ต่อหน้า (code-splitting ตาม CLAUDE.md §9 ข้อ 20) */
+import { lazy, Suspense } from 'react'
+import { createBrowserRouter } from 'react-router'
+import { Skeleton } from '../components/common/StateBox'
+import AppShell from '../components/layout/AppShell'
+import { ROUTES } from '../config/constants'
+import NotFoundPage from '../pages/NotFoundPage'
+
+const pages = {
+  import: lazy(() => import('../pages/ImportPage')),
+  requests: lazy(() => import('../pages/RequestsPage')),
+  generate: lazy(() => import('../pages/GeneratePage')),
+  timetable: lazy(() => import('../pages/TimetablePage')),
+  evaluation: lazy(() => import('../pages/EvaluationPage')),
+  summary: lazy(() => import('../pages/SummaryPage')),
+}
+
+const element = (Page) => <Suspense fallback={<Skeleton rows={4} />}><Page /></Suspense>
+
+export const router = createBrowserRouter([
+  {
+    element: <AppShell />,
+    errorElement: <NotFoundPage />,
+    children: Object.entries(pages).map(([key, Page]) => ({ path: ROUTES[key], element: element(Page) })),
+  },
+  { path: '*', element: <NotFoundPage /> },
+])

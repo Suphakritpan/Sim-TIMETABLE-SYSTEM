@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>คู่มือการใช้งาน 1 หน้า — ระบบจัดตารางสอนอัตโนมัติ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Serif+Thai:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    :root { --ink: #0F172A; --muted: #475569; --line: #E4ECFC; --blue: #2563EB; --deep: #1E40AF; --red: #DC2626; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #fff; }
+    body { font-family: "Noto Sans Thai", system-ui, sans-serif; color: var(--ink); }
+    .page { width: 1123px; height: 794px; padding: 14px 22px 10px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+    header { display: flex; align-items: center; justify-content: space-between; background: var(--deep); color: #fff; border-radius: 14px; padding: 8px 18px; }
+    h1 { margin: 0; font: 600 20px/1.3 "Noto Serif Thai", serif; }
+    header p { margin: 0; font-size: 12px; opacity: .92; }
+    .grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 6px 12px; min-height: 0; }
+    .step { display: flex; flex-direction: column; gap: 4px; min-height: 0; }
+    .step img { width: 100%; aspect-ratio: 2.1 / 1; object-fit: cover; border: 1px solid #94A3B8; border-radius: 10px; display: block; }
+    .cap { display: flex; gap: 7px; align-items: flex-start; }
+    .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: #fff; font: 700 13px/22px sans-serif; text-align: center; }
+    .cap p { margin: 0; font-size: 10.5px; line-height: 1.4; }
+    .cap b { color: var(--deep); }
+    .red { color: var(--red); font-weight: 600; }
+    footer { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-size: 10.5px; color: var(--muted); border-top: 2px solid var(--line); padding-top: 6px; }
+    footer b { color: var(--ink); }
+    .url { border-bottom: 1px dashed var(--muted); padding: 0 24px; color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>คู่มือการใช้งาน 1 หน้า · ระบบจัดตารางสอนอัตโนมัติ</h1>
+      <p>ไม่ต้องเข้าสู่ระบบ — เปิดลิงก์เว็บแล้วทำตามหมายเลข <span style="font-weight:700">1 → 9</span> ตามลำดับ</p>
+    </header>
+
+    <section class="grid" aria-label="ขั้นตอนการใช้งาน">
+      <article class="step">
+        <img src="img/step1.png" alt="หน้านำเข้าข้อมูล กรอบแดงที่ช่องอัปโหลดไฟล์" />
+        <div class="cap"><span class="n">1</span><p><b>อัปโหลดไฟล์ Excel</b> — กดช่อง <span class="red">"ลากไฟล์ .xlsx มาวาง หรือเลือกไฟล์"</span> แล้วเลือกไฟล์ข้อมูลของวิทยาลัย ไม่มีไฟล์? โหลดแม่แบบ/ตัวอย่างจากกล่องทางขวา ระบบตรวจไฟล์ให้ทันที</p></div>
+      </article>
+      <article class="step">
+        <img src="img/step2.png" alt="สรุปข้อมูลที่อ่านได้และปุ่มยืนยัน" />
+        <div class="cap"><span class="n">2</span><p><b>ตรวจสรุป แล้วยืนยัน</b> — ดูจำนวนครู ห้อง กลุ่ม รายการสอน ถ้าไม่มีข้อผิดพลาด กด <span class="red">"ยืนยันใช้ข้อมูลนี้"</span> (ถ้ามีข้อผิดพลาด ดูคอลัมน์ "วิธีแก้" แก้ไฟล์แล้วอัปโหลดใหม่)</p></div>
+      </article>
+      <article class="step">
+        <img src="img/step3.png" alt="หน้าคำขอพิเศษ กรอบแดงที่ปุ่มยืนยันทั้งหมด" />
+        <div class="cap"><span class="n">3</span><p><b>ตรวจคำขอพิเศษ</b> — แต่ละข้อแสดงคำขอคู่กับสิ่งที่ระบบเข้าใจ เปลี่ยนแบบ (ต้องทำตาม / ทำถ้าทำได้ / ไม่ต้องทำเพิ่ม) ได้ แล้วกด <span class="red">"ยืนยันทั้งหมด"</span> และกด "ไปหน้าจัดตาราง"</p></div>
+      </article>
+      <article class="step">
+        <img src="img/step4.png" alt="ช่องเลขตั้งต้นและปุ่มจัดตาราง" />
+        <div class="cap"><span class="n">4</span><p><b>ตั้งเลขสุ่มแล้วจัดตาราง</b> — ใส่เลขตั้งต้น (seed) ใส่เลขเดิมจะได้ตารางเดิมทุกครั้ง แล้วกด <span class="red">"จัดตาราง"</span></p></div>
+      </article>
+      <article class="step">
+        <img src="img/step5.png" alt="ความคืบหน้าและปุ่มยกเลิกงาน" />
+        <div class="cap"><span class="n">5</span><p><b>รอและติดตามความคืบหน้า</b> — ดูขั้นตอนที่กำลังทำงาน ถ้าต้องการหยุดกด <span class="red">"ยกเลิกงาน"</span> แล้วยืนยัน จากนั้นกด "จัดใหม่" ได้</p></div>
+      </article>
+      <article class="step">
+        <img src="img/step6.png" alt="ผลตรวจของระบบหลังจัดตารางเสร็จ" />
+        <div class="cap"><span class="n">6</span><p><b>อ่านผลตรวจ</b> — จัดครบกี่รายการ ครู/ห้อง/กลุ่มชนกี่จุด (ควรเป็น 0) คะแนนโทษ เวลาที่ใช้ และคำอธิบายว่าจัดวิชาไหนก่อน จากนั้นกด <span class="red">"ดูตาราง"</span></p></div>
+      </article>
+      <article class="step">
+        <img src="img/step7.png" alt="เลือกมุมมองและค้นหาในหน้าดูตาราง" />
+        <div class="cap"><span class="n">7</span><p><b>ดูตารางรายสัปดาห์</b> — เลือก <span class="red">ตามกลุ่มเรียน / ตามครู / ตามห้อง</span> หรือพิมพ์ชื่อในช่องค้นหา แล้วกดชื่อที่ต้องการ ตารางและจำนวนคาบรวมจะแสดงด้านล่าง</p></div>
+      </article>
+      <article class="step">
+        <img src="img/step8.png" alt="หน้าผลการใช้ AI ตารางเปรียบเทียบ" />
+        <div class="cap"><span class="n">8</span><p><b>เปรียบเทียบวิธี</b> — กด <span class="red">"เปรียบเทียบ"</span> เพื่อดูวิธีพื้นฐานเทียบกับวิธีของทีม กดซ้ำด้วย seed เดิม ผลต้องเหมือนเดิม</p></div>
+      </article>
+      <article class="step">
+        <img src="img/step9.png" alt="ปุ่มดาวน์โหลด PDF และ Excel" />
+        <div class="cap"><span class="n">9</span><p><b>สรุปและดาวน์โหลด</b> — ดูห้องถูกใช้กี่ % คาบต่อครู และผลคำขอพิเศษ แล้วกด <span class="red">"ดาวน์โหลด PDF"</span> (สำหรับพิมพ์) หรือ <span class="red">"ดาวน์โหลด Excel"</span> (ตารางสอนทั้งหมด)</p></div>
+      </article>
+    </section>
+
+    <footer>
+      <span><b>ลิงก์เว็บ:</b> <span class="url" contenteditable="true">[ใส่ลิงก์เว็บที่นี่]</span></span>
+      <span><b>เคล็ดลับ:</b> เมนู 6 ขั้นอยู่แถบบนสุดเสมอ · ใช้ได้ทั้งคอมพิวเตอร์และมือถือ · กรอบ/วงกลมสีแดง = จุดที่ต้องกดหรือดู</span>
+    </footer>
+  </main>
+</body>
+</html>

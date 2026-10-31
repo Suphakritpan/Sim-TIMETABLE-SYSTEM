@@ -1,0 +1,132 @@
+{
+ "importId": "imp_MOCK01",
+ "requests": [
+  {
+   "id": "R01",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูเกียรติศักดิ์ ภูมิใจ เป็นกรรมการประชุมเครือข่ายอาชีวศึกษาทุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น",
+   "status": "proposed",
+   "kind": "teacher_unavailable",
+   "category": "must",
+   "params": {
+    "teacherId": "TGEN01",
+    "day": "WED",
+    "periods": [
+     5,
+     6,
+     7,
+     8
+    ]
+   },
+   "understanding": "ครู TGEN01 / ไม่สอนบ่ายวันพุธ (คาบ 5-8) / ต้องทำตาม",
+   "confidence": "high"
+  },
+  {
+   "id": "R02",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูสมพงษ์ ภูมิใจ ติดภารกิจศึกษาต่อปริญญาโททุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น",
+   "status": "proposed",
+   "kind": "teacher_unavailable",
+   "category": "must",
+   "params": {
+    "teacherId": "TGEN02",
+    "day": "WED",
+    "periods": [
+     5,
+     6,
+     7,
+     8
+    ]
+   },
+   "understanding": "ครู TGEN02 / ไม่สอนบ่ายวันพุธ (คาบ 5-8) / ต้องทำตาม",
+   "confidence": "high"
+  },
+  {
+   "id": "R03",
+   "sender": "หัวหน้าแผนกวิชาเทคโนโลยีสารสนเทศ",
+   "text": "แผนกวิชาเทคโนโลยีสารสนเทศขอให้จัดคาบปฏิบัติไว้ช่วงเช้าให้มากที่สุดเท่าที่ทำได้ เพราะช่วงบ่ายห้องปฏิบัติการร้อนมาก",
+   "status": "proposed",
+   "kind": "prefer_practice_morning",
+   "category": "best_effort",
+   "params": {
+    "dept": "เทคโนโลยีสารสนเทศ",
+    "periods": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "understanding": "แผนกเทคโนโลยีสารสนเทศ / คาบปฏิบัติช่วงเช้า / ทำถ้าทำได้",
+   "confidence": "medium"
+  },
+  {
+   "id": "R04",
+   "sender": "ครูจิราพร จันทร์แก้ว",
+   "text": "ครูจิราพร จันทร์แก้ว บ้านอยู่ต่างอำเภอ เดินทางไกล ถ้าเลี่ยงได้ขอไม่สอนคาบแรก (08.00 น.)",
+   "status": "proposed",
+   "kind": "teacher_avoid_period",
+   "category": "best_effort",
+   "params": {
+    "teacherId": "TIT02",
+    "periods": [
+     1
+    ]
+   },
+   "understanding": "ครู TIT02 / ไม่สอนคาบ 1 / ทำถ้าทำได้",
+   "confidence": "high"
+  },
+  {
+   "id": "R05",
+   "sender": "ครูที่ปรึกษา",
+   "text": "กลุ่ม ปวส.1/1 เทคโนโลยีสารสนเทศ (IT-H11) เป็นนักกีฬาของวิทยาลัย ต้องซ้อมกีฬาทุกวันพฤหัสบดี ขอให้เลิกเรียนไม่เกิน 15.00 น.",
+   "status": "proposed",
+   "kind": "group_end_by",
+   "category": "must",
+   "params": {
+    "groupId": "IT-H11",
+    "day": "THU",
+    "periods": [
+     7,
+     8
+    ]
+   },
+   "understanding": "กลุ่ม IT-H11 / วันพฤหัสบดีเลิกไม่เกิน 15.00 (ไม่มีคาบ 7-8) / ต้องทำตาม",
+   "confidence": "medium",
+   "ambiguities": [
+    {
+     "field": "periods",
+     "note": "\"เลิกไม่เกิน 15.00 น.\" ตีความเป็นไม่มีคาบ 7-8",
+     "alternatives": [
+      [
+       7,
+       8
+      ],
+      [
+       6,
+       7,
+       8
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "R06",
+   "sender": "ครูศักดิ์ชัย ปัญญาดี",
+   "text": "ครูศักดิ์ชัย ปัญญาดี ขอสอนเฉพาะวันจันทร์และวันอังคาร เพื่อนำวันที่เหลือไปทำผลงานวิชาการ",
+   "status": "proposed",
+   "kind": "teacher_only_days",
+   "category": "best_effort",
+   "params": {
+    "teacherId": "TIT01",
+    "days": [
+     "MON",
+     "TUE"
+    ]
+   },
+   "understanding": "ครู TIT01 / สอนเฉพาะจันทร์-อังคาร / ทำถ้าทำได้",
+   "confidence": "high"
+  }
+ ]
+}
