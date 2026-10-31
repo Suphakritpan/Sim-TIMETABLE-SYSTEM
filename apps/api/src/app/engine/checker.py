@@ -22,7 +22,9 @@ def gaps(periods: set[int]) -> int:
 
 
 def conflict(code: str, ids: list[str], day: str, period: int, message: str) -> dict:
-    return {"code": code, "assignmentIds": sorted(set(ids)), "day": day, "period": period, "message": message}
+    """One broken rule. Day and period are left out when it has none: the page's schema refuses blanks."""
+    found = {"code": code, "assignmentIds": sorted(set(ids)), "message": message}
+    return found | ({"day": day} if day else {}) | ({"period": period} if period else {})
 
 
 class Timetable:

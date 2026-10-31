@@ -163,7 +163,7 @@ def interpret(text: str, data: dict) -> dict:
     request = {
         "id": request_id,
         "text": text,
-        "sender": raw["sender"] if raw else None,
+        "sender": raw.get("sender") if raw else None,
         "kind": kind,
         "category": category,
         "params": params,

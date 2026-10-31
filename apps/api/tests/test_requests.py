@@ -59,6 +59,13 @@ def test_a_surname_that_contains_a_day_is_not_a_day():
     assert request["kind"] == "teacher_avoid_periods" and request["params"]["periods"] == [1]
 
 
+def test_a_request_with_no_sender_can_be_read():
+    data, _ = validate(read_sheets(build()))
+    del data["requests"][0]["sender"]
+    request = interpret(data["requests"][0]["text"], data)["request"]
+    assert request["id"] == "R1" and "sender" not in request
+
+
 def test_finish_time_becomes_periods():
     request = read("กลุ่ม G1 ต้องซ้อมกีฬาทุกวันพฤหัสบดี ขอเลิกเรียนไม่เกิน 15.00 น.")
     assert request["kind"] == "group_unavailable"

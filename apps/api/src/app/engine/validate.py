@@ -27,17 +27,13 @@ class Issues(list):
     """All problems found so far, in the shape the page shows."""
 
     def add(self, code: str, sheet: str, row: int, column: str | None, message: str, fix: str) -> None:
-        self.append(
-            {
-                "severity": "error",
-                "code": code,
-                "sheet": sheet,
-                "row": row,
-                "column": column,
-                "message": message,
-                "fix": fix,
-            }
-        )
+        issue = {"severity": "error", "code": code, "sheet": sheet, "row": row, "message": message, "fix": fix}
+        self.append(issue | ({"column": column} if column else {}))
+
+
+def without_blanks(record: dict) -> dict:
+    """Drop empty optional fields: the page's schema accepts a missing field, but refuses null."""
+    return {k: v for k, v in record.items() if v is not None or k == "practiceRoomType"}
 
 
 def to_int(value) -> int | None:
@@ -385,7 +381,7 @@ def read_requests(sheets: dict, issues: Issues) -> list[dict]:
     out = []
     for row in unique(table(sheets, REQUESTS, issues), REQUESTS, id_column, issues):
         if required(row, REQUESTS, text, issues):
-            out.append({"id": str(row[id_column]), "sender": row[sender], "text": row[text]})
+            out.append(without_blanks({"id": str(row[id_column]), "sender": row[sender], "text": row[text]}))
     return out
 
 
@@ -404,10 +400,10 @@ def validate(sheets: dict) -> tuple[dict, list[dict]]:
     for record in [*assignments, *teachers.values(), *groups.values()]:
         del record["_row"]
     data = {
-        "teachers": list(teachers.values()),
-        "rooms": list(rooms.values()),
-        "groups": list(groups.values()),
-        "courses": list(courses.values()),
+        "teachers": [without_blanks(t) for t in teachers.values()],
+        "rooms": [without_blanks(r) for r in rooms.values()],
+        "groups": [without_blanks(g) for g in groups.values()],
+        "courses": [without_blanks(c) for c in courses.values()],
         "assignments": assignments,
         "requests": requests,
     }
