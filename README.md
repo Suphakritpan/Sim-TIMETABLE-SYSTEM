@@ -75,7 +75,7 @@ Frontend บน Vercel (Root Directory = `apps/web`) และ Backend บน VP
 
 | ไฟล์ | เนื้อหา |
 |---|---|
-| [CLAUDE.md](CLAUDE.md) | กฎของโปรเจกต์ (ความถูกต้อง ความปลอดภัย โครงสร้าง SEO) |
+| [CLAUDE.md](CLAUDE.md) | กฎของโปรเจกต์ (ความถูกต้อง ความปลอดภัย โครงสร้าง SEO) และช่องสื่อสารกับ AI ฝั่ง Backend (§14, สาขา `comms`) |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | สถาปัตยกรรมและ stack |
 | [docs/API-CONTRACT.md](docs/API-CONTRACT.md) | สัญญาข้อมูล Frontend–Backend |
 | [docs/FOLDER-STRUCTURE.md](docs/FOLDER-STRUCTURE.md) | โครงสร้างโฟลเดอร์ |
