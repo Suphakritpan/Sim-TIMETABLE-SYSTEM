@@ -1,0 +1,410 @@
+{
+ "jobId": "job_eb1e28c5fd0f125c8f06cd791f51f16a",
+ "status": "completed",
+ "progress": 0.95,
+ "seed": 42,
+ "method": "team",
+ "result": {
+  "items": [
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-01",
+    "periodCount": 2,
+    "assignmentId": "S0001"
+   },
+   {
+    "day": "THU",
+    "kind": "practice",
+    "period": 3,
+    "roomId": "COM-01",
+    "periodCount": 2,
+    "assignmentId": "S0001"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0002"
+   },
+   {
+    "day": "TUE",
+    "kind": "practice",
+    "period": 2,
+    "roomId": "COM-02",
+    "periodCount": 3,
+    "assignmentId": "S0002"
+   },
+   {
+    "day": "WED",
+    "kind": "practice",
+    "period": 1,
+    "roomId": "COM-01",
+    "periodCount": 4,
+    "assignmentId": "S0003"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 1,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0004"
+   },
+   {
+    "day": "MON",
+    "kind": "practice",
+    "period": 3,
+    "roomId": "COM-02",
+    "periodCount": 2,
+    "assignmentId": "S0004"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-03",
+    "periodCount": 3,
+    "assignmentId": "S0005"
+   },
+   {
+    "day": "TUE",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-02",
+    "periodCount": 2,
+    "assignmentId": "S0006"
+   },
+   {
+    "day": "THU",
+    "kind": "practice",
+    "period": 1,
+    "roomId": "COM-01",
+    "periodCount": 2,
+    "assignmentId": "S0006"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 4,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0007"
+   },
+   {
+    "day": "MON",
+    "kind": "practice",
+    "period": 2,
+    "roomId": "COM-01",
+    "periodCount": 3,
+    "assignmentId": "S0007"
+   },
+   {
+    "day": "TUE",
+    "kind": "practice",
+    "period": 1,
+    "roomId": "COM-01",
+    "periodCount": 4,
+    "assignmentId": "S0008"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0009"
+   },
+   {
+    "day": "FRI",
+    "kind": "practice",
+    "period": 2,
+    "roomId": "COM-01",
+    "periodCount": 2,
+    "assignmentId": "S0009"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-01",
+    "periodCount": 3,
+    "assignmentId": "S0010"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 3,
+    "roomId": "LR-02",
+    "periodCount": 2,
+    "assignmentId": "S0011"
+   },
+   {
+    "day": "WED",
+    "kind": "practice",
+    "period": 3,
+    "roomId": "EL-01",
+    "periodCount": 2,
+    "assignmentId": "S0011"
+   },
+   {
+    "day": "TUE",
+    "kind": "theory",
+    "period": 4,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0012"
+   },
+   {
+    "day": "MON",
+    "kind": "practice",
+    "period": 6,
+    "roomId": "EL-01",
+    "periodCount": 3,
+    "assignmentId": "S0012"
+   },
+   {
+    "day": "TUE",
+    "kind": "practice",
+    "period": 5,
+    "roomId": "EL-01",
+    "periodCount": 4,
+    "assignmentId": "S0013"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-02",
+    "periodCount": 1,
+    "assignmentId": "S0014"
+   },
+   {
+    "day": "WED",
+    "kind": "practice",
+    "period": 5,
+    "roomId": "EL-01",
+    "periodCount": 2,
+    "assignmentId": "S0014"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-02",
+    "periodCount": 3,
+    "assignmentId": "S0015"
+   },
+   {
+    "day": "WED",
+    "kind": "theory",
+    "period": 3,
+    "roomId": "LR-01",
+    "periodCount": 2,
+    "assignmentId": "S0016"
+   },
+   {
+    "day": "THU",
+    "kind": "practice",
+    "period": 3,
+    "roomId": "EL-01",
+    "periodCount": 2,
+    "assignmentId": "S0016"
+   },
+   {
+    "day": "WED",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0017"
+   },
+   {
+    "day": "TUE",
+    "kind": "practice",
+    "period": 5,
+    "roomId": "EL-02",
+    "periodCount": 3,
+    "assignmentId": "S0017"
+   },
+   {
+    "day": "MON",
+    "kind": "practice",
+    "period": 1,
+    "roomId": "EL-01",
+    "periodCount": 4,
+    "assignmentId": "S0018"
+   },
+   {
+    "day": "WED",
+    "kind": "theory",
+    "period": 1,
+    "roomId": "LR-01",
+    "periodCount": 1,
+    "assignmentId": "S0019"
+   },
+   {
+    "day": "THU",
+    "kind": "practice",
+    "period": 5,
+    "roomId": "EL-01",
+    "periodCount": 2,
+    "assignmentId": "S0019"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 1,
+    "roomId": "LR-01",
+    "periodCount": 3,
+    "assignmentId": "S0020"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 3,
+    "roomId": "AUD-01",
+    "periodCount": 2,
+    "assignmentId": "S0021"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 7,
+    "roomId": "LR-01",
+    "periodCount": 2,
+    "assignmentId": "S0022"
+   },
+   {
+    "day": "TUE",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-01",
+    "periodCount": 3,
+    "assignmentId": "S0023"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 3,
+    "roomId": "LR-01",
+    "periodCount": 2,
+    "assignmentId": "S0024"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-02",
+    "periodCount": 2,
+    "assignmentId": "S0025"
+   },
+   {
+    "day": "WED",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-02",
+    "periodCount": 3,
+    "assignmentId": "S0026"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 3,
+    "roomId": "LR-01",
+    "periodCount": 2,
+    "assignmentId": "S0027"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-03",
+    "periodCount": 2,
+    "assignmentId": "S0028"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-02",
+    "periodCount": 3,
+    "assignmentId": "S0029"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 1,
+    "roomId": "LR-02",
+    "periodCount": 2,
+    "assignmentId": "S0030"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "AUD-01",
+    "periodCount": 2,
+    "assignmentId": "S0031"
+   },
+   {
+    "day": "TUE",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-02",
+    "periodCount": 3,
+    "assignmentId": "S0032"
+   }
+  ],
+  "stats": {
+   "penalty": 6,
+   "scheduled": 32,
+   "unscheduled": 0,
+   "roomConflicts": 0,
+   "elapsedSeconds": 0.845,
+   "groupConflicts": 0,
+   "otherViolations": 0,
+   "teacherConflicts": 0,
+   "totalAssignments": 32
+  },
+  "conflicts": [],
+  "explanation": "จัดบล็อกที่ยากที่สุดก่อน คือบล็อกที่มีเวลาและห้องให้เลือกน้อย คาบติดกันยาว และเรียนรวมหลายกลุ่ม เพราะถ้าเก็บไว้ท้ายจะไม่เหลือที่ลง จากนั้นย้ายบล็อกอื่นเพื่อวางส่วนที่เหลือ แล้วค้นหาตำแหน่งที่คะแนนโทษน้อยลง",
+  "unscheduled": [],
+  "requestResults": [
+   {
+    "reason": "จัดได้ตามคำขอทั้งหมด",
+    "outcome": "met",
+    "requestId": "R01"
+   },
+   {
+    "reason": "จัดได้ตามคำขอทั้งหมด",
+    "outcome": "met",
+    "requestId": "R02"
+   },
+   {
+    "reason": "จัดได้ตามคำขอทั้งหมด",
+    "outcome": "met",
+    "requestId": "R03"
+   },
+   {
+    "reason": "จัดได้ตามคำขอทั้งหมด",
+    "outcome": "met",
+    "requestId": "R04"
+   },
+   {
+    "reason": "จัดได้ตามคำขอทั้งหมด",
+    "outcome": "met",
+    "requestId": "R05"
+   },
+   {
+    "reason": "เลี่ยงได้ 9 จาก 15 คาบ เพราะเวลาที่เหลือไม่พอ",
+    "outcome": "partial",
+    "requestId": "R06"
+   }
+  ],
+  "infeasibleReasons": []
+ }
+}

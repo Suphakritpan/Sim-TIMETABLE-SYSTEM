@@ -23,3 +23,17 @@ The API opens on `http://localhost:8000`, and `http://localhost:8000/api/health`
 Windows: use `copy .env.example .env` in place of `cp`. The other commands are the same.
 
 Other files here: `docs/DECISIONS.md` (decisions and why) and `docs/SECURITY.md` (risks and data levels).
+
+## Run it online
+On a server with Docker, with the domain's DNS record pointing at the server:
+
+```bash
+cd apps/api
+cp deploy/.env.example deploy/.env    # then fill in the 3 values
+docker compose -f deploy/compose.prod.yaml --env-file deploy/.env up -d --build
+```
+
+Caddy gets the HTTPS certificate by itself. Only ports 80 and 443 open, and the stack starts again after a reboot.
+
+The same steps work on a local computer as the fallback for judges, with `API_DOMAIN=localhost`.
+

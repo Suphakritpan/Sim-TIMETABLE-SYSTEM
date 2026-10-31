@@ -325,7 +325,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] When the blank template is uploaded, then every sheet and column is recognised and the only issue is that it holds no data.
 - **Standards:** D1 (no real names), B16.
 
-### F10: Strong solver (doing)
+### F10: Strong solver (done)
 - **For:** a visitor wants every file scheduled cleanly and quickly, so that page 3 and 5 earn full marks.
 - **Needs:** read `timetable-light` first; seeded local search on team v1, fixed iteration limit, feasibility pre-checks, `tools/eval.py`. **After:** F3, F6.
 - **Acceptance:**
