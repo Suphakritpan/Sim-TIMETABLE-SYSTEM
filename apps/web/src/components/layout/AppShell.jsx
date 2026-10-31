@@ -1,5 +1,5 @@
 /** โครงหน้า: TopBar ลอย (เมนูเดียว) + เนื้อหา (Outlet) + พื้นหลังเคลื่อนไหว; ย้ายโฟกัสไปหัวเรื่องเมื่อเปลี่ยนหน้า */
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion } from 'motion/react'
 import { Outlet, useLocation } from 'react-router'
 import { MSG } from '../../config/messages'
@@ -8,7 +8,13 @@ import TopBar from './TopBar'
 
 export default function AppShell() {
   const { pathname } = useLocation()
-  useEffect(() => { document.getElementById('main')?.focus({ preventScroll: true }) }, [pathname])
+  const shownPath = useRef(pathname)
+  // โฟกัสเนื้อหาเฉพาะตอนเปลี่ยนหน้า (ไม่ใช่ตอนโหลดครั้งแรก เพื่อให้ Tab แรกไปที่ลิงก์ข้ามเนื้อหา)
+  useEffect(() => {
+    if (shownPath.current === pathname) return
+    shownPath.current = pathname
+    document.getElementById('main')?.focus({ preventScroll: true })
+  }, [pathname])
   return (
     <div className="min-h-screen text-ink">
       <MotionBackground />
