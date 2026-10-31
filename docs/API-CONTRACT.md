@@ -2,7 +2,7 @@
 
 สถานะ: **ร่าง v0.2** · แก้ร่วมกันโดยแพน (Frontend) และเพื่อน (Backend)
 แหล่งอ้างอิงโจทย์: `proposition data/` — `1_อ่านก่อน_โจทย์.pdf` (เรียกว่า **โจทย์**), `2_…ชุดทดลอง_4กลุ่ม.xlsx`, `3_…ชุดหลัก_12กลุ่ม.xlsx`, `4_ตัวอย่างไฟล์ตารางสอนที่ต้องส่งออก.xlsx`
-ข้อมูลตัวอย่างในเอกสารนี้ดัดแปลงจากไฟล์โจทย์ (ชื่อบุคคลในไฟล์เป็นข้อมูลสมมติของการแข่งขัน)
+ข้อมูลตัวอย่างในเอกสารนี้ดัดแปลงจากไฟล์โจทย์ (ยังไม่ยืนยันว่าชื่อบุคคลในไฟล์เป็นชื่อสมมติหรือจริง — ดู BACKEND-REPO-REVIEW.md C5 จึงใช้ชื่อสมมติของเราเองใน fixtures)
 
 > ⚠️ **ต้องกระทบยอดกับ Backend จริง (UNVERIFIED)** — ข้อมูลจากเพื่อน: template Backend มี 18 endpoint ใต้ `/api` ที่เห็นแล้ว 9 ตัว: `GET /api/health`, `GET /api/auth/options`, `POST /api/auth/dev-login` (dev เท่านั้น), `POST /api/auth/logout`, `GET|PATCH /api/me`, `POST /api/jobs`, `GET /api/jobs/{job_id}`, `GET /api/jobs/{job_id}/events` (SSE) — อีก 9 ตัวอยู่ใน `routes/documents.py`, `routes/admin.py` (ยังไม่เห็น)
 > - รายการนี้เป็นของ **template ปัจจุบัน** F1 จะลบ documents/users/หน้า jobs ตัวอย่าง → **Frontend ห้ามยึดรายการนี้** ให้ยึดตารางหัวข้อ 6 ของ `docs/SPEC.md` ของ Backend (**ไฟล์นั้นไม่อยู่ใน repo นี้ — รอเพื่อนส่งสำเนาหรือ `openapi.json`**)
@@ -170,6 +170,34 @@ RawRequest      { "requestId": "R04", "requester": "…", "text": "…" }
 ตัวเลขสรุปหน้า 6 (ห้องถูกใช้กี่ %, คาบต่อครู, คาบว่างต่อกลุ่ม) **คำนวณฝั่ง Frontend** จาก `result.items` + import (ฟังก์ชันล้วน มี test) ไม่ต้องมี endpoint เพิ่ม
 
 ---
+
+## 1.2 v0.3 — จัดให้ตรง SPEC ของ Backend (repo `anonmianwe/test-for-AI-skills-competition`, `docs/SPEC.md` §6) — `PROPOSED`
+
+ผู้ใช้ตัดสินแล้ว (2026-10-31): **Frontend ปรับตาม SPEC ของ Backend** และ **ไม่มีล็อกอิน** (ตัด `/api/auth/*` ออกจากหน้าทั้ง 6) SPEC กำหนดชื่อ endpoint และหลักการ "เก็บข้อมูลที่ยืนยัน/คำขอ/ผลล่าสุดฝั่งเซิร์ฟเวอร์" แต่ **ไม่ได้กำหนดรูปแบบ response** ตารางนี้คือรูปแบบที่ Frontend เสนอ (รอ Backend ยืนยัน) endpoint เดิมใน §2 (`/api/v1/imports`, `/schedules`, `/requests/interpret`, `/evaluations`) **ถูกแทนที่** (breaking สำหรับ Backend ที่ยังไม่เริ่มสร้าง จึงไม่กระทบโค้ดจริง)
+
+| endpoint (ตาม SPEC §6) | request | response สำเร็จ | error |
+|---|---|---|---|
+| `POST /api/datasets` | `multipart` ฟิลด์ `file` (.xlsx ≤ 10 MB) | `201` Dataset `{id, status: valid\|invalid, confirmed: false, summary, issues[], periods, teachers[], rooms[], groups[], courses[], assignments[]}` (โครงสร้าง §1/§1.1; **ข้อมูลผิด = 201 + `status: invalid`**) | 413 `FILE_TOO_LARGE`, 415 `UNSUPPORTED_FILE_TYPE`, 400 `FILE_UNREADABLE` |
+| `GET /api/datasets/active` | — | Dataset ที่ `confirmed: true` | 404 `NO_ACTIVE_DATASET` |
+| `POST /api/datasets/{id}/confirm` | — | Dataset (`confirmed: true`) | 404 `DATASET_NOT_FOUND`, 409 `IMPORT_NOT_VALID` |
+| `GET /api/requests` | — | `{requests: Request[], unconfirmed: n}` | — |
+| `POST /api/requests` | `{text}` (ให้ระบบอ่าน) หรือ `{constraint: {kind, params, category}}` (ฟอร์ม ใช้ได้แม้ AI ไม่พร้อม) | `201` Request | 422 `VALIDATION_FAILED` |
+| `PATCH /api/requests/{id}` | `{version, category?, confirmed?}` | Request (version เพิ่ม) | 409 `REQUEST_CHANGED` (R5) |
+| `POST /api/requests/confirm-all` | — | `{requests, unconfirmed: 0}` | — |
+| `POST /api/runs` | `{seed, method?: "team"}` (คำขอที่ยืนยันแล้วอ่านจากฝั่งเซิร์ฟเวอร์ ไม่ส่งมา) | `202` Job | 409 `RUN_IN_PROGRESS`, 409 `NO_ACTIVE_DATASET` |
+| `GET /api/jobs/{id}` | — | Job `{id, kind: schedule\|compare, status: queued\|running\|done\|failed\|cancelled, result: {runId}\|null, error: {code, message}\|null}` | 404 |
+| `GET /api/jobs/{id}/events` (SSE) | `Last-Event-ID` | `id: n` + `data: {"stage": "ASSIGNING_SLOTS", "progress": 0.4 \| null}`; จบด้วย `event: end` `data: {"status": ...}` — **ต้องปิดสตรีมเมื่อ `cancelled` ด้วย** | 404 |
+| `POST /api/jobs/{id}/cancel` | — | Job (idempotent) | 404 |
+| `GET /api/runs/latest` | — | Run `{id, seed, method, outcome: complete\|partial\|infeasible, items[], conflicts[], unscheduled[], stats{}, explanation, infeasibleReasons[], requestResults[]}` (ฟิลด์ตาม A8–A10) | 404 `NO_RUN` |
+| `POST /api/comparisons` | `{seed}` | `202` Job (kind `compare`) | 409 `RUN_IN_PROGRESS`, 409 `NO_ACTIVE_DATASET` |
+| `GET /api/comparisons/latest` | — | Evaluation (A11) | 404 |
+| `GET /api/runs/latest/export.xlsx`, `export.pdf` | — | ไฟล์ (รูปแบบภาคผนวก) | 404 `NO_RUN` |
+
+**Request** (คำขอพิเศษ): `{id, text, sender, source: rule\|ai\|manual, kind, category: must\|best_effort\|no_action, params, understanding, confirmed, version, needsPerson, confidence?}` — `needsPerson: true` = ระบบอ่านไม่ได้ ต้องให้คนกรอกผ่านฟอร์ม
+
+**ส่วนของ SPEC ที่ Frontend ไม่ใช้ (คำนวณฝั่ง Frontend จาก `Run.items` + Dataset แทน):** `GET /api/runs/latest/grid`, `GET /api/search`, `GET /api/runs/latest/summary` — Backend ข้ามได้ถ้าไม่มีเวลา; ถ้าทำ ตัวเลขต้องตรงกับที่ Frontend คำนวณ (ตัวคำนวณมี test)
+
+**ข้อควรระวังฝั่ง Backend:** เมื่อใช้ SSE ข้ามโดเมน `EventSource` ใส่ header เองไม่ได้ (ไม่มี cookie/credentials) · Frontend ใช้ `GET /api/jobs/{id}` poll เป็นทางสำรองเสมอ
 
 ## 2. Endpoints
 
@@ -401,9 +429,11 @@ RawRequest      { "requestId": "R04", "requester": "…", "text": "…" }
 | วันที่ | เวอร์ชัน | การเปลี่ยนแปลง | Breaking? | ผู้แก้ |
 |---|---|---|---|---|
 | 2026-10-31 | v0.1 | ร่างแรก 8 endpoint (ฟิลด์เป็นข้อเสนอทั้งหมด) | — | Claude |
+| 2026-10-31 | v0.3 | เพิ่ม §1.2: จัด endpoint ให้ตรง `docs/SPEC.md` §6 ของ Backend (datasets/requests/runs/jobs/comparisons, SSE), ไม่มีล็อกอิน; แทนที่ endpoint ใน §2 | **ใช่** (แทนที่ §2; Backend ยังไม่เริ่มสร้าง) | Claude ตามคำสั่งผู้ใช้ (**รอเพื่อนยืนยัน**) |
 | 2026-10-31 | v0.2 | เพิ่มส่วน §1.1 (A1–A13) ตามโจทย์ฉบับนักเรียนและไฟล์ Excel จริง; non-breaking | ไม่ | Claude (แพนขอให้ทำ; **รอเพื่อนยืนยัน**) |
 | 2026-10-31 | v0.1.1 | แยกป้ายสถานะ CONFIRMED/PROPOSED/UNVERIFIED | ไม่ | Claude |
 | 2026-10-31 | v0.2 | ปรับตามโจทย์จริง: ชื่อแผ่นงาน/คอลัมน์ Excel, วัน/คาบ, 10 กฎห้ามผิด, คะแนนโทษ, คำขอพิเศษ 3 ประเภท, รูปแบบส่งออก xlsx, เพิ่มสถานะ `infeasible`, `requestOutcomes`, `check`, `calendar`; ตัด `reasonCode`/metric ที่เดา; เปลี่ยนฟิลด์ id เป็นรหัสจากไฟล์ (`teacherId`ฯลฯ) และ `day` เป็นชื่อไทย; `Placement` ใช้ `type/startPeriod/periodCount` | **ใช่** (ยังไม่มีโค้ดใช้) | Claude |
 | 2026-10-31 | v0.2.1 | เพิ่มหมายเหตุ "ต้องกระทบยอดกับ Backend จริง" (ชื่อ endpoint/SSE) ยังไม่แก้ endpoint | ไม่ | Claude |
 | 2026-10-31 | v0.2.2 | บันทึก endpoint ของ template (9 จาก 18), ต้องยึด SPEC §6 ของ Backend, ปัญหา auth, SSE | ไม่ | Claude |
 | 2026-10-31 | v0.2.3 | ผู้ใช้เลือก deploy ทางเลือก B (Vercel + VPS); ความคืบหน้า = SSE หลัก + polling สำรอง (ยังไม่ปรับ endpoint จนกว่าได้ openapi.json) | ไม่ | Claude |
+| 2026-10-31 | v0.2.4 | ผลอ่าน repo เพื่อน: เส้นทางจริงต่างจากเอกสารนี้ ดู BACKEND-REPO-REVIEW.md §4 (ยังไม่เขียน §2 ใหม่ รอตัดสิน C2/C3) | ไม่ | Claude |
