@@ -2,7 +2,7 @@
 """แสดงสถานะหัวข้อและข้อความที่รอตอบของ AI ตัวหนึ่ง จากไฟล์ใน communication/messages/
 
 ใช้: python communication/tools/inbox.py --me pan-ai [--all]
-สถานะของหัวข้อ = สถานะของข้อความล่าสุด (ตามวันที่) ใน thread; "รอตอบ" = หัวข้อที่ข้อความล่าสุดส่งถึง --me และสถานะ Open/Blocked
+สถานะของหัวข้อ = สถานะของข้อความล่าสุด (ตามวันที่) ใน thread; "รอคุณ" = หัวข้อที่ข้อความล่าสุดส่งถึง --me และสถานะ Open/Blocked/Answered
 ใช้ Python มาตรฐานอย่างเดียว; ไฟล์ที่ส่วนหัวไม่ครบจะถูกรายงานเป็นคำเตือน ไม่ทำให้โปรแกรมล้ม
 """
 import argparse
@@ -10,7 +10,8 @@ import sys
 from pathlib import Path
 
 REQUIRED = ('id', 'thread', 'from', 'to', 'date', 'subject', 'kind', 'status', 'in_reply_to')
-WAITING = ('Open', 'Blocked')
+# Answered ที่ส่งถึงผู้ถาม = มีคำตอบรอให้ตรวจแล้วปิดหัวข้อ (Resolved) หรือถามต่อ
+WAITING = ('Open', 'Blocked', 'Answered')
 
 
 def parse(path):
@@ -70,7 +71,7 @@ def main(argv=None):
         if not (waiting or args.all):
             continue
         shown += 1
-        mark = 'รอคุณตอบ' if waiting else last['status']
+        mark = ('รอคุณตอบ' if last['status'] != 'Answered' else 'มีคำตอบรอคุณตรวจ/ปิด') if waiting else last['status']
         print(f"[{mark}] {thread}  ({len(items)} ข้อความ)  {last['subject']}")
         print(f"    ล่าสุด: {last['id']}  {last['from']} -> {last['to']}  {last['date']}  status={last['status']}  kind={last['kind']}  ({last['file']})")
     if shown == 0:
