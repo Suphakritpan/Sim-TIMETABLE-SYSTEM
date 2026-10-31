@@ -20,7 +20,7 @@
 | Excel / PDF | openpyxl (อ่าน+เขียน) · WeasyPrint + ฟอนต์ Sarabun (ยังไม่ทดสอบตัดคำไทย) | UNVERIFIED | เพื่อน |
 | งานจัดตารางแบบ async | worker แยกโปรเซส + job/event/schedule_run ใน PostgreSQL; ความคืบหน้าผ่าน SSE | UNVERIFIED | เพื่อน |
 | เก็บ job/ผลลัพธ์ | ต้องตัดสินใจ (ดู §7) — ห้ามพึ่ง memory ของ process ถาวร | PROPOSED (เปิดอยู่) | เพื่อน |
-| Deploy | Frontend: Vercel (Root = `apps/web`) · Backend: VPS + docker compose + Caddy (HTTPS) ต้องมีโดเมน | ผู้ใช้ตัดสิน; โดเมนยังไม่มี | ทั้งคู่ |
+| Deploy | **CONFIRMED (ผู้ใช้เลือก B):** Frontend บน Vercel (Root = `apps/web`) + Backend บน VPS ด้วย Docker (api + worker + PostgreSQL + Caddy HTTPS) เรียกข้ามโดเมนแบบไม่ใช้ cookie — รายละเอียดใน [DEPLOYMENT.md](DEPLOYMENT.md); โดเมนของ API ยังไม่มี | ผู้ใช้ตัดสินแล้ว | ทั้งคู่ |
 
 ## 2. โครงสร้าง repo
 
@@ -96,7 +96,7 @@ const job = await scheduleService.getStatus(jobId);   // ถูกเรีย�
 **ตัดสินแล้ว (โดยผู้ใช้)**
 - โจทย์ไม่บังคับภาษา/framework/ที่ deploy `CONFIRMED`
 - เว็บเป็นสาธารณะ ไม่มีระบบล็อกอิน (โจทย์ระบุเรื่องรหัสผ่านเฉพาะ "ถ้าเว็บมีหน้าเข้าสู่ระบบ")
-- ข้อมูลอาจมีข้อมูลส่วนบุคคล แต่ไม่เผยแพร่ (ดูข้อสังเกต CLAUDE.md §13)
+- ข้อมูลอาจมีข้อมูลส่วนบุคคล แต่ไม่เผยแพร่ (ดู CLAUDE.md §13)
 - เวลาทำงานจำกัด: **เสร็จภายในวันเดียว** (ส่ง 16.30 น. วันที่ 1; หลังส่งห้ามแก้เว็บ/โค้ด)
 - ใช้ไลบรารีช่วยแทนการเขียนเอง (ตัวอย่าง `PROPOSED`: Frontend — React Router, ไลบรารีตารางเวลา/UI, ตรวจ schema; Backend — FastAPI, openpyxl, ตัวแก้ปัญหา constraint เช่น OR-Tools CP-SAT สำหรับจัดตาราง)
 

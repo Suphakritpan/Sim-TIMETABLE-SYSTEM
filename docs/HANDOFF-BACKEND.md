@@ -3,6 +3,8 @@
 ผู้อ่าน: เพื่อน (Algorithm & Backend) · ผู้เขียน: ฝั่งแพน (Frontend & Integration)
 เวอร์ชัน: v0.1 · เงื่อนไขเวลา: **ส่งงาน 16.30 น. วันที่ 1 หลังจากนั้นห้ามแก้เว็บ/โค้ด**
 
+> **คำขอข้อมูลที่ต้องการจากเพื่อน (ละเอียด คัดลอกไปให้ AI ได้): [`docs/REQUEST-TO-BACKEND.md`](REQUEST-TO-BACKEND.md)** · แผน deploy: [`docs/DEPLOYMENT.md`](DEPLOYMENT.md)
+
 ## 0. กฎข้อแรก: อ่านเอกสารทุกครั้ง
 
 ก่อนเริ่มงานทุกครั้ง (ทุกเช้า ทุกครั้งที่เปิด session ใหม่ และก่อนเปิด PR) ให้อ่านตามลำดับนี้ ถ้าเอกสารไม่ตรงกับที่ตกลงกันไว้ ให้แก้เอกสารก่อนแก้โค้ด
@@ -36,7 +38,7 @@
 
 ### 2.1 API Contract
 1. `docs/API-CONTRACT.md` เป็นสัญญาเดียว Backend ต้องตอบ shape ตามนั้นทุกฟิลด์ ส่วน Frontend จะเขียนรับตามนั้นเท่านั้น
-2. **สถานะปัจจุบัน: ยังต้องกระทบยอด** — template Backend ของเพื่อนมี endpoint มากกว่า 8 ตัวและชื่อต่าง (`/api/runs`, `/api/comparisons`, `/api/jobs/{id}/events` ฯลฯ) ให้เพื่อน **ส่งรายการ endpoint จริงของ template** (ชื่อ, method, request, response) ภายใน **ชั่วโมงแรก** แพนจะเทียบแล้วแก้ contract โดย **ยึดของที่ Backend มีอยู่แล้ว** เว้นแต่ขัดกับโจทย์ จากนั้นแช่แข็ง contract (ดู 2.2)
+2. **สถานะปัจจุบัน: ยังต้องกระทบยอด** — endpoint ใน template (`/api/jobs`, `/api/jobs/{id}/events` ฯลฯ) เป็นของชั่วคราวที่ F1 จะลบ Frontend ยึด **ตารางหัวข้อ 6 ของ `docs/SPEC.md` ฝั่ง Backend** ให้เพื่อน **ส่งสำเนาตารางนั้น (หรือ `openapi.json` จาก `app.openapi()`) ภายในชั่วโมงแรก** แพนจะเทียบแล้วแก้ contract โดยยึดของ Backend เว้นแต่ขัดกับโจทย์ แล้วแช่แข็ง (ดู 2.2) · **ไม่มีล็อกอิน:** endpoint ที่หน้าเว็บเรียกต้องเป็นสาธารณะ (template ตอนนี้บังคับ admin/staff + cookie ใน `/api/jobs*`) และ production ต้องไม่มี `dev-login`
 3. ห้ามเปลี่ยน shape เงียบ ๆ ทุกการเปลี่ยนต้อง: แก้ `API-CONTRACT.md` → ลง Changelog (ระบุ breaking หรือไม่) → แจ้งแพนก่อน merge
 4. ฟิลด์ที่เพิ่มได้โดยไม่ breaking: เพิ่มฟิลด์ใหม่ (Frontend ต้องเพิกเฉยฟิลด์ที่ไม่รู้จัก) · ที่ breaking: เปลี่ยนชื่อ/ชนิด/ลบฟิลด์ เปลี่ยนความหมาย สถานะ หรือรหัส error
 
@@ -63,7 +65,7 @@
 | ชุดใหญ่ ~600 รายการ | ต้องไม่ค้าง ต้องยกเลิกได้ภายในประมาณ 1 วินาที (เป้าของเพื่อน ยังไม่ได้วัด) |
 
 ### 2.5 โครงสร้างพื้นฐาน
-- **HTTPS + โดเมนจริงของ Backend เป็นข้อบังคับ** เว็บบน Vercel เป็น HTTPS เรียก API แบบ http ไม่ได้ (ยังไม่มีโดเมน — ต้องตัดสินในวันแรก)
+- **จุดที่ต้องตัดสินก่อน: Vercel หรือ VPS ทั้งหมด** (ดู §7.5) ถ้าใช้ Vercel + Backend ข้ามโดเมน ต้อง HTTPS+โดเมนจริง, เปิด CORS (template ยังไม่ได้ตั้งใน `main.py`), และทดสอบ SSE ผ่าน Vercel ถ้าใช้ VPS ทั้งหมด (Caddy เสิร์ฟ build ของ `apps/web` ที่ `/` และ proxy `/api`) จะเป็น origin เดียว ไม่มีปัญหา CORS/cookie/SSE ข้ามโดเมน
 - CORS: อนุญาตเฉพาะโดเมน Vercel จริง (รวม SSE ถ้าใช้) · ตัวแปรกำหนดผ่าน env `ALLOWED_ORIGINS`
 - SSE ผ่าน reverse proxy: ปิด buffering, ตั้ง read timeout ยาว
 - Secret (LLM key, DB password) อยู่ใน env ฝั่ง Backend เท่านั้น ห้าม commit และห้ามอยู่ใน `VITE_*`
@@ -168,3 +170,15 @@
 | สิทธิ์ repo ของเพื่อน | ได้รับแล้ว |
 | **โดเมนจริงของ Backend (HTTPS)** | **ยังไม่ได้คำตอบ — ยังบล็อกการเชื่อม Vercel → Backend** ต้องได้โดเมน/subdomain ที่ชี้ VPS |
 | รายการ endpoint จริงของ template | ยังรอเพื่อนส่ง (ดู §2.1 ข้อ 2) |
+
+**7.6 ข้อมูลใหม่จากเพื่อน (บันทึกล่าสุด)**
+- สเปกฝั่ง Backend วางแผนรัน **ทุกส่วน (web, API, worker, database) บน VPS ด้วย docker compose — ไม่ได้ใช้ Vercel** ขัดกับที่แพนวางแผนไว้ (Vercel Root = `apps/web`) ต้องตัดสินใจ (ดูตารางด้านล่าง)
+- ถ้าแยกเว็บไว้ `*.vercel.app` แต่ API อยู่อีกโดเมน: cookie `SameSite=Lax` ของ template จะไม่ถูกส่งข้ามโดเมน (ไม่กระทบถ้าไม่มีล็อกอิน), CORS ต้องเพิ่ม, SSE ผ่าน rewrite ของ Vercel อาจถูกตัด ต้องทดสอบจริง
+- ยังไม่มีโดเมน (Q1 ในสเปกเพื่อน): ต้องเป็น (sub)domain ที่ A record ชี้ IP ของ VPS เช่น `api.<โดเมนของผู้ใช้>` ผมตั้งชื่อเองไม่ได้ ถ้าจะไม่ซื้อโดเมน ทางเลือก (ผมไม่ได้ทดสอบ): hostname ฟรีที่แปลงจาก IP เช่น `<ip>.sslip.io` หรือ DuckDNS ซึ่ง Caddy ขอใบรับรองได้ — เพื่อนต้องลองจริง
+
+| ทางเลือก | ข้อดี | ข้อเสีย |
+|---|---|---|
+| **A. VPS ทั้งหมด (เพื่อนแนะนำ และผมเห็นด้วย)** | origin เดียว ตัด CORS/cookie/SSE ข้ามโดเมน; deploy ที่เดียว; ตรงสเปก Backend | VPS ล่ม = ทั้งเว็บล่ม; ไม่มี preview ต่อ PR |
+| B. Vercel (web) + VPS (API) | web ขึ้นเร็ว มี preview; web ไม่ล่มตาม VPS | ต้องมีโดเมน HTTPS, CORS, ทดสอบ SSE ข้ามโดเมน, ต้องแก้สเปก |
+
+**ผู้ใช้เลือก B (Vercel + VPS) แล้ว** → แพนคงแผน Vercel; เพื่อนต้องทำ CORS, ทดสอบ SSE ข้ามโดเมน, โดเมน HTTPS ตาม [DEPLOYMENT.md](DEPLOYMENT.md) และสเปกฝั่ง Backend ต้องแก้ให้สอดคล้อง (เดิมระบุรันเว็บบน VPS) · **คำขอรายละเอียดที่ให้เพื่อนโยนเข้า AI: [REQUEST-TO-BACKEND.md](REQUEST-TO-BACKEND.md)**

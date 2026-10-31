@@ -4,8 +4,11 @@
 แหล่งอ้างอิงโจทย์: `proposition data/` — `1_อ่านก่อน_โจทย์.pdf` (เรียกว่า **โจทย์**), `2_…ชุดทดลอง_4กลุ่ม.xlsx`, `3_…ชุดหลัก_12กลุ่ม.xlsx`, `4_ตัวอย่างไฟล์ตารางสอนที่ต้องส่งออก.xlsx`
 ข้อมูลตัวอย่างในเอกสารนี้ดัดแปลงจากไฟล์โจทย์ (ชื่อบุคคลในไฟล์เป็นข้อมูลสมมติของการแข่งขัน)
 
-> ⚠️ **ต้องกระทบยอดกับ Backend จริง (UNVERIFIED)** — เพื่อนแจ้งว่า template Backend มี endpoint มากกว่า 8 ตัวในเอกสารนี้ และใช้ชื่อต่างกัน เช่น `POST /api/runs`, `POST /api/comparisons`, `GET /api/comparisons/latest`, `GET /api/jobs/{id}/events` (SSE) ขณะที่เอกสารนี้ใช้ `/api/v1/schedules`, `/evaluations` และ polling ยังไม่มีรายการ endpoint จริงใน repo จึงยังไม่ได้แก้ contract; เมื่อได้รายการ ให้เทียบทีละตัวแล้ว **ยึดของที่ Backend มีอยู่** (ปรับ Frontend ตาม) เว้นแต่ขัดกับโจทย์ ส่วนวิธีรับความคืบหน้า (SSE vs polling) ต้องตัดสินและลง Changelog
-> ตั้งแต่ Backend ใช้ SSE: ต้องเปิด CORS ให้ปลายทาง SSE ด้วย, Vercel (HTTPS) เรียก Backend ได้เฉพาะ HTTPS
+> ⚠️ **ต้องกระทบยอดกับ Backend จริง (UNVERIFIED)** — ข้อมูลจากเพื่อน: template Backend มี 18 endpoint ใต้ `/api` ที่เห็นแล้ว 9 ตัว: `GET /api/health`, `GET /api/auth/options`, `POST /api/auth/dev-login` (dev เท่านั้น), `POST /api/auth/logout`, `GET|PATCH /api/me`, `POST /api/jobs`, `GET /api/jobs/{job_id}`, `GET /api/jobs/{job_id}/events` (SSE) — อีก 9 ตัวอยู่ใน `routes/documents.py`, `routes/admin.py` (ยังไม่เห็น)
+> - รายการนี้เป็นของ **template ปัจจุบัน** F1 จะลบ documents/users/หน้า jobs ตัวอย่าง → **Frontend ห้ามยึดรายการนี้** ให้ยึดตารางหัวข้อ 6 ของ `docs/SPEC.md` ของ Backend (**ไฟล์นั้นไม่อยู่ใน repo นี้ — รอเพื่อนส่งสำเนาหรือ `openapi.json`**)
+> - `/api/jobs*` ใน template ต้องล็อกอิน (admin/staff) ขัดกับที่ตัดสินแล้วว่า **ไม่มีล็อกอิน** → เพื่อนต้องยืนยันว่า endpoint ที่หน้าเว็บใช้เป็นสาธารณะ และไม่มี `dev-login`/cookie ใน production
+> - ชื่อ/รูปแบบใน contract นี้ (`/api/v1/schedules` ฯลฯ) ยังไม่ใช่ของจริง เมื่อได้ SPEC §6 ให้ **ยึดของ Backend เว้นแต่ขัดโจทย์** แล้วแก้ contract + Changelog (เป็น breaking)
+> - วิธีรับความคืบหน้าของ Backend คือ **SSE** (`/jobs/{id}/events`) — เอกสารนี้ยังเขียน polling ไว้ ต้องปรับตามจริง
 
 **กติกาแก้ไข:** ทุกการเปลี่ยนต้องลงบันทึกใน [Changelog](#changelog) ระบุว่า breaking หรือไม่ และแจ้งอีกฝ่ายก่อน merge
 **ความรับผิดชอบ:** เพื่อน = ความถูกต้องของผลอัลกอริทึม · แพน = การแสดงผล
@@ -33,7 +36,7 @@
 | ฟิลด์ที่ไม่รู้จัก | Client เพิกเฉย (เพิ่มฟิลด์ไม่ถือเป็น breaking) | PROPOSED |
 | อัปโหลด | `.xlsx` เท่านั้น ขนาด ≤ 10 MB | PROPOSED |
 | Authentication | **ไม่มี** (เว็บสาธารณะ ไม่มีหน้าล็อกอิน) | CONFIRMED (ผู้ใช้ตัดสิน) |
-| CORS | เฉพาะ origin ที่ตั้งใน `ALLOWED_ORIGINS` | PROPOSED |
+| CORS | เฉพาะ origin ที่ตั้งใน `ALLOWED_ORIGINS` (Vercel จริง; ไม่ใช้ `*`, ไม่ใช้ credentials), expose `Content-Disposition` — ดู DEPLOYMENT.md §3.2 | PROPOSED |
 
 ### 0.1 Error envelope (HTTP ≥ 400) — PROPOSED
 
@@ -402,3 +405,5 @@ RawRequest      { "requestId": "R04", "requester": "…", "text": "…" }
 | 2026-10-31 | v0.1.1 | แยกป้ายสถานะ CONFIRMED/PROPOSED/UNVERIFIED | ไม่ | Claude |
 | 2026-10-31 | v0.2 | ปรับตามโจทย์จริง: ชื่อแผ่นงาน/คอลัมน์ Excel, วัน/คาบ, 10 กฎห้ามผิด, คะแนนโทษ, คำขอพิเศษ 3 ประเภท, รูปแบบส่งออก xlsx, เพิ่มสถานะ `infeasible`, `requestOutcomes`, `check`, `calendar`; ตัด `reasonCode`/metric ที่เดา; เปลี่ยนฟิลด์ id เป็นรหัสจากไฟล์ (`teacherId`ฯลฯ) และ `day` เป็นชื่อไทย; `Placement` ใช้ `type/startPeriod/periodCount` | **ใช่** (ยังไม่มีโค้ดใช้) | Claude |
 | 2026-10-31 | v0.2.1 | เพิ่มหมายเหตุ "ต้องกระทบยอดกับ Backend จริง" (ชื่อ endpoint/SSE) ยังไม่แก้ endpoint | ไม่ | Claude |
+| 2026-10-31 | v0.2.2 | บันทึก endpoint ของ template (9 จาก 18), ต้องยึด SPEC §6 ของ Backend, ปัญหา auth, SSE | ไม่ | Claude |
+| 2026-10-31 | v0.2.3 | ผู้ใช้เลือก deploy ทางเลือก B (Vercel + VPS); ความคืบหน้า = SSE หลัก + polling สำรอง (ยังไม่ปรับ endpoint จนกว่าได้ openapi.json) | ไม่ | Claude |

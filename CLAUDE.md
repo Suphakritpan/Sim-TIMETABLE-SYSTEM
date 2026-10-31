@@ -148,7 +148,7 @@
 **12.1 Stack ที่ตกลงแล้ว**
 - Frontend: React + Vite (ไฟล์ `.jsx` ตามที่ตกลง; จะย้ายเป็น TypeScript ต้องตกลงกันก่อน) — แพน
 - Backend: Python (API + อัลกอริทึม) — เพื่อน
-- Deploy: Frontend บน Vercel (Root Directory = `apps/web`); Backend บน VPS ด้วย docker compose + PostgreSQL + worker แยก + reverse proxy HTTPS (ใช้ serverless ไม่ได้) — ดู docs/FOLDER-STRUCTURE.md §7
+- Deploy: **ตัดสินแล้ว (ทางเลือก B)** Frontend บน Vercel (Root Directory = `apps/web`) + Backend บน VPS ด้วย Docker (api + worker + PostgreSQL + Caddy HTTPS) เรียกข้ามโดเมนแบบไม่ใช้ cookie/ล็อกอิน — ดู docs/DEPLOYMENT.md; ใช้ serverless สำหรับ Backend ไม่ได้
 - ยังไม่เพิ่ม state management library จนกว่า React state + Context จะไม่พอ
 
 **12.2 แบ่งงานตามความรับผิดชอบ ไม่ใช่ตามหน้าเว็บ**
