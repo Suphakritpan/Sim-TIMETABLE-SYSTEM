@@ -20,30 +20,6 @@ class AuditLog(Base):
     at: Mapped[datetime] = mapped_column(server_default=func.now(), index=True)
 
 
-class Job(Base):
-    """A slow task for the worker. The web process only creates it and reads its events."""
-
-    __tablename__ = "job"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    kind: Mapped[str] = mapped_column(String(50))
-    status: Mapped[str] = mapped_column(String(10), default="queued", index=True)  # queued | running | done | failed
-    params: Mapped[dict] = mapped_column(JSONB, default=dict)
-    result: Mapped[dict | None] = mapped_column(JSONB)
-    error: Mapped[str | None]
-    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
-    finished_at: Mapped[datetime | None]
-
-
-class Event(Base):
-    """One progress message of a job, for the live view and its replay. Kept 7 days."""
-
-    __tablename__ = "event"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    job_id: Mapped[int] = mapped_column(ForeignKey("job.id", ondelete="CASCADE"), index=True)
-    data: Mapped[dict] = mapped_column(JSONB)
-    at: Mapped[datetime] = mapped_column(server_default=func.now(), index=True)
-
-
 class Dataset(Base):
     """One uploaded workbook, parsed. The sheets stay as JSON: everything reads a whole dataset. Kept 7 days."""
 
@@ -56,3 +32,22 @@ class Dataset(Base):
     issues: Mapped[list] = mapped_column(JSONB)
     data: Mapped[dict] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now(), index=True)
+
+
+class Job(Base):
+    """A slow task for the worker: one timetable or one comparison. Its result stays here. Removed with its dataset."""
+
+    __tablename__ = "job"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    public_id: Mapped[str] = mapped_column(String(40), unique=True)
+    dataset_id: Mapped[int] = mapped_column(ForeignKey("dataset.id", ondelete="CASCADE"), index=True)
+    kind: Mapped[str] = mapped_column(String(50))  # schedule | compare
+    status: Mapped[str] = mapped_column(String(20), default="queued", index=True)
+    stage: Mapped[str | None] = mapped_column(String(30))
+    progress: Mapped[float | None]
+    params: Mapped[dict] = mapped_column(JSONB, default=dict)
+    result: Mapped[dict | None] = mapped_column(JSONB)
+    error: Mapped[str | None]
+    cancel_requested: Mapped[bool] = mapped_column(default=False)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    finished_at: Mapped[datetime | None]

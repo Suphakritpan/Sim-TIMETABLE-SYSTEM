@@ -42,8 +42,7 @@ Each browser tab has its own workspace, so visitors cannot overwrite each other'
 | table | holds | key fields | relations | level | who sees and changes it | keep for | comes from |
 |---|---|---|---|---|---|---|---|
 | `dataset` | one uploaded file, parsed | `public_id`, `status` (valid, invalid), `filename`, `summary`, `issues` (JSON), `data` (the 7 sheets as JSON) | | Internal (staff names, see Q2) | anyone holding the ID | 7 days | Excel upload |
-| `schedule_run` | one finished timetable | `method` (baseline, team), `seed`, `sessions` (JSON), `report` (checker output), `seconds`, `constraints` (requests used) | `dataset_id`, `job_id` | Internal | anyone holding the job ID | with its dataset | solver |
-| `job` (template, changed) | a solver or comparison job | adds `public_id`, `dataset_id`, `stage`, `progress`, `cancel_requested`; `status` grows to hold `completed_partial`, `infeasible` and `cancelled`; drops `created_by` | `dataset_id` | Internal | anyone holding the ID | with its dataset | site |
+| `job` (template, changed) | a solver or comparison job | adds `public_id`, `dataset_id`, `stage`, `progress`, `cancel_requested`; `status` grows to hold `completed_partial`, `infeasible` and `cancelled`; holds the finished result as JSON; drops `created_by` | `dataset_id` | Internal | anyone holding the ID | with its dataset | site |
 
 The 7 sheets stay as JSON on `dataset`: the solver and the pages always read a whole dataset, so separate tables would add work and no feature needs them.
 
@@ -51,7 +50,7 @@ The uploaded file is deleted once parsed. Only the parsed JSON is kept, which le
 
 Confirmed requests live in the browser and are sent with each run, as `apps/web` already does. They are saved in `schedule_run.constraints`, so a run can be explained later. The planned `special_request` table is not needed.
 
-Template tables kept: `audit_log` (loses `user_id`), `job`, `event`. Dropped: `user_account`, `document`.
+Template tables kept: `audit_log` (loses `user_id`), `job`. Dropped: `user_account`, `document`, `event`.
 
 Existing data to bring in: none. The workbooks are test inputs.
 
@@ -144,8 +143,8 @@ Blank template and sample files are static files in `apps/web/public/samples/`, 
 ## 7. Background jobs
 | job | started by | input | result | progress shown |
 |---|---|---|---|---|
-| `schedule` | visitor on `/generate` | import, confirmed requests, seed | `schedule_run` | stage, and percent where it can be measured; cancel stops it within about a second |
-| `compare` | visitor on `/evaluation` | import, confirmed requests, seed | 2 `schedule_run` rows | status |
+| `schedule` | visitor on `/generate` | import, confirmed requests, seed | the job's `result` | stage, and percent where it can be measured; cancel stops it within about a second |
+| `compare` | visitor on `/evaluation` | import, confirmed requests, seed | the job's `result` | status |
 
 The worker runs one job at a time, oldest first, so a visitor may see `queued` while another job finishes. The queue holds 20 jobs at most (B24). When the worker starts, any job left `running` is marked failed, so a restart cannot leave a page waiting forever.
 
@@ -249,7 +248,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] When the response is checked against `importSchema`, then it passes.
 - **Standards:** A7, A8, D1 (list every new table in `docs/SECURITY.md`), D2 (audit upload), D5, U1, U4, U11; R1 by keeping parsing under 2 s at 600 items.
 
-### F3: Rule checker and first timetable (todo)
+### F3: Rule checker and first timetable (done)
 - **For:** a visitor wants to press `จัดตาราง` and see honest results, so that they can trust the timetable.
 - **Needs:** read `timetable-light` first; `schedule_run`, `job` change by migration, schedule routes, worker job. The checker comes first and is the only source of numbers. Two methods share it: baseline (first free slot, file order) and team v1 (hardest sessions first). **After:** F2.
 - **Acceptance:**
@@ -293,7 +292,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] When a file has 50 requests, then reading them all stays inside the rate limit.
 - **Standards:** A7, U5, U14.
 
-### F6: Method comparison (todo)
+### F6: Method comparison (done)
 - **For:** a visitor wants baseline and team method on the same data, so that they can see the method really is better.
 - **Needs:** `compare` job, evaluation routes. **After:** F3.
 - **Acceptance:**
@@ -326,7 +325,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] When the blank template is uploaded, then every sheet and column is recognised and the only issue is that it holds no data.
 - **Standards:** D1 (no real names), B16.
 
-### F10: Strong solver (todo)
+### F10: Strong solver (doing)
 - **For:** a visitor wants every file scheduled cleanly and quickly, so that page 3 and 5 earn full marks.
 - **Needs:** read `timetable-light` first; seeded local search on team v1, fixed iteration limit, feasibility pre-checks, `tools/eval.py`. **After:** F3, F6.
 - **Acceptance:**

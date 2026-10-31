@@ -7,6 +7,9 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql+psycopg://app:app@loca
 MAX_UPLOAD_MB = int(os.environ.get("MAX_UPLOAD_MB", "10"))
 DEV_ORIGIN = "http://localhost:5173"  # Vite's default port, used by apps/web in development
 
+MAX_QUEUED_JOBS = 20  # B24
+MAX_SEED = 2**31 - 1
+
 # Requests allowed per minute, per IP (B25). Polling is not limited: pages poll every 1 to 2 seconds.
 RATE_WINDOW_SECONDS = 60
 RATE_LIMIT_UPLOAD = 10
