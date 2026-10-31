@@ -204,7 +204,7 @@ Build order: F1, F9, F2, F3, F7, F6, F10, F5, F11. F4 and F8 are Pan's work. Fea
 
 These times are a target, not a measurement. If time runs short, cut in this order: F11, PDF, explanations, F5's rules for unusual wording. Never cut the 10 rules, same seed same result, the Excel format, or complete import checks.
 
-### F1: Public API base (todo)
+### F1: Public API base (done)
 - **For:** a visitor wants to open the site with no login, so that they can test the pages one by one.
 - **Needs:** copy `backend/`, `dev.py`, `compose.yaml`, `.env.example`, `CONTRIBUTING.md` and `docs/SECURITY.md`, `docs/DECISIONS.md` from `~/test-for-AI-skills-competition` into `apps/api/`, leaving out `.env`, `private/`, `files/`, `frontend/`, `extra.md` and `full_test_data/`; remove the personal email from `pyproject.toml`; remove login, roles, session cookies and the documents demo; migration dropping `user_account`, `document` and `audit_log.user_id`; `/api/v1` base with the error shape, CORS and rate limits per IP; bundle the Sarabun font; root `.gitignore` covering `.env`, `.venv`, `__pycache__` and `full_test_data/`. **After:** nothing.
 - **Acceptance:**
