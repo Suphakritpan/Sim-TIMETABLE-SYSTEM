@@ -11,7 +11,7 @@ from starlette.exceptions import HTTPException
 from app import config
 from app.errors import ApiError, error_response
 from app.rate_limit import over_limit
-from app.routes import health
+from app.routes import health, imports
 
 log = logging.getLogger(__name__)
 
@@ -76,3 +76,4 @@ async def on_validation_error(request: Request, e: RequestValidationError):
 
 
 app.include_router(health.router)
+app.include_router(imports.router)

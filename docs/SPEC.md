@@ -232,7 +232,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] When a clean machine runs the documented steps, then the stack starts, and these steps are the local fallback for judges.
 - **Standards:** A6, O2, O4, R2, X2.
 
-### F2: Upload and check data (todo)
+### F2: Upload and check data (done)
 - **For:** a visitor wants to upload Excel and see every problem at once, so that they can fix the file and confirm it.
 - **Needs:** read `timetable-light` first; `dataset`, import routes; validation list from `extra.md` page 1. **After:** F1.
 - **Acceptance:**

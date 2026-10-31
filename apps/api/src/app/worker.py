@@ -10,10 +10,11 @@ from datetime import timedelta
 from sqlalchemy import delete, func, select
 
 from app.db import SessionLocal
-from app.models import AuditLog, Event, Job
+from app.models import AuditLog, Dataset, Event, Job
 
 EVENT_DAYS = 7  # cleanup rule: progress events are kept 7 days
 AUDIT_DAYS = 365  # cleanup rule (D5): the audit log is kept 1 year
+DATASET_DAYS = 7  # cleanup rule (D5): uploaded data is kept 7 days
 
 
 HANDLERS: dict = {}
@@ -54,6 +55,7 @@ def cleanup() -> None:
     with SessionLocal() as db:
         db.execute(delete(Event).where(Event.at < func.now() - timedelta(days=EVENT_DAYS)))
         db.execute(delete(AuditLog).where(AuditLog.at < func.now() - timedelta(days=AUDIT_DAYS)))
+        db.execute(delete(Dataset).where(Dataset.created_at < func.now() - timedelta(days=DATASET_DAYS)))
         db.commit()
 
 

@@ -42,3 +42,17 @@ class Event(Base):
     job_id: Mapped[int] = mapped_column(ForeignKey("job.id", ondelete="CASCADE"), index=True)
     data: Mapped[dict] = mapped_column(JSONB)
     at: Mapped[datetime] = mapped_column(server_default=func.now(), index=True)
+
+
+class Dataset(Base):
+    """One uploaded workbook, parsed. The sheets stay as JSON: everything reads a whole dataset. Kept 7 days."""
+
+    __tablename__ = "dataset"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    public_id: Mapped[str] = mapped_column(String(40), unique=True)
+    status: Mapped[str] = mapped_column(String(10))  # valid | invalid
+    filename: Mapped[str] = mapped_column(String(255))
+    summary: Mapped[dict] = mapped_column(JSONB)
+    issues: Mapped[list] = mapped_column(JSONB)
+    data: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now(), index=True)
