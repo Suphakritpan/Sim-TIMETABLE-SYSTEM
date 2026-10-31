@@ -31,11 +31,13 @@ export const DEFAULT_SEED = 42
 export const SEARCH_RESULT_LIMIT = 8
 export const TABLE_PAGE_SIZE = 50
 export const TOAST_DISMISS_MS = 6000
+export const COMPARE_MAX_WAIT_MS = 180000
+export const GENERATE_METHOD = 'team'
 
-// ไฟล์ตัวอย่าง 3 ขนาดตามโจทย์หน้า 1; large ยังไม่มีไฟล์ (ทีมต้องสร้างเอง ~600 รายการ)
+// ไฟล์ตัวอย่าง 3 ขนาดตามโจทย์หน้า 1 สร้างโดย scripts/generate_sample_data.py (ข้อมูลสมมติ ตรวจแล้วว่าจัดตารางได้)
 export const SAMPLE_FILES = [
   { key: 'template', href: '/samples/template-blank.xlsx', available: true },
-  { key: 'small', href: '/samples/sample-small-4-groups.xlsx', available: true },
-  { key: 'medium', href: '/samples/sample-medium-12-groups.xlsx', available: true },
-  { key: 'large', href: '', available: false },
+  { key: 'small', href: '/samples/sample-small-team.xlsx', available: true },
+  { key: 'medium', href: '/samples/sample-medium-team.xlsx', available: true },
+  { key: 'large', href: '/samples/sample-large-team.xlsx', available: true },
 ]
