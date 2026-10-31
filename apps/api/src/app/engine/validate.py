@@ -366,7 +366,7 @@ def check_loads(assignments: list, courses: dict, teachers: dict, groups: dict, 
             issues.add(
                 "TEACHER_OVERLOADED",
                 TEACHERS,
-                number,
+                teacher["_row"],
                 SHEETS[TEACHERS][0],
                 message,
                 "แบ่งรายการสอนให้ครูคนอื่น หรือเพิ่มคาบสูงสุดต่อวัน",

@@ -140,7 +140,19 @@ def test_overloaded_teacher_and_group(client):
     rows = base()
     rows["รายวิชา"].append(["C9", "วิชายาว", "4-4-4", "ไอที", "ห้องคอมพิวเตอร์"])
     rows["รายการสอน"] += [[f"X{i}", "C9", "G1", "T1"] for i in range(5)]
-    assert {"TEACHER_OVERLOADED", "GROUP_OVERLOADED"} <= codes(upload(client, build(rows)).json())
+    body = upload(client, build(rows)).json()
+    rows_of = {i["code"]: (i["sheet"], i["row"]) for i in body["issues"]}
+    assert rows_of["TEACHER_OVERLOADED"] == ("ครู", 2) and rows_of["GROUP_OVERLOADED"] == ("กลุ่มเรียน", 2)
+
+
+def test_overload_points_to_the_real_row_after_a_blank_row(client):
+    rows = base()
+    rows["รายวิชา"].append(["C9", "วิชายาว", "4-4-4", "ไอที", "ห้องคอมพิวเตอร์"])
+    rows["รายการสอน"] += [[f"X{i}", "C9", "G2", "T2"] for i in range(5)]
+    rows["ครู"].insert(1, [None, None, None, None])
+    rows["กลุ่มเรียน"].insert(1, [None, None, None, None])
+    rows_of = {i["code"]: i["row"] for i in upload(client, build(rows)).json()["issues"]}
+    assert rows_of["TEACHER_OVERLOADED"] == 4 and rows_of["GROUP_OVERLOADED"] == 4
 
 
 def test_empty_template_says_only_that_it_holds_no_data(client):
