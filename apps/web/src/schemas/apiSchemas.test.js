@@ -6,33 +6,39 @@ import importSuccess from '../mocks/fixtures/import-success.json'
 import interpret from '../mocks/fixtures/request-interpret.json'
 import schedulePartial from '../mocks/fixtures/schedule-partial.json'
 import scheduleSuccess from '../mocks/fixtures/schedule-success.json'
-import { evaluationSchema, importSchema, interpretSchema, jobSchema } from './apiSchemas'
+import { datasetSchema, evaluationSchema, jobSchema, requestSchema, runSchema } from './apiSchemas'
 import { indexImport } from '../utils/timetable'
 
+const toDataset = ({ importId, ...rest }) => ({ ...rest, id: importId, confirmed: false })
+
 describe('fixtures ผ่าน schema', () => {
-  it('import success / errors', () => {
-    expect(importSchema.safeParse(importSuccess).success).toBe(true)
-    expect(importSchema.safeParse(importErrors).success).toBe(true)
+  it('dataset success / errors (ชื่อฟิลด์ id ตาม contract v0.3)', () => {
+    expect(datasetSchema.safeParse(toDataset(importSuccess)).success).toBe(true)
+    expect(datasetSchema.safeParse(toDataset(importErrors)).success).toBe(true)
   })
-  it('คำขอพิเศษทุกข้อตีความได้ตาม schema', () => {
-    for (const { confidence = 'medium', ambiguities = [], ...request } of interpret.requests) {
-      expect(interpretSchema.safeParse({ request, confidence, ambiguities }).success).toBe(true)
+  it('คำขอพิเศษทุกข้อผ่าน schema เมื่อเติม confirmed/version', () => {
+    for (const r of interpret.requests) {
+      expect(requestSchema.safeParse({ ...r, confirmed: false, version: 1 }).success).toBe(true)
     }
   })
-  it('job สำเร็จ/จัดไม่ครบ/กำลังทำงาน', () => {
-    const base = { jobId: 'j', seed: 1, method: 'team' }
-    expect(jobSchema.safeParse({ ...base, status: 'completed', result: scheduleSuccess }).success).toBe(true)
-    expect(jobSchema.safeParse({ ...base, status: 'completed_partial', result: schedulePartial }).success).toBe(true)
-    expect(jobSchema.safeParse({ ...base, status: 'running', stage: 'ASSIGNING_SLOTS', progress: null }).success).toBe(true)
+  it('run สำเร็จ/จัดไม่ครบ', () => {
+    expect(runSchema.safeParse({ ...scheduleSuccess, outcome: 'complete' }).success).toBe(true)
+    expect(runSchema.safeParse({ ...schedulePartial, outcome: 'partial' }).success).toBe(true)
+  })
+  it('job ของเซิร์ฟเวอร์ทุกสถานะ', () => {
+    for (const status of ['queued', 'running', 'done', 'failed', 'cancelled']) {
+      expect(jobSchema.safeParse({ id: 'j1', kind: 'schedule', status }).success).toBe(true)
+    }
   })
   it('evaluation', () => expect(evaluationSchema.safeParse(evaluation).success).toBe(true))
 })
 
 describe('schema ปฏิเสธข้อมูลผิด', () => {
-  it('สถานะที่ไม่รู้จัก', () => expect(jobSchema.safeParse({ jobId: 'j', seed: 1, method: 'team', status: 'done' }).success).toBe(false))
-  it('progress เกิน 1', () => expect(jobSchema.safeParse({ jobId: 'j', seed: 1, method: 'team', status: 'running', progress: 1.5 }).success).toBe(false))
-  it('ขาด importId', () => expect(importSchema.safeParse({ status: 'valid', summary: {}, issues: [] }).success).toBe(false))
-  it('ฟิลด์ที่ไม่รู้จักถูกเพิกเฉย ไม่ทำให้ล้ม', () => expect(importSchema.safeParse({ ...importSuccess, extra: 1 }).success).toBe(true))
+  it('สถานะที่ไม่รู้จัก (completed เป็นสถานะของหน้าจอ ไม่ใช่ของเซิร์ฟเวอร์)', () => expect(jobSchema.safeParse({ id: 'j', kind: 'schedule', status: 'completed' }).success).toBe(false))
+  it('ชนิดงานที่ไม่รู้จัก', () => expect(jobSchema.safeParse({ id: 'j', kind: 'other', status: 'done' }).success).toBe(false))
+  it('dataset ขาด id', () => expect(datasetSchema.safeParse({ status: 'valid', summary: {}, issues: [] }).success).toBe(false))
+  it('คำขอไม่มี version', () => expect(requestSchema.safeParse({ id: 'R1', text: 't', kind: 'k', category: 'must', understanding: 'u', confirmed: false }).success).toBe(false))
+  it('ฟิลด์ที่ไม่รู้จักถูกเพิกเฉย ไม่ทำให้ล้ม', () => expect(datasetSchema.safeParse({ ...toDataset(importSuccess), extra: 1 }).success).toBe(true))
 })
 
 describe('import-errors fixture', () => {

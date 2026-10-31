@@ -2,6 +2,7 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router'
 import { Skeleton } from '../components/common/StateBox'
+import HydrationGate from './HydrationGate'
 import AppShell from '../components/layout/AppShell'
 import { ROUTES } from '../config/constants'
 import NotFoundPage from '../pages/NotFoundPage'
@@ -15,7 +16,7 @@ const pages = {
   summary: lazy(() => import('../pages/SummaryPage')),
 }
 
-const element = (Page) => <Suspense fallback={<Skeleton rows={4} />}><Page /></Suspense>
+const element = (Page) => <Suspense fallback={<Skeleton rows={4} />}><HydrationGate><Page /></HydrationGate></Suspense>
 
 export const router = createBrowserRouter([
   {

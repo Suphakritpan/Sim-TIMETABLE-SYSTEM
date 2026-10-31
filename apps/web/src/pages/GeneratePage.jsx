@@ -1,6 +1,6 @@
 /** หน้า 3 จัดตาราง: seed + ปุ่มจัด + ความคืบหน้า + ยกเลิก + ผลตรวจ; รันซ้ำได้หลังเสร็จ/ยกเลิก */
 import { Play, Square } from 'lucide-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSession } from '../app/sessionContext'
 import Button from '../components/common/Button'
@@ -11,12 +11,12 @@ import PageHeader from '../components/common/PageHeader'
 import { EmptyState, ErrorState } from '../components/common/StateBox'
 import JobProgress from '../components/schedule/JobProgress'
 import ResultPanel from '../components/schedule/ResultPanel'
-import { ROUTES } from '../config/constants'
+import { GENERATE_METHOD, ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
 import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
 import useJobPolling from '../hooks/useJobPolling'
-import { scheduleService } from '../services'
+import { requestService, scheduleService } from '../services'
 import { indexImport } from '../utils/timetable'
 
 const SEED_PATTERN = /^\d+$/
@@ -24,7 +24,7 @@ const SEED_PATTERN = /^\d+$/
 export default function GeneratePage() {
   usePageMeta('generate')
   const nav = useNavigate()
-  const { importData: imp, confirmed, requests, seed, setSeed, job: finished, setJob } = useSession()
+  const { importData: imp, confirmed, seed, setSeed, job: finished, setJob } = useSession()
   const [seedText, setSeedText] = useState(String(seed))
   const [jobId, setJobId] = useState(null)
   const [confirmCancel, setConfirmCancel] = useState(false)
@@ -32,7 +32,13 @@ export default function GeneratePage() {
   const cancel = useAsync()
   const onTerminal = useCallback((job) => setJob(job), [setJob])
   const { job: live, error: pollError } = useJobPolling(jobId, onTerminal)
+  const [unconfirmed, setUnconfirmed] = useState(0)
   const idx = useMemo(() => (imp ? indexImport(imp) : null), [imp])
+
+  // คำขอที่ยังไม่ยืนยันจะถูกข้ามตอนจัดตาราง จึงแจ้งจำนวนให้ผู้ใช้เห็น (B20 ของ SPEC)
+  useEffect(() => {
+    if (confirmed) requestService.list().then((out) => setUnconfirmed(out.unconfirmed)).catch(() => setUnconfirmed(0))
+  }, [confirmed])
 
   if (!confirmed) {
     return (
@@ -53,8 +59,7 @@ export default function GeneratePage() {
     const n = Number(seedText)
     setSeed(n)
     setJob(null)
-    const body = requests.filter((r) => r.confirmed).map(({ id, kind, category, params }) => ({ id, kind, category, params }))
-    const created = await start.run(() => scheduleService.generate({ importId: imp.importId, seed: n, method: 'team', requests: body }))
+    const created = await start.run(() => scheduleService.start({ seed: n, method: GENERATE_METHOD }))
     if (created) setJobId(created.jobId)
   }
   const doCancel = async () => {
@@ -76,6 +81,7 @@ export default function GeneratePage() {
           </div>
         </form>
       </Card>
+      {unconfirmed > 0 && <p className="mb-4 text-warning-text" role="status">{MSG.generate.unconfirmedNote(unconfirmed)}</p>}
       {(start.error || cancel.error || pollError) && <div className="mb-8"><ErrorState error={start.error ?? cancel.error ?? pollError} /></div>}
       {running && <div className="mb-8"><JobProgress job={live} /></div>}
       {shown?.status === 'cancelled' && <p className="mb-8 text-ink-muted" role="status">{MSG.generate.cancelledNote}</p>}

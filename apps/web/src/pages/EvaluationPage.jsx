@@ -29,7 +29,7 @@ function sameResult(a, b) {
 export default function EvaluationPage() {
   usePageMeta('evaluation')
   const nav = useNavigate()
-  const { importData: imp, confirmed, requests, seed } = useSession()
+  const { confirmed, seed } = useSession()
   const [seedText, setSeedText] = useState(String(seed))
   const [runs, setRuns] = useState([])
   const run = useAsync()
@@ -47,8 +47,7 @@ export default function EvaluationPage() {
 
   const valid = /^\d+$/.test(seedText)
   const compare = async () => {
-    const body = requests.filter((r) => r.confirmed).map(({ id, kind, category, params }) => ({ id, kind, category, params }))
-    const out = await run.run(() => evaluationService.run({ importId: imp.importId, seed: Number(seedText), requests: body }))
+    const out = await run.run(() => evaluationService.run({ seed: Number(seedText) }))
     if (out) setRuns((r) => [...r, out])
   }
   const metric = (m, key) => latest.methods.find((x) => x.method === m).metrics[key]

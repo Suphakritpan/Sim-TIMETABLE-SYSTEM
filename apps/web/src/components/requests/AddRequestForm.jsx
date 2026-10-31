@@ -3,7 +3,6 @@ import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { DAYS, DAY_LABELS } from '../../config/constants'
 import { MSG } from '../../config/messages'
-import { requestService } from '../../services'
 import useAsync from '../../hooks/useAsync'
 import Button from '../common/Button'
 import Card from '../common/Card'
@@ -11,7 +10,6 @@ import Field from '../common/Field'
 import { ErrorState } from '../common/StateBox'
 
 const KIND_FIELD = { teacher_unavailable: 'teacherId', group_unavailable: 'groupId', room_closed: 'roomId' }
-let manualCounter = 0
 
 function targetOptions(kind, imp) {
   if (kind === 'teacher_unavailable') return imp.teachers.map((t) => ({ id: t.id, label: `${t.name} (${t.id})` }))
@@ -19,6 +17,7 @@ function targetOptions(kind, imp) {
   return imp.rooms.map((r) => ({ id: r.id, label: `${r.name} (${r.id})` }))
 }
 
+/** @param {{imp: object, onAdd: (body: object) => Promise<void>}} props onAdd รับ {text} หรือ {constraint} แล้วส่งไป POST /api/requests */
 export default function AddRequestForm({ imp, onAdd }) {
   const [text, setText] = useState('')
   const [kind, setKind] = useState('teacher_unavailable')
@@ -30,21 +29,17 @@ export default function AddRequestForm({ imp, onAdd }) {
 
   const submitText = async (e) => {
     e.preventDefault()
-    const out = await interpret.run(() => requestService.interpret(imp.importId, text.trim()))
-    if (!out) return
-    const { request, confidence } = out
-    onAdd({ ...request, sender: MSG.requests.userSender, confidence, confirmed: false, failed: false })
-    setText('')
+    const added = await interpret.run(() => onAdd({ text: text.trim() }))
+    if (added !== undefined) setText('')
   }
 
   const submitForm = (e) => {
     e.preventDefault()
     if (!form.target || invalid) return
-    manualCounter += 1
     const periods = PERIODS.filter((p) => p >= Number(form.from) && p <= Number(form.to))
     const label = targetOptions(kind, imp).find((o) => o.id === form.target).label
     const understanding = MSG.requests.manualUnderstanding(label, DAY_LABELS[form.day], form.from, form.to)
-    onAdd({ id: `M${manualCounter}`, text: understanding, sender: MSG.requests.userSender, kind, category: form.category, params: { [KIND_FIELD[kind]]: form.target, day: form.day, periods }, understanding, status: 'manual', confirmed: true, failed: false })
+    interpret.run(() => onAdd({ constraint: { kind, category: form.category, label: understanding, params: { [KIND_FIELD[kind]]: form.target, day: form.day, periods } } }))
   }
 
   return (
