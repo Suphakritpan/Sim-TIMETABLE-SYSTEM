@@ -32,7 +32,7 @@
 | Env (ตั้งใน Vercel ไม่ commit) | `VITE_DATA_MODE=api`, `VITE_API_BASE_URL=https://api.<domain>` ห้ามใส่ secret (ตัวแปร `VITE_*` ถูกฝังในโค้ดฝั่ง browser) | CONFIRMED |
 | Production branch | `main` · ทุก PR ได้ Preview URL | PROPOSED |
 | Routing | ใช้ `vercel.json` ให้ **เฉพาะเส้นทางจริงของแอป** rewrite ไป `index.html` (ไม่ใช่ catch-all) เพื่อให้เส้นทางที่ไม่มีจริงได้ **HTTP 404 จริง** (ตามกฎ SEO ข้อ 3) พร้อม `404.html` ที่ออกแบบแล้ว รายชื่อเส้นทางต้องตรงกับ `router.jsx` | PROPOSED / UNVERIFIED |
-| Headers | `vercel.json` ตั้ง `Content-Security-Policy` (อนุญาต `connect-src` เฉพาะ `https://api.<domain>`), `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`; แคช asset ที่มี hash แบบ immutable | PROPOSED |
+| Headers | `vercel.json` ตั้งแล้ว: `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, แคช `/assets/*` แบบ immutable (EXISTS). **ยังไม่มี `Content-Security-Policy`** — ถ้าจะเพิ่ม ให้อนุญาต `connect-src` เฉพาะ `https://api.<domain>` และทดสอบกับ SSE ก่อน | EXISTS / PROPOSED (CSP) |
 | Source map | ไม่เผยแพร่บน production (`build.sourcemap: false` หรือไม่ deploy ไฟล์ `.map`) | CONFIRMED (กฎ SEO ข้อ 18) |
 | SEO | `robots.txt` ไม่บล็อก AI crawlers, `sitemap.xml`, `llms.txt`, OG image, `lang="th"` | CONFIRMED |
 | ทดสอบก่อนส่ง | เปิดจาก Preview/Production ด้วยมือถือจริง + เครือข่ายอื่น (ไม่ใช่ Wi-Fi เครื่องที่พัฒนา) | PROPOSED |

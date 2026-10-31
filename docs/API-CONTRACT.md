@@ -197,6 +197,9 @@ RawRequest      { "requestId": "R04", "requester": "…", "text": "…" }
 
 **ส่วนของ SPEC ที่ Frontend ไม่ใช้ (คำนวณฝั่ง Frontend จาก `Run.items` + Dataset แทน):** `GET /api/runs/latest/grid`, `GET /api/search`, `GET /api/runs/latest/summary` — Backend ข้ามได้ถ้าไม่มีเวลา; ถ้าทำ ตัวเลขต้องตรงกับที่ Frontend คำนวณ (ตัวคำนวณมี test)
 
+> ⚠️ **ทิศทาง API (ผู้ใช้ฝั่งแพนตัดสิน 2026-10-31 = ทาง A, รอฝั่งเพื่อนอนุมัติ):** Backend สร้าง `/api/v1/*` ตาม schema เดิมของเว็บ (API-CONTRACT §2 เดิม: `imports`, `requests/interpret`, `schedules`, `evaluations`) — เสนอเป็น DEC-002 (Proposed) บนสาขา `comms` แทน DEC-001 ข้อ 2; **โค้ด `apps/web` ปัจจุบันยังเรียก route แบบ §1.2 (v0.3) จึงต้องย้ายกลับเป็น `/api/v1` ก่อนเชื่อม Backend — ยังไม่ได้ทำ** และตาราง/§1.2 นี้เป็นสถานะปัจจุบันของโค้ด ไม่ใช่ทิศทางสุดท้าย
+> ข้อสังเกตจาก friend-ai (ยังไม่ได้ตรวจกับโค้ดของเขา): สถานะ job ในตารางนี้ไม่มี `infeasible`/`completed_partial` (Frontend แปลงจาก `Run.outcome` เอง) และ SSE ต้องปิดสตรีมเมื่อ `cancelled` ด้วย
+
 **ข้อควรระวังฝั่ง Backend:** เมื่อใช้ SSE ข้ามโดเมน `EventSource` ใส่ header เองไม่ได้ (ไม่มี cookie/credentials) · Frontend ใช้ `GET /api/jobs/{id}` poll เป็นทางสำรองเสมอ
 
 ## 2. Endpoints
@@ -436,4 +439,5 @@ RawRequest      { "requestId": "R04", "requester": "…", "text": "…" }
 | 2026-10-31 | v0.2.1 | เพิ่มหมายเหตุ "ต้องกระทบยอดกับ Backend จริง" (ชื่อ endpoint/SSE) ยังไม่แก้ endpoint | ไม่ | Claude |
 | 2026-10-31 | v0.2.2 | บันทึก endpoint ของ template (9 จาก 18), ต้องยึด SPEC §6 ของ Backend, ปัญหา auth, SSE | ไม่ | Claude |
 | 2026-10-31 | v0.2.3 | ผู้ใช้เลือก deploy ทางเลือก B (Vercel + VPS); ความคืบหน้า = SSE หลัก + polling สำรอง (ยังไม่ปรับ endpoint จนกว่าได้ openapi.json) | ไม่ | Claude |
+| 2026-10-31 | v0.3.1 | บันทึกว่าผู้ใช้ฝั่งแพนเลือกทาง A (`/api/v1/*`) รอฝั่งเพื่อนอนุมัติ (DEC-002 Proposed บนสาขา `comms`); §1.2 คือสถานะโค้ดปัจจุบัน ยังไม่ได้ย้ายกลับ | **ใช่ ถ้าอนุมัติ** (ต้องย้าย Frontend กลับเป็น `/api/v1`) | Claude ตามคำสั่งผู้ใช้ |
 | 2026-10-31 | v0.2.4 | ผลอ่าน repo เพื่อน: เส้นทางจริงต่างจากเอกสารนี้ ดู BACKEND-REPO-REVIEW.md §4 (ยังไม่เขียน §2 ใหม่ รอตัดสิน C2/C3) | ไม่ | Claude |
