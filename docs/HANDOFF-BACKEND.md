@@ -3,7 +3,9 @@
 ผู้อ่าน: เพื่อน (Algorithm & Backend) · ผู้เขียน: ฝั่งแพน (Frontend & Integration)
 เวอร์ชัน: v0.1 · เงื่อนไขเวลา: **ส่งงาน 16.30 น. วันที่ 1 หลังจากนั้นห้ามแก้เว็บ/โค้ด**
 
-> **คำขอข้อมูลที่ต้องการจากเพื่อน (ละเอียด คัดลอกไปให้ AI ได้): [`docs/REQUEST-TO-BACKEND.md`](REQUEST-TO-BACKEND.md)** · แผน deploy: [`docs/DEPLOYMENT.md`](DEPLOYMENT.md)
+> **ผลอ่าน repo เพื่อนและความขัดแย้งที่ต้องตัดสิน (C1–C8): [`docs/BACKEND-REPO-REVIEW.md`](BACKEND-REPO-REVIEW.md)**
+
+> **คำขอข้อมูลที่ต้องการจากเพื่อน (ละเอียด คัดลอกไปให้ AI ได้): [`docs/REQUEST-TO-BACKEND.md`](REQUEST-TO-BACKEND.md)** และ **รอบที่ 2: [`docs/REQUEST-TO-BACKEND-2.md`](REQUEST-TO-BACKEND-2.md)** · แผน deploy: [`docs/DEPLOYMENT.md`](DEPLOYMENT.md)
 
 ## 0. กฎข้อแรก: อ่านเอกสารทุกครั้ง
 

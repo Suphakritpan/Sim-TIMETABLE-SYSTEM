@@ -3,6 +3,8 @@
 สถานะ: **ร่าง v0.1 เพื่อตกลง** · ผู้อ่าน: แพน (Frontend) และเพื่อน (Backend) · เป็นเอกสารเดียวที่กำหนดโครงสร้างโฟลเดอร์ (ARCHITECTURE.md §2 ชี้มาที่นี่)
 ป้ายสถานะ: `EXISTS` = มีอยู่จริงใน repo ตอนนี้ · `PROPOSED` = ข้อเสนอ ยังไม่ได้สร้าง · เจ้าของ: **แพน** = `apps/web`, **เพื่อน** = `apps/api`, **ร่วม** = `docs`, `packages/shared`
 
+> ⚠️ **ต้องแก้ตามผลอ่าน repo เพื่อน** ([BACKEND-REPO-REVIEW.md](BACKEND-REPO-REVIEW.md) C1, C4): Backend อยู่ใน repo แยก (`backend/`, ไม่ใช่ `apps/api`) และไม่ใช้ `frontend/` ของเขา — โครงสร้าง `apps/api` ด้านล่างใช้เป็นแนวทางภายในของ Backend เท่านั้น จนกว่าจะตัดสินว่า 2 repo หรือรวมกัน
+
 ## 1. ภาพรวม (Monorepo, 1 Git repo)
 
 ```
@@ -163,7 +165,7 @@ scripts/
 
 **ตัดสินแล้ว (ผู้ใช้)**
 1. Monorepo เดียว · Vercel ผูก `apps/web` เป็น Root Directory
-2. Repo เปิดสาธารณะ (ผู้ตรวจโหลดไปรันเองได้) · Vercel ใช้ให้กรรมการเปิดดูออนไลน์ → `proposition data/` อยู่ใน repo สาธารณะได้ (ข้อมูลสมมติของโจทย์) แต่ห้าม commit `.env`, key, ข้อมูลจริงอื่น
+2. Repo เปิดสาธารณะ (ผู้ตรวจโหลดไปรันเองได้) · Vercel ใช้ให้กรรมการเปิดดูออนไลน์ → **แก้ไข:** `proposition data/` ยัง **ไม่ commit** (อยู่ใน `.gitignore`) จนกว่าผู้จัดยืนยันว่าชื่อครูไม่ใช่ชื่อจริง (BACKEND-REPO-REVIEW.md C5); ห้าม commit `.env`, key
 3. ลบ `DesignPreviewPage` ไม่จำเป็น (แพนเก็บไว้ได้ แต่ต้องไม่เป็นเมนูหลักของ production)
 
 **ตามคำตอบฝั่ง Backend (จากผู้ใช้) — `UNVERIFIED` จนกว่าเพื่อนยืนยันกับ template จริง ซึ่งยังไม่อยู่ใน repo นี้**
