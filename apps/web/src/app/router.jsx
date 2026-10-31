@@ -5,6 +5,7 @@ import { Skeleton } from '../components/common/StateBox'
 import HydrationGate from './HydrationGate'
 import AppShell from '../components/layout/AppShell'
 import { ROUTES } from '../config/constants'
+import { MSG } from '../config/messages'
 import NotFoundPage from '../pages/NotFoundPage'
 
 const pages = {
@@ -16,13 +17,13 @@ const pages = {
   summary: lazy(() => import('../pages/SummaryPage')),
 }
 
-const element = (Page) => <Suspense fallback={<Skeleton rows={4} />}><HydrationGate><Page /></HydrationGate></Suspense>
+const element = (Page, title) => <Suspense fallback={<><h1 className="sr-only">{title}</h1><Skeleton rows={4} /></>}><HydrationGate title={title}><Page /></HydrationGate></Suspense>
 
 export const router = createBrowserRouter([
   {
     element: <AppShell />,
     errorElement: <NotFoundPage />,
-    children: Object.entries(pages).map(([key, Page]) => ({ path: ROUTES[key], element: element(Page) })),
+    children: Object.entries(pages).map(([key, Page], i) => ({ path: ROUTES[key], element: element(Page, MSG.nav[i].name) })),
   },
   { path: '*', element: <NotFoundPage /> },
 ])

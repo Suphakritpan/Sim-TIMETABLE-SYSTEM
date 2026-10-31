@@ -1,0 +1,198 @@
+{
+ "items": [],
+ "conflicts": [],
+ "unscheduled": [
+  {
+   "assignmentId": "S0001",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0002",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0003",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0004",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0005",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0006",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0007",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0008",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0009",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0010",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0011",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0012",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0013",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0014",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0015",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0016",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0017",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0018",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0019",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0020",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0021",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0022",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0023",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0024",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0025",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0026",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0027",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0028",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  },
+  {
+   "assignmentId": "S0029",
+   "reasonCode": "CONSTRAINT_UNSATISFIABLE",
+   "message": "ตัวอย่างจำลอง: ตั้งให้ไม่มีช่วงเวลาที่ครู ห้อง และกลุ่มว่างพร้อมกัน"
+  }
+ ],
+ "stats": {
+  "totalAssignments": 29,
+  "scheduled": 0,
+  "unscheduled": 29,
+  "teacherConflicts": 0,
+  "roomConflicts": 0,
+  "groupConflicts": 0,
+  "otherViolations": 0,
+  "penalty": 0,
+  "elapsedSeconds": 0.4
+ },
+ "explanation": "ระบบตรวจก่อนจัดจริงแล้วพบว่าข้อมูลชุดนี้จัดตารางให้ครบไม่ได้ จึงไม่สร้างตารางที่ผิดกฎ",
+ "infeasibleReasons": [
+  "ตัวอย่างจำลอง (ไม่ใช่ผลจากอัลกอริทึมจริง): ข้อมูลชุดนี้ถูกตั้งให้จัดไม่ได้ เพื่อทดสอบหน้าจอเมื่อไม่มีตารางและต้องแสดงเหตุผล"
+ ],
+ "requestResults": [
+  {
+   "requestId": "R01",
+   "outcome": "not_met",
+   "reason": "จัดตารางไม่ได้ จึงไม่สามารถทำตามคำขอนี้"
+  },
+  {
+   "requestId": "R02",
+   "outcome": "not_met",
+   "reason": "จัดตารางไม่ได้ จึงไม่สามารถทำตามคำขอนี้"
+  },
+  {
+   "requestId": "R03",
+   "outcome": "not_met",
+   "reason": "จัดตารางไม่ได้ จึงไม่สามารถทำตามคำขอนี้"
+  },
+  {
+   "requestId": "R04",
+   "outcome": "not_met",
+   "reason": "จัดตารางไม่ได้ จึงไม่สามารถทำตามคำขอนี้"
+  },
+  {
+   "requestId": "R05",
+   "outcome": "not_met",
+   "reason": "จัดตารางไม่ได้ จึงไม่สามารถทำตามคำขอนี้"
+  },
+  {
+   "requestId": "R06",
+   "outcome": "not_met",
+   "reason": "จัดตารางไม่ได้ จึงไม่สามารถทำตามคำขอนี้"
+  }
+ ]
+}

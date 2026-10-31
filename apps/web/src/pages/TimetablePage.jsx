@@ -1,4 +1,5 @@
 /** หน้า 4 ดูตาราง: เลือกกลุ่ม/ครู/ห้อง + ค้นหา → ตารางรายสัปดาห์ + จำนวนคาบรวม */
+import { ArrowRight } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSession } from '../app/sessionContext'
@@ -8,8 +9,10 @@ import PageHeader from '../components/common/PageHeader'
 import { EmptyState } from '../components/common/StateBox'
 import EntityPicker from '../components/schedule/EntityPicker'
 import TimetableGrid from '../components/schedule/TimetableGrid'
-import { ROUTES } from '../config/constants'
+import Tabs from '../components/common/Tabs'
+import { DAY_LABELS, NARROW_QUERY, ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
+import useMediaQuery from '../hooks/useMediaQuery'
 import usePageMeta from '../hooks/usePageMeta'
 import { buildSlotMap, entityOptions, indexImport, itemsFor, weeklyPeriods } from '../utils/timetable'
 
@@ -21,6 +24,8 @@ export default function TimetablePage() {
   const { importData: imp, job } = useSession()
   const [view, setView] = useState('group')
   const [picked, setPicked] = useState({})
+  const [pickedDay, setPickedDay] = useState(null)
+  const narrow = useMediaQuery(NARROW_QUERY)
   const result = job?.result
   const idx = useMemo(() => (imp ? indexImport(imp) : null), [imp])
 
@@ -39,6 +44,10 @@ export default function TimetablePage() {
     )
   }
 
+  // จอแคบแสดงทีละวันเพื่อให้อ่านได้โดยไม่ต้องเลื่อนแนวนอน; จอกว้างแสดงทั้งสัปดาห์
+  const day = pickedDay ?? imp.periods.days[0]
+  const gridPeriods = narrow ? { ...imp.periods, days: [day] } : imp.periods
+  const dayTabs = imp.periods.days.map((d) => ({ id: d, label: DAY_LABELS[d] }))
   const label = entityOptions(imp, view).find((o) => o.id === selected)?.label ?? ''
   return (
     <>
@@ -46,8 +55,10 @@ export default function TimetablePage() {
       <div className="mb-6"><EntityPicker imp={imp} view={view} onView={setView} selected={selected} onSelect={(id) => setPicked({ ...picked, [view]: id })} /></div>
       <Card>
         <p className="mb-4 font-display text-xl font-semibold" aria-live="polite">{TOTAL_TEXT[view](label, weeklyPeriods(shownItems))}</p>
-        <TimetableGrid slots={slots} periods={imp.periods} view={view} courseTone={courseTone} />
+        {narrow && <div className="mb-4"><Tabs tabs={dayTabs} value={day} onChange={setPickedDay} label={MSG.timetable.dayTabsLabel} /></div>}
+        <TimetableGrid slots={slots} periods={gridPeriods} view={view} courseTone={courseTone} />
       </Card>
+      <div className="mt-8"><Button icon={ArrowRight} onClick={() => nav(ROUTES.evaluation)}>{MSG.timetable.next}</Button></div>
     </>
   )
 }

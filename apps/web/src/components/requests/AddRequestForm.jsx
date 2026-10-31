@@ -3,7 +3,9 @@ import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { DAYS, DAY_LABELS } from '../../config/constants'
 import { MSG } from '../../config/messages'
+import { requestService } from '../../services'
 import useAsync from '../../hooks/useAsync'
+import { nextManualId } from '../../utils/requestIds'
 import Button from '../common/Button'
 import Card from '../common/Card'
 import Field from '../common/Field'
@@ -17,8 +19,8 @@ function targetOptions(kind, imp) {
   return imp.rooms.map((r) => ({ id: r.id, label: `${r.name} (${r.id})` }))
 }
 
-/** @param {{imp: object, onAdd: (body: object) => Promise<void>}} props onAdd รับ {text} หรือ {constraint} แล้วส่งไป POST /api/requests */
-export default function AddRequestForm({ imp, onAdd }) {
+/** @param {{imp: object, rows: Array<{id: string}>, onAdd: (row: object) => void}} props rows = คำขอที่มีอยู่ (ใช้หารหัส M ถัดไปที่ไม่ซ้ำ) */
+export default function AddRequestForm({ imp, rows, onAdd }) {
   const [text, setText] = useState('')
   const [kind, setKind] = useState('teacher_unavailable')
   const [form, setForm] = useState({ target: '', day: 'MON', from: 1, to: 8, category: 'must' })
@@ -29,8 +31,11 @@ export default function AddRequestForm({ imp, onAdd }) {
 
   const submitText = async (e) => {
     e.preventDefault()
-    const added = await interpret.run(() => onAdd({ text: text.trim() }))
-    if (added !== undefined) setText('')
+    const out = await interpret.run(() => requestService.interpret(imp.importId, text.trim()))
+    if (!out) return
+    const { request, confidence } = out
+    onAdd({ ...request, sender: MSG.requests.userSender, confidence, confirmed: false, failed: false })
+    setText('')
   }
 
   const submitForm = (e) => {
@@ -39,7 +44,7 @@ export default function AddRequestForm({ imp, onAdd }) {
     const periods = PERIODS.filter((p) => p >= Number(form.from) && p <= Number(form.to))
     const label = targetOptions(kind, imp).find((o) => o.id === form.target).label
     const understanding = MSG.requests.manualUnderstanding(label, DAY_LABELS[form.day], form.from, form.to)
-    interpret.run(() => onAdd({ constraint: { kind, category: form.category, label: understanding, params: { [KIND_FIELD[kind]]: form.target, day: form.day, periods } } }))
+    onAdd({ id: nextManualId(rows), text: understanding, sender: MSG.requests.userSender, kind, category: form.category, params: { [KIND_FIELD[kind]]: form.target, day: form.day, periods }, understanding, status: 'manual', confirmed: true, failed: false })
   }
 
   return (
@@ -49,7 +54,7 @@ export default function AddRequestForm({ imp, onAdd }) {
         <Button type="submit" loading={interpret.status === 'loading'} disabled={!text.trim()}>{interpret.status === 'loading' ? MSG.requests.interpreting : MSG.requests.addTextButton}</Button>
       </form>
       {interpret.error && <div className="mb-6"><ErrorState error={interpret.error} /></div>}
-      <h4 className="mb-3 font-medium">{MSG.requests.formTitle}</h4>
+      <h3 className="mb-3 font-medium">{MSG.requests.formTitle}</h3>
       <form onSubmit={submitForm} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Field as="select" label={MSG.requests.formKind} value={kind} onChange={(e) => { setKind(e.target.value); setForm({ ...form, target: '' }) }}>
           {Object.entries(MSG.requests.formKinds).map(([k, v]) => <option key={k} value={k}>{v}</option>)}

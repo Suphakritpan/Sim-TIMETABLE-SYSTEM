@@ -1,6 +1,6 @@
 /** หน้า 6 สรุปและส่งออก: ห้องใช้กี่ %, คาบต่อครู, คาบว่างต่อกลุ่ม (คำนวณจากผลจริง), ผลคำขอพิเศษทีละข้อ, ดาวน์โหลด PDF/Excel */
 import { FileDown, FileSpreadsheet } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import { useSession } from '../app/sessionContext'
 import Button from '../components/common/Button'
@@ -13,7 +13,7 @@ import { ROUTES } from '../config/constants'
 import { MSG } from '../config/messages'
 import usePageMeta from '../hooks/usePageMeta'
 import useAsync from '../hooks/useAsync'
-import { exportService, requestService } from '../services'
+import { exportService } from '../services'
 import { groupGaps, roomUtilization, teacherLoad } from '../utils/summary'
 import { indexImport } from '../utils/timetable'
 
@@ -32,8 +32,7 @@ function saveBlob({ blob, filename }) {
 export default function SummaryPage() {
   usePageMeta('summary')
   const nav = useNavigate()
-  const { importData: imp, job } = useSession()
-  const [requestTexts, setRequestTexts] = useState({})
+  const { importData: imp, job, requests } = useSession()
   const pdf = useAsync()
   const xlsx = useAsync()
   const result = job?.result
@@ -42,11 +41,6 @@ export default function SummaryPage() {
     const idx = indexImport(imp)
     return { rooms: roomUtilization(result.items, imp, idx), teachers: teacherLoad(result.items, imp, idx), groups: groupGaps(result.items, imp, idx) }
   }, [result, imp])
-
-  // ข้อความคำขอเดิมอยู่ฝั่งเซิร์ฟเวอร์ ดึงมาแสดงคู่กับผลทีละข้อ
-  useEffect(() => {
-    if (result) requestService.list().then((out) => setRequestTexts(Object.fromEntries(out.requests.map((r) => [r.id, r.text])))).catch(() => setRequestTexts({}))
-  }, [result])
 
   if (!result) {
     return (
@@ -57,8 +51,8 @@ export default function SummaryPage() {
     )
   }
 
-  const download = (state, format) => state.run(async () => { saveBlob(await exportService.download(format)); return true })
-  const reqText = (id) => requestTexts[id] ?? id
+  const download = (state, format) => state.run(async () => { saveBlob(await exportService.download(job.jobId, format)); return true })
+  const reqText = (id) => requests.find((r) => r.id === id)?.text ?? id
   const bar = (percent) => (
     <span className="flex items-center gap-2"><span className="h-2 w-24 overflow-hidden rounded-full bg-line-subtle"><span className="block h-full origin-left bg-action" style={{ transform: `scaleX(${percent / 100})`, width: '100%' }} /></span>{percent}%</span>
   )

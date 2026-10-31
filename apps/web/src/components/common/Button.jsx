@@ -7,6 +7,7 @@ const VARIANTS = {
   inverse: 'bg-page text-action-soft-text hover:bg-action-soft-bg',
   ghost: 'text-action-soft-text hover:bg-hover',
   danger: 'bg-danger-fill text-on-action hover:bg-danger-text',
+  'danger-outline': 'border border-danger-fill bg-page text-danger-text hover:bg-danger-bg',
 }
 
 export default function Button({ variant = 'primary', loading = false, disabled = false, icon: Icon, children, ...rest }) {

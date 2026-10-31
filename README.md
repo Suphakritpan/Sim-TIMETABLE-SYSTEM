@@ -48,7 +48,7 @@ npm run dev        # http://localhost:5173 ใช้ข้อมูลจำล�
 |---|---|
 | `VITE_DATA_MODE` | `mock` = ข้อมูลจำลองในเครื่อง, `api` = เรียก Backend จริง |
 | `VITE_API_BASE_URL` | URL ของ Backend (ใช้เมื่อ `api`) |
-| `VITE_MOCK_SCENARIO` | `success` · `import-errors` · `schedule-partial` · `schedule-failed` · `api-down` |
+| `VITE_MOCK_SCENARIO` | `success` · `import-errors` · `schedule-partial` · `schedule-infeasible` · `schedule-failed` · `api-down` |
 | `VITE_POLL_INTERVAL_MS`, `VITE_REQUEST_TIMEOUT_MS`, `VITE_MAX_UPLOAD_MB` | ค่าติดตามงาน / timeout / ขนาดไฟล์สูงสุด |
 | `VITE_SITE_URL` | โดเมนจริงของเว็บ (ใช้สร้าง sitemap.xml / robots.txt / llms.txt ตอน build) |
 

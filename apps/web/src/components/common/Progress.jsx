@@ -5,7 +5,7 @@ const RING_C = 2 * Math.PI * RING_R
 export function ProgressBar({ value, label }) {
   const known = typeof value === 'number'
   return (
-    <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={known ? Math.round(value * 100) : undefined} className="h-2 overflow-hidden rounded-full bg-line-subtle">
+    <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={known ? Math.round(value * 100) : undefined} className="h-3 overflow-hidden rounded-full bg-line-subtle">
       <div
         className={`h-full origin-left rounded-full bg-action ${known ? 'w-full transition-transform duration-(--duration-slow) ease-emphasized' : 'w-1/3 animate-indeterminate'}`}
         style={known ? { transform: `scaleX(${value})` } : undefined}

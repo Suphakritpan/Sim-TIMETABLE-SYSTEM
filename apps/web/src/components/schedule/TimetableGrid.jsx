@@ -23,7 +23,7 @@ export default function TimetableGrid({ slots, periods, view, courseTone }) {
   const rows = Array.from({ length: periods.perDay }, (_, i) => i + 1)
   return (
     <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={T.gridLabel}>
-      <table className="w-full min-w-180 border-separate border-spacing-1 text-left">
+      <table className={`w-full border-separate border-spacing-1 text-left ${periods.days.length > 1 ? 'min-w-180' : 'min-w-72'}`}>
         <caption className="sr-only">{T.gridLabel}</caption>
         <thead>
           <tr>

@@ -20,20 +20,19 @@ export default function ImportPage() {
   const nav = useNavigate()
   const session = useSession()
   const upload = useAsync()
-  const confirm = useAsync()
+  const detail = useAsync()
   const data = session.importData
 
   const onFile = async (file) => {
     const created = await upload.run(() => importService.upload(file))
-    if (created) session.setImport(created)
-  }
-  const onConfirm = async () => {
-    const active = await confirm.run(() => importService.confirm(data.id))
-    if (active) session.confirmImport(active)
+    if (!created) return
+    // อัปโหลดคืนสรุปแล้ว; ดึงรายละเอียดครบ (ครู/ห้อง/กลุ่ม/รายการสอน) เพื่อใช้ในหน้าถัดไป
+    const full = await detail.run(() => importService.get(created.importId))
+    if (full) session.setImport(full)
   }
   const onReject = (code) => upload.run(() => Promise.reject(new ApiError(code)))
-  const failure = upload.error ?? confirm.error
-  const busy = upload.status === 'loading'
+  const failure = upload.error ?? detail.error
+  const busy = upload.status === 'loading' || detail.status === 'loading'
   const errorCount = data ? data.issues.filter((i) => i.severity === 'error').length : 0
 
   return (
@@ -51,7 +50,7 @@ export default function ImportPage() {
             {data.status === 'invalid' && <p role="alert" className="text-danger-text">{MSG.import.invalidNote(errorCount)}</p>}
             {session.confirmed
               ? <Button icon={Check} onClick={() => nav(ROUTES.requests)}>{MSG.import.next}</Button>
-              : <Button disabled={data.status !== 'valid'} icon={Check} loading={confirm.status === 'loading'} onClick={onConfirm}>{MSG.import.useData}</Button>}
+              : <Button disabled={data.status !== 'valid'} icon={Check} onClick={session.confirmImport}>{MSG.import.useData}</Button>}
             {session.confirmed && <p className="text-success-text">{MSG.import.confirmed}</p>}
           </div>
         </>

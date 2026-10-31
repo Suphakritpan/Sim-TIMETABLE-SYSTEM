@@ -1,5 +1,5 @@
 /** หน้า 5 ผลการใช้ AI: เทียบวิธีพื้นฐานกับวิธีของทีมบนข้อมูลเดียวกัน, อธิบายวิธี, กดซ้ำด้วย seed เดิมแล้วเทียบผล */
-import { Scale } from 'lucide-react'
+import { ArrowRight, Scale } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSession } from '../app/sessionContext'
@@ -29,7 +29,7 @@ function sameResult(a, b) {
 export default function EvaluationPage() {
   usePageMeta('evaluation')
   const nav = useNavigate()
-  const { confirmed, seed } = useSession()
+  const { importData: imp, confirmed, requests, seed } = useSession()
   const [seedText, setSeedText] = useState(String(seed))
   const [runs, setRuns] = useState([])
   const run = useAsync()
@@ -47,7 +47,8 @@ export default function EvaluationPage() {
 
   const valid = /^\d+$/.test(seedText)
   const compare = async () => {
-    const out = await run.run(() => evaluationService.run({ seed: Number(seedText) }))
+    const body = requests.filter((r) => r.confirmed).map(({ id, kind, category, params }) => ({ id, kind, category, params }))
+    const out = await run.run(() => evaluationService.run({ importId: imp.importId, seed: Number(seedText), requests: body }))
     if (out) setRuns((r) => [...r, out])
   }
   const metric = (m, key) => latest.methods.find((x) => x.method === m).metrics[key]
@@ -93,6 +94,7 @@ export default function EvaluationPage() {
               ))}
             </div>
           </div>
+          <div><Button icon={ArrowRight} onClick={() => nav(ROUTES.summary)}>{E.next}</Button></div>
         </div>
       )}
     </>
