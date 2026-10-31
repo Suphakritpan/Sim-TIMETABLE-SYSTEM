@@ -6,6 +6,7 @@ APP_ENV = os.environ.get("APP_ENV", "dev")  # dev | prod
 DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql+psycopg://app:app@localhost:5434/app")
 MAX_UPLOAD_MB = int(os.environ.get("MAX_UPLOAD_MB", "10"))
 DEV_ORIGIN = "http://localhost:5173"  # Vite's default port, used by apps/web in development
+DEV_ORIGINS = f"{DEV_ORIGIN},http://localhost:4173"  # the second is `vite preview`
 
 MAX_QUEUED_JOBS = 20  # B24
 MAX_SEED = 2**31 - 1
@@ -26,4 +27,4 @@ def parse_origins(app_env: str, raw: str) -> list[str]:
     return origins
 
 
-ALLOWED_ORIGINS = parse_origins(APP_ENV, os.environ.get("ALLOWED_ORIGINS", DEV_ORIGIN if APP_ENV == "dev" else ""))
+ALLOWED_ORIGINS = parse_origins(APP_ENV, os.environ.get("ALLOWED_ORIGINS", DEV_ORIGINS if APP_ENV == "dev" else ""))

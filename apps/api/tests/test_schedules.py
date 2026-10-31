@@ -182,7 +182,7 @@ def test_comparison_gives_both_methods(client):
     body = client.get(url).json()
     assert body["status"] == "completed" and body["isSimulated"] is False and body["seed"] == 3
     assert [m["method"] for m in body["methods"]] == ["baseline", "team"]
-    assert {"conflicts", "penalty", "elapsedSeconds"} <= set(body["methods"][1]["metrics"])
+    assert {"conflicts", "otherViolations", "penalty", "elapsedSeconds"} <= set(body["methods"][1]["metrics"])
     assert body["metricDefinitions"] and body["methods"][1]["description"]["whereAiUsed"]
 
 

@@ -9,11 +9,13 @@ from sqlalchemy.orm import Session
 from app import config
 from app.audit import audit
 from app.engine.checker import REQUEST_PENALTY, check
+from app.engine.exports import to_excel, to_pdf
 from app.engine.model import Limits, build_sessions
 from app.engine.precheck import precheck
+from app.engine.requests import compile_limits, outcome, params_problem, soft_misses
 from app.engine.solver import MAX_SEARCH_STEPS, solve_baseline, solve_team
 from app.errors import ApiError
-from app.models import Job
+from app.models import Dataset, Job
 from app.repositories import find_dataset, find_job
 from app.services.import_service import ID_BYTES
 
@@ -31,6 +33,10 @@ def new_job(db: Session, import_id: str, kind: str, prefix: str, params: dict) -
     dataset = find_dataset(db, import_id)
     if dataset.status != "valid":
         raise ApiError(409, "IMPORT_NOT_VALID", "this import has problems")
+    problems = [(r["id"], params_problem(r, dataset.data)) for r in params["requests"]]
+    details = [{"field": f"requests.{i}", "reason": why} for i, why in problems if why]
+    if details:
+        raise ApiError(422, "VALIDATION_FAILED", "a request cannot be used", details)
     running = select(func.count()).select_from(Job).where(Job.dataset_id == dataset.id, Job.status.in_(ACTIVE))
     if db.scalar(running):
         raise ApiError(409, "JOB_ALREADY_RUNNING", "a job for this import is still running")
@@ -105,11 +111,10 @@ def run_method(data: dict, method: str, seed: int, limits: Limits, progress) -> 
     return items, left, time.perf_counter() - started
 
 
-def build_result(
-    data: dict, items: list, left: list, seconds: float, explanation: str, reasons: list | None = None
-) -> dict:
+def build_result(data: dict, run: tuple, explanation: str, requests: list, limits: Limits, reasons=None) -> dict:
     """Everything the page shows about one timetable. All numbers come from the checker (B12)."""
-    report = check(data, items, seconds)
+    items, left, seconds = run
+    report = check(data, items, seconds, soft_misses(items, limits))
     return {
         "items": items,
         "conflicts": report["conflicts"],
@@ -117,38 +122,39 @@ def build_result(
         "stats": report["stats"],
         "explanation": explanation,
         "infeasibleReasons": reasons or [],
-        "requestResults": [],
+        "requestResults": [outcome(r, items, data) for r in requests],
     }
 
 
 def run_schedule(data: dict, params: dict, progress) -> tuple[str, dict]:
     """The `schedule` job. Impossible data ends with reasons instead of a long search (B15)."""
-    limits = Limits()
+    requests = params["requests"]
+    limits = compile_limits(requests, data)
     sessions = build_sessions(data, limits)
     reasons = precheck(data, sessions, limits)
     if reasons:
-        return "infeasible", build_result(data, [], sessions, 0.0, "", reasons)
+        return "infeasible", build_result(data, ([], sessions, 0.0), "", requests, limits, reasons)
     method = params["method"]
-    items, left, seconds = run_method(data, method, params["seed"], limits, progress)
-    text = BASELINE_EXPLANATION if method == "baseline" else EXPLANATION
-    result = build_result(data, items, left, seconds, text)
-    clean = not left and not any(result["stats"][f] for f in FINAL_HARD_FIELDS)
+    run = run_method(data, method, params["seed"], limits, progress)
+    result = build_result(data, run, BASELINE_EXPLANATION if method == "baseline" else EXPLANATION, requests, limits)
+    clean = not run[1] and not any(result["stats"][f] for f in FINAL_HARD_FIELDS)
     return ("completed" if clean else "completed_partial"), result
 
 
 METRICS = [
     {"key": "unscheduled", "label": "รายการที่จัดไม่ได้", "higherIsBetter": False},
     {"key": "conflicts", "label": "จุดที่ชน", "higherIsBetter": False},
+    {"key": "otherViolations", "label": "ผิดกฎข้ออื่น", "higherIsBetter": False},
     {"key": "penalty", "label": "คะแนนโทษ", "higherIsBetter": False},
     {"key": "elapsedSeconds", "label": "เวลาที่ใช้ (วินาที)", "higherIsBetter": False},
 ]
 
 
 def method_row(method: str, stats: dict, description: dict) -> dict:
-    conflicts = sum(stats[f] for f in FINAL_HARD_FIELDS)
     metrics = {
         "unscheduled": stats["unscheduled"],
-        "conflicts": conflicts,
+        "conflicts": stats["teacherConflicts"] + stats["roomConflicts"] + stats["groupConflicts"],
+        "otherViolations": stats["otherViolations"],
         "penalty": stats["penalty"],
         "elapsedSeconds": stats["elapsedSeconds"],
     }
@@ -157,12 +163,13 @@ def method_row(method: str, stats: dict, description: dict) -> dict:
 
 def run_compare(data: dict, params: dict, progress) -> tuple[str, dict]:
     """The `compare` job: both methods on the same data and seed, measured live by the checker (B22)."""
-    limits = Limits()
+    limits = compile_limits(params["requests"], data)
     seed = params["seed"]
     rows = []
     for method, text in (("baseline", BASELINE_EXPLANATION), ("team", EXPLANATION)):
         items, _left, seconds = run_method(data, method, seed, limits, progress)
-        rows.append(method_row(method, check(data, items, seconds)["stats"], describe(method, text)))
+        stats = check(data, items, seconds, soft_misses(items, limits))["stats"]
+        rows.append(method_row(method, stats, describe(method, text)))
     return "completed", {"methods": rows, "metricDefinitions": METRICS}
 
 
@@ -181,13 +188,41 @@ def start_evaluation(db: Session, import_id: str, seed: int | None, requests: li
     chosen = secrets.randbelow(config.MAX_SEED) if seed is None else seed
     params = {"seed": chosen, "method": "compare", "requests": requests}
     job = new_job(db, import_id, "compare", "eval_", params)
-    return {"evaluationId": job.public_id, "status": job.status}
+    return {"evaluationId": job.public_id, "status": job.status, "seed": chosen}
 
 
 def get_evaluation(db: Session, evaluation_id: str) -> dict:
     """The comparison. `methods` appears once it is done (`evaluationSchema`); until then, only its status."""
     job = find_job(db, evaluation_id, "compare", "EVALUATION_NOT_FOUND")
-    body = {"evaluationId": job.public_id, "status": job.status, "seed": job.params["seed"], "isSimulated": False}
+    body = {
+        "evaluationId": job.public_id,
+        "status": job.status,
+        "progress": job.progress,
+        "seed": job.params["seed"],
+        "isSimulated": False,
+    }
+    if job.stage:
+        body["stage"] = job.stage
     if job.error:
         body["error"] = {"code": job.error}
     return {**body, **(job.result or {})}
+
+
+EXPORTS = {
+    "xlsx": ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", lambda items, _data: to_excel(items)),
+    "pdf": ("application/pdf", to_pdf),
+}
+
+
+def export(db: Session, job_id: str, file_format: str) -> tuple[bytes, str, str]:
+    """(file, media type, file name) of a finished timetable. Raises ApiError."""
+    if file_format not in EXPORTS:
+        raise ApiError(400, "EXPORT_FORMAT_UNSUPPORTED", "format must be pdf or xlsx")
+    job = find_job(db, job_id, "schedule", "SCHEDULE_NOT_FOUND")
+    if job.status not in ("completed", "completed_partial"):
+        raise ApiError(409, "SCHEDULE_NOT_READY", "this timetable is not finished")
+    media_type, write = EXPORTS[file_format]
+    content = write(job.result["items"], db.get(Dataset, job.dataset_id).data)
+    audit(db, "export", f"job:{job.public_id}", format=file_format)
+    db.commit()
+    return content, media_type, f"timetable-seed-{job.params['seed']}.{file_format}"

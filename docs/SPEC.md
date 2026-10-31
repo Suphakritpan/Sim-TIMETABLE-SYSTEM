@@ -48,7 +48,7 @@ The 7 sheets stay as JSON on `dataset`: the solver and the pages always read a w
 
 The uploaded file is deleted once parsed. Only the parsed JSON is kept, which leaves less data on the server.
 
-Confirmed requests live in the browser and are sent with each run, as `apps/web` already does. They are saved in `schedule_run.constraints`, so a run can be explained later. The planned `special_request` table is not needed.
+Confirmed requests live in the browser and are sent with each run, as `apps/web` already does. They are saved in the job's `params`, so a run can be explained later. The planned `special_request` table is not needed.
 
 Template tables kept: `audit_log` (loses `user_id`), `job`. Dropped: `user_account`, `document`, `event`.
 
@@ -250,7 +250,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
 
 ### F3: Rule checker and first timetable (done)
 - **For:** a visitor wants to press `จัดตาราง` and see honest results, so that they can trust the timetable.
-- **Needs:** read `timetable-light` first; `schedule_run`, `job` change by migration, schedule routes, worker job. The checker comes first and is the only source of numbers. Two methods share it: baseline (first free slot, file order) and team v1 (hardest sessions first). **After:** F2.
+- **Needs:** read `timetable-light` first; `job` change by migration, schedule routes, worker job. The checker comes first and is the only source of numbers. Two methods share it: baseline (first free slot, file order) and team v1 (hardest sessions first). **After:** F2.
 - **Acceptance:**
   - [ ] When a hand-made timetable breaks each of B1–B10 and each soft rule once, then the checker reports exactly those counts.
   - [ ] When a group has periods 4 and 5 with lunch between, then no gap is counted, and the page states this reading (B13).
@@ -277,9 +277,9 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] At 390 px wide, the grid is usable and the page itself does not scroll sideways.
 - **Standards:** U10, U15, U17, X2, P3.
 
-### F5: Special requests (todo)
+### F5: Special requests (done)
 - **For:** a visitor wants each Thai request read and sorted, so that the timetable respects it.
-- **Needs:** interpret route, Thai rules reader; solver and checker use the requests. Requests use the page's `kind` + `params`, seen so far: `teacher_unavailable`, `group_unavailable`, `room_closed`, `teacher_avoid_period`, `prefer_practice_morning`, `group_end_by`, `teacher_only_days`. Inside the backend, each reduces to one shape: who it covers, which sessions, and which day and period slots to avoid. **After:** F3.
+- **Needs:** interpret route, Thai rules reader; solver and checker use the requests. Requests use `kind` + `params`: `teacher_unavailable`, `group_unavailable`, `room_closed`, `teacher_avoid_periods`, `prefer_practice_morning`, `teacher_only_days`, `none`. Inside the backend, each reduces to one shape: who it covers, which sessions, and which day and period slots to avoid. **After:** F3.
 - **Acceptance:**
   - [ ] When the provided sets are read, then each reading matches the table in `extra.md` page 2 (a local test, skipped when the workbooks are absent).
   - [ ] When a first name is shared by 2 teachers, then matching uses the full name.
@@ -304,7 +304,7 @@ These times are a target, not a measurement. If time runs short, cut in this ord
   - [ ] `description` states the method, where AI is used, and the settings, taken from the code's real values, and `metricDefinitions` is sent.
 - **Standards:** U2, U7.
 
-### F7: Summary and export (todo)
+### F7: Summary and export (done)
 - **For:** a visitor wants the numbers and the files, so that they can decide and print.
 - **Needs:** export route, `requestResults`, WeasyPrint with font. Excel first; PDF last. **After:** F3.
 - **Acceptance:**
