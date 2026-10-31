@@ -1,1 +1,4 @@
 .playwright-mcp/
+
+# ข้อมูลโจทย์: ยังไม่ยืนยันว่าชื่อครูเป็นชื่อจริงหรือไม่ (docs/BACKEND-REPO-REVIEW.md C5) ลบบรรทัดนี้เมื่อผู้จัดยืนยันแล้ว
+proposition data/
