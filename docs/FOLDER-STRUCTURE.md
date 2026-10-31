@@ -1,6 +1,6 @@
 # FOLDER-STRUCTURE — Sim-TIMETABLE-SYSTEM
 
-สถานะ: **ร่าง v0.1 เพื่อตกลง** · ผู้อ่าน: แพน (Frontend) และเพื่อน (Backend) · เป็นเอกสารเดียวที่กำหนดโครงสร้างโฟลเดอร์ (ARCHITECTURE.md §2 ชี้มาที่นี่)
+สถานะ: **v0.2** — §2 (`apps/web`) ตรงกับโครงสร้างที่สร้างจริงแล้ว ส่วน `apps/api` / `packages/shared` ยังเป็นข้อเสนอ · ผู้อ่าน: แพน (Frontend) และเพื่อน (Backend) · เป็นเอกสารเดียวที่กำหนดโครงสร้างโฟลเดอร์ (ARCHITECTURE.md §2 ชี้มาที่นี่)
 ป้ายสถานะ: `EXISTS` = มีอยู่จริงใน repo ตอนนี้ · `PROPOSED` = ข้อเสนอ ยังไม่ได้สร้าง · เจ้าของ: **แพน** = `apps/web`, **เพื่อน** = `apps/api`, **ร่วม** = `docs`, `packages/shared`
 
 > ⚠️ **ต้องแก้ตามผลอ่าน repo เพื่อน** ([BACKEND-REPO-REVIEW.md](BACKEND-REPO-REVIEW.md) C1, C4): Backend อยู่ใน repo แยก (`backend/`, ไม่ใช่ `apps/api`) และไม่ใช้ `frontend/` ของเขา — โครงสร้าง `apps/api` ด้านล่างใช้เป็นแนวทางภายในของ Backend เท่านั้น จนกว่าจะตัดสินว่า 2 repo หรือรวมกัน
@@ -15,69 +15,58 @@
 ├─ packages/
 │  └─ shared/              # สัญญาข้อมูลภาษากลาง (JSON Schema + fixtures) — ร่วม PROPOSED
 ├─ docs/                   # ARCHITECTURE, API-CONTRACT, FOLDER-STRUCTURE — ร่วม EXISTS
-├─ scripts/                # สคริปต์ช่วย (สร้างไฟล์ตัวอย่าง, ส่งออก schema) — ร่วม PROPOSED
-├─ proposition data/       # โจทย์ + ข้อมูลชุดทดลอง/หลัก (อ่านอย่างเดียว) EXISTS
+├─ scripts/                # generate_sample_data.py (สร้างไฟล์ตัวอย่าง) EXISTS · export_openapi.py PROPOSED
+├─ proposition data/       # โจทย์ + ข้อมูลชุดทดลอง/หลัก (อ่านอย่างเดียว) มีในเครื่อง แต่ .gitignore ไม่ commit
 └─ CLAUDE.md  DESIGN_SYSTEM.md  README.md                         EXISTS
 ```
 
 หลักการ: แต่ละ app **build/ทดสอบ/deploy แยกกัน** (Frontend → Vercel, Backend → host ที่รัน job ยาวได้) ติดต่อกันผ่าน HTTP ตาม `docs/API-CONTRACT.md` เท่านั้น ห้าม import ข้าม app
 
-## 2. `apps/web` (แพน) — Frontend
-
-มีอยู่แล้ว: `components/common|layout|schedule`, `pages/DesignPreviewPage.jsx`, `styles/tokens.css`, `App.jsx`, `main.jsx`
-ที่ต้องเพิ่ม (PROPOSED) ทำเครื่องหมาย ➕
+## 2. `apps/web` (แพน) — Frontend — `EXISTS` ตามที่สร้างจริง
 
 ```
 apps/web/
 ├─ index.html                 # title, meta, OG, lang="th", noscript (CLAUDE.md §9, §12.5)
+├─ vercel.json                # rewrite เฉพาะเส้นทางจริง (ให้ path อื่นได้ 404 จริง) + security headers + แคช assets
+├─ vite.config.js  .oxlintrc.json  .npmrc  package.json  package-lock.json
+├─ .env.example  .env.development  .env.production   # VITE_* (ห้ามใส่ secret)
+├─ scripts/seoFiles.js        # Vite plugin: สร้าง robots.txt, sitemap.xml, llms.txt ตอน build จาก VITE_SITE_URL
 ├─ public/
-│  ├─ favicon.svg  icons.svg  EXISTS
-│  ├─ robots.txt  sitemap.xml  llms.txt   ➕ (ไม่บล็อก AI crawlers)
-│  ├─ og-image.png                          ➕ (1200×630)
-│  └─ samples/                              ➕ แม่แบบเปล่า + ตัวอย่าง เล็ก/กลาง/ใหญ่ (.xlsx)
-├─ .env.example                             ➕ VITE_DATA_MODE, VITE_API_BASE_URL, …
+│  ├─ favicon.svg  apple-touch-icon.png  og-image.png  404.html
+│  └─ samples/                # template-blank, export-format-example, sample-{small,medium,large}-team (.xlsx)
 └─ src/
-   ├─ main.jsx  App.jsx                     EXISTS (คงไว้ ไม่ย้ายเข้า app/ เพื่อลดการรื้อ)
-   ├─ router.jsx                  ➕ เส้นทางของ 6 หน้า (lazy-load ทีละหน้า)
-   ├─ pages/                      # ประกอบ component เท่านั้น ห้ามเรียก fetch
-   │  ├─ ImportPage.jsx           ➕ หน้า 1 นำเข้าข้อมูล
-   │  ├─ RequestsPage.jsx         ➕ หน้า 2 คำขอพิเศษ
-   │  ├─ GeneratePage.jsx         ➕ หน้า 3 จัดตาราง
-   │  ├─ TimetablePage.jsx        ➕ หน้า 4 ดูตาราง
-   │  ├─ EvaluationPage.jsx       ➕ หน้า 5 ผลการใช้ AI
-   │  ├─ SummaryPage.jsx          ➕ หน้า 6 สรุปและส่งออก
-   │  ├─ NotFoundPage.jsx  ErrorPage.jsx   ➕ (404 / error)
-   │  └─ DesignPreviewPage.jsx    EXISTS (ลบก่อนส่งงาน หรือซ่อนจาก production)
+   ├─ main.jsx  index.css
+   ├─ app/                    # App.jsx, router.jsx (lazy-load ทีละหน้า), SessionProvider.jsx + sessionContext.js
+   │                          #   (สถานะหน้าจอ โหลดจากเซิร์ฟเวอร์ตอนเปิด), HydrationGate.jsx
+   ├─ pages/                  # ประกอบ component เท่านั้น ห้ามเรียก fetch
+   │  ├─ ImportPage  RequestsPage  GeneratePage  TimetablePage  EvaluationPage  SummaryPage
+   │  └─ NotFoundPage         # ตอบ 404 (ดู vercel.json + public/404.html)
    ├─ components/
-   │  ├─ common/                  EXISTS Button Card Dialog Progress StatTile StatusPill Toast …
-   │  │                           ➕ DataState.jsx (loading/error/empty/success ใช้ร่วมทุกหน้า)
-   │  ├─ layout/                  EXISTS AppShell SideNav TopBar Drawer MegaMenu navItems
-   │  ├─ schedule/                EXISTS TimetableGrid StageList TimetableAnimation
-   │  │                           ➕ ViewSwitcher (กลุ่ม/ครู/ห้อง), SearchBox, CheckSummary, CancelButton
-   │  ├─ import/                  ➕ UploadDropzone, ImportSummary, IssueList, SampleDownloads
-   │  ├─ requests/                ➕ RequestCard, RequestEditForm, CategoryBadge
-   │  ├─ evaluation/              ➕ CompareTable, MethodDescription, SimulatedBanner
-   │  └─ summary/                 ➕ UtilizationChart, TeacherLoadTable, RequestOutcomeList, ExportButtons
-   ├─ services/                   ➕ จุดเดียวที่คุยกับ Backend/Mock
-   │  ├─ index.js                 # อ่าน VITE_DATA_MODE แล้วเลือก mock หรือ http
-   │  ├─ httpClient.js            # ที่เดียวที่เรียก fetch: base URL, timeout, แปลง error → ApiError
-   │  ├─ importService.js  requestService.js  scheduleService.js
-   │  └─ evaluationService.js  exportService.js
-   ├─ mocks/                      ➕
-   │  ├─ mockServices.js          # interface เหมือน services จริงทุกประการ
-   │  ├─ scenarios.js             # เลือกด้วย VITE_MOCK_SCENARIO
-   │  └─ fixtures/                # สร้างจาก packages/shared/fixtures (ไม่เขียนซ้ำคนละชุด)
-   ├─ schemas/                    ➕ apiSchemas.js (zod: ตรวจ response ทั้ง mock และ api)
-   ├─ hooks/                      ➕ useScheduleJob (polling+cancel), useImport, useRequests
-   ├─ context/                    ➕ ImportContext (importId + ข้อมูลที่ยืนยันแล้ว), RequestsContext
-   ├─ config/                     ➕ constants.js (poll interval, สี/ป้ายสถานะ), messages.th.js (ข้อความ UI + map error code)
-   ├─ utils/                      ➕ timetable.js (ประกอบมุมมองกลุ่ม/ครู/ห้องจาก placements), format.js
-   ├─ styles/tokens.css  index.css   EXISTS (ค่าต้องตรง DESIGN_SYSTEM.md)
-   └─ assets/                     EXISTS (ลบ hero/react/vite.svg ที่เป็นของเทมเพลตเมื่อไม่ใช้)
+   │  ├─ common/              # Button Card DataTable Dialog Field MotionBackground PageHeader Progress
+   │  │                       #   StatTile StateBox(loading/error/empty) StatusPill Tabs Toast
+   │  ├─ layout/              # AppShell TopBar navItems (เมนูเดียว = Topbar ลอย)
+   │  ├─ import/              # FileDropzone ImportResult SampleDownloads
+   │  ├─ requests/            # AddRequestForm RequestList
+   │  ├─ schedule/            # EntityPicker JobProgress ResultPanel StageList TimetableAnimation TimetableGrid
+   │  └─ evaluation/          # EvaluationChart
+   ├─ services/               # จุดเดียวที่คุยกับ Backend/Mock
+   │  ├─ index.js             # อ่าน VITE_DATA_MODE แล้วเลือก mock หรือ http
+   │  ├─ httpClient.js        # ที่เดียวที่เรียก fetch: base URL, timeout, แปลง error → ApiError
+   │  └─ httpServices.js      # importService requestService scheduleService evaluationService exportService (+ SSE)
+   ├─ mocks/
+   │  ├─ mockServices.js      # interface เหมือน httpServices ทุกประการ; เลือกสถานการณ์ด้วย VITE_MOCK_SCENARIO
+   │  └─ fixtures/            # evaluation-result import-errors import-success request-interpret
+   │                          #   schedule-baseline schedule-partial schedule-success (.json)
+   ├─ schemas/                # apiSchemas.js (zod ตรวจ response ทั้ง mock และ api) + apiSchemas.test.js
+   ├─ hooks/                  # useAsync useJobPolling usePageMeta
+   ├─ config/                 # constants.js (เส้นทาง สถานะงาน ไฟล์ตัวอย่าง) env.js (validate ตอนเริ่ม) messages.js (ข้อความไทย + map error code)
+   ├─ utils/                  # errors.js (ApiError) summary.js timetable.js (+ timetable.test.js)
+   └─ styles/tokens.css       # ค่าต้องตรง DESIGN_SYSTEM.md
 ```
 
-ทดสอบ: ไฟล์ทดสอบวางข้างไฟล์ที่ทดสอบ (`*.test.jsx`) — มี vitest + testing-library ใน `package.json` แล้ว
-หมายเหตุ: `dist/` เป็นผล build ต้องอยู่ใน `.gitignore` (ตรวจแล้วว่ามี `.gitignore` ใน `apps/web` — `UNVERIFIED` ว่าครอบคลุม `dist/`)
+ต่างจากข้อเสนอเดิมของเอกสารนี้: ไม่มี `DesignPreviewPage`, `ErrorPage`, `context/`, `scenarios.js`, `services/<ชื่อ>Service.js` แยกไฟล์ (รวมเป็น `httpServices.js`), `components/summary/` (ใช้ `ResultPanel`/`utils/summary.js` แทน)
+ทดสอบ: ไฟล์ทดสอบวางข้างไฟล์ที่ทดสอบ — มี test ของ schema (`apiSchemas.test.js`) และตัวประกอบตาราง (`timetable.test.js`); component/page ยังไม่มี test (ตรวจด้วยมือ ตาม CLAUDE.md §13.2)
+`dist/` อยู่ใน `.gitignore` ของ `apps/web`
 
 ## 3. `apps/api` (เพื่อน) — Backend Python — ทั้งหมด `PROPOSED`
 
@@ -146,9 +135,9 @@ Backend เป็น Python จึงแชร์ type ของ TypeScript ไ�
 
 ```
 scripts/
-├─ make_samples.py        # สร้างแม่แบบเปล่า + ไฟล์ตัวอย่าง เล็ก/กลาง/ใหญ่(~600 รายการ) → apps/web/public/samples
+├─ generate_sample_data.py # EXISTS: สร้างไฟล์ตัวอย่าง เล็ก/กลาง/ใหญ่(600 รายการ) → apps/web/public/samples (ข้อมูลสมมติ seed คงที่ + ตรวจว่ามีคำตอบ); แม่แบบเปล่า/ตัวอย่างส่งออกเป็นไฟล์ที่เตรียมไว้แล้ว
 ├─ export_openapi.py      # ดึง openapi.json จาก backend
-└─ check_seo.*            # ตรวจหมวด 9 ของ CLAUDE.md กับ build (title/meta/H1/canonical ฯลฯ)
+└─ check_seo.*            # PROPOSED ยังไม่มี: ตรวจหมวด 9 ของ CLAUDE.md กับ build (title/meta/H1/canonical ฯลฯ)
 ```
 ไฟล์ราก: `.gitignore` (ครอบคลุม `node_modules`, `dist`, `.env*` ยกเว้น `.env.example`, `__pycache__`, `.venv`)
 
@@ -166,7 +155,7 @@ scripts/
 **ตัดสินแล้ว (ผู้ใช้)**
 1. Monorepo เดียว · Vercel ผูก `apps/web` เป็น Root Directory
 2. Repo เปิดสาธารณะ (ผู้ตรวจโหลดไปรันเองได้) · Vercel ใช้ให้กรรมการเปิดดูออนไลน์ → **แก้ไข:** `proposition data/` ยัง **ไม่ commit** (อยู่ใน `.gitignore`) จนกว่าผู้จัดยืนยันว่าชื่อครูไม่ใช่ชื่อจริง (BACKEND-REPO-REVIEW.md C5); ห้าม commit `.env`, key
-3. ลบ `DesignPreviewPage` ไม่จำเป็น (แพนเก็บไว้ได้ แต่ต้องไม่เป็นเมนูหลักของ production)
+3. `DesignPreviewPage` ไม่มีในโค้ดที่สร้างจริงแล้ว (ไม่ต้องลบ)
 
 **ตามคำตอบฝั่ง Backend (จากผู้ใช้) — `UNVERIFIED` จนกว่าเพื่อนยืนยันกับ template จริง ซึ่งยังไม่อยู่ใน repo นี้**
 - FastAPI + PostgreSQL · openpyxl (อ่าน/เขียน Excel) · WeasyPrint + ฟอนต์ Sarabun (ยังไม่ได้ติดตั้ง/ทดสอบตัดคำไทย → ทดสอบตั้งแต่ต้น)

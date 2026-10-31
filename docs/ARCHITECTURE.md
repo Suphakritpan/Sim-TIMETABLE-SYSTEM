@@ -1,6 +1,6 @@
 # ARCHITECTURE — Sim-TIMETABLE-SYSTEM
 
-สถานะ: **ร่างเพื่อตกลงร่วมกัน (v0.2)** — ผู้อ่าน: แพน (Frontend) และเพื่อน (Backend)
+สถานะ: **ร่างเพื่อตกลงร่วมกัน (v0.3)** — ส่วน Frontend (§3–§6) ปรับให้ตรงโค้ดที่สร้างแล้วใน `apps/web` — ผู้อ่าน: แพน (Frontend) และเพื่อน (Backend)
 สัญญาข้อมูลอยู่ใน [API-CONTRACT.md](API-CONTRACT.md)
 
 **ป้ายสถานะ (ใช้ทั้งสองเอกสาร)**
@@ -31,7 +31,7 @@
 ```
 Page ──► services/index.js ──► (VITE_DATA_MODE)
                                  ├─ mock → mocks/mockServices.js
-                                 └─ api  → *Service.js → httpClient.js → Python API
+                                 └─ api  → services/httpServices.js → httpClient.js → Python API
 ```
 
 - `services/index.js` เป็น **จุดเดียว** ที่อ่าน `VITE_DATA_MODE` แล้วเลือก implementation
@@ -40,55 +40,65 @@ Page ──► services/index.js ──► (VITE_DATA_MODE)
 - Response ทุกตัวผ่าน `schemas/apiSchemas.js` ตรวจก่อนถึง page ทั้งฝั่ง mock และ api เพื่อให้ mock เลื่อนออกจาก contract ไม่ได้
 - Page จัดการ 4 สถานะ: loading / error / empty / success และแปลง `error.code` เป็นข้อความไทยเอง (ไม่แสดงข้อความดิบจาก backend)
 
-### Interface — `UNVERIFIED`
-เป็นตัวอย่างแนวทาง ยังไม่ได้ติดตั้ง/build/รัน ต้องทดสอบการสลับ mock↔api, การเรียก service และการจัดการ error ก่อนใช้เป็นโครงหลัก
+### Interface — ติดตั้งแล้ว (mock ใช้งานได้; ฝั่ง api ยังไม่ได้ทดสอบกับ Backend จริง)
+ผ่าน lint, vitest (schema + ตัวประกอบตาราง) และ build; การสลับ mock↔api ทำที่ `services/index.js` จุดเดียว
 
 ```js
 // services/index.js — จุดสลับจุดเดียว
-import * as http from './scheduleService';
-import * as mock from '../mocks/mockServices';
-export const scheduleService = import.meta.env.VITE_DATA_MODE === 'mock' ? mock.scheduleService : http;
+const impl = ENV.dataMode === 'mock' ? mock : http
+export const { importService, requestService, scheduleService, evaluationService, exportService } = impl
 
 // หน้า 3 — ไม่รู้ว่าเป็น mock หรือ api
-const { jobId } = await scheduleService.generate({ importId, seed, requestIds });
-const job = await scheduleService.getStatus(jobId);   // ถูกเรียกซ้ำจนถึงสถานะสุดท้าย
+const { jobId } = await scheduleService.start({ seed, method: GENERATE_METHOD })
+const job = await scheduleService.getStatus(jobId)   // useJobPolling เรียกซ้ำจนถึงสถานะสุดท้าย
 ```
+
+### สถานะฝั่งเซิร์ฟเวอร์ (contract v0.3)
+ตาม SPEC ของ Backend ชุดข้อมูลที่ยืนยัน คำขอพิเศษ และผลจัดตารางล่าสุด **เก็บฝั่งเซิร์ฟเวอร์** ไม่ส่งกลับไปมาจาก browser
+`app/SessionProvider.jsx` เก็บเฉพาะสถานะหน้าจอ (ชุดข้อมูลที่ยืนยัน, seed, ผลล่าสุด) และโหลดจากเซิร์ฟเวอร์ตอนเปิดหน้า/รีเฟรช (`getActive`, `getLatestRun`); `app/HydrationGate.jsx` แสดงโครงรอจนโหลดเสร็จ
+งานจัดตารางติดตามด้วย SSE (`GET /api/jobs/{id}/events`) เป็นหลัก และ `GET /api/jobs/{id}` เป็นตัวสำรอง
 
 ## 4. ตาราง หน้า → Service → Endpoint → Fixture
 
 ชื่อหน้า คะแนน และสิ่งที่ต้องทำ `CONFIRMED` จากโจทย์ §4 · service/endpoint/fixture `PROPOSED`
 หลายหน้าใช้ผลจาก API เดียวกัน จึงไม่มี endpoint แยกต่อหน้า
 
-| หน้า (คะแนน) | Page | Service function | Endpoint | Mock fixture |
+| หน้า (คะแนน) | Page | Service function | Endpoint (contract §1.2) | Mock fixture |
 |---|---|---|---|---|
-| 1 นำเข้าข้อมูล (11) | ImportPage | `importService.upload(file)` | `POST /imports` | `import-success`, `import-errors` |
-| | | `importService.get(id)` | `GET /imports/{id}` | `import-success` |
-| 2 คำขอพิเศษ (4) | RequestsPage | `requestService.interpret(...)` | `POST /requests/interpret` | `requests-interpreted`, `requests-llm-down` |
-| 3 จัดตาราง (25) | GeneratePage | `scheduleService.generate/getStatus/cancel` | `POST /schedules`, `GET /schedules/{id}`, `POST …/cancel` | `schedule-running`, `-completed`, `-partial`, `-infeasible`, `-failed`, `-cancelled` |
-| 4 ดูตาราง (23) | TimetablePage | ใช้ `getStatus` + `importService.get` (ประกอบมุมมองฝั่ง UI) | เดิม | เดิม |
-| 5 ผลการใช้ AI (16) | EvaluationPage | `evaluationService.run(...)` | `POST /evaluations` | `evaluation-result` (`isSimulated: true`) |
-| 6 สรุปและส่งออก (4) | SummaryPage | `getStatus` (ฟิลด์ `summary`) + `exportService.download(...)` | `GET /schedules/{id}/export` | ไฟล์ตัวอย่างเล็ก |
+| 1 นำเข้าข้อมูล (11) | ImportPage | `importService.upload(file)` · `confirm(id)` · `getActive()` | `POST /api/datasets` · `POST /api/datasets/{id}/confirm` · `GET /api/datasets/active` | `import-success`, `import-errors` |
+| 2 คำขอพิเศษ (4) | RequestsPage | `requestService.list/add/update/confirmAll` | `GET\|POST /api/requests` · `PATCH /api/requests/{id}` · `POST /api/requests/confirm-all` | `request-interpret` |
+| 3 จัดตาราง (25) | GeneratePage | `scheduleService.start/getStatus/cancel/getLatestRun` | `POST /api/runs` · `GET /api/jobs/{id}` (+ SSE `/events`) · `POST /api/jobs/{id}/cancel` · `GET /api/runs/latest` | `schedule-success`, `schedule-partial` |
+| 4 ดูตาราง (23) | TimetablePage | ใช้ผลล่าสุดใน session + ชุดข้อมูล (ประกอบมุมมองกลุ่ม/ครู/ห้องฝั่ง UI ด้วย `utils/timetable.js`) | เดิม | เดิม |
+| 5 ผลการใช้ AI (16) | EvaluationPage | `evaluationService.run({seed})` | `POST /api/comparisons` · `GET /api/comparisons/latest` | `evaluation-result` (`isSimulated: true`) |
+| 6 สรุปและส่งออก (4) | SummaryPage | ผลล่าสุดใน session (`utils/summary.js`) + `exportService.download(format)` | `GET /api/runs/latest/export.xlsx\|pdf` | `/samples/export-format-example.xlsx` |
 | ทั้งเว็บ (2) | — | ต้องใช้ได้บนคอมพิวเตอร์และมือถือ (responsive) | | |
 
-ไฟล์แม่แบบเปล่า + ไฟล์ตัวอย่าง 3 ขนาด (เล็ก/กลาง/ใหญ่) เป็น static file ใน `apps/web/public/samples/` — `CONFIRMED` ว่าต้องมี, ตำแหน่ง `PROPOSED`
+endpoint ทั้งหมดเป็น `PROPOSED` รอ Backend ยืนยัน (ดู API-CONTRACT §1.2 และ BACKEND-REPO-REVIEW.md); §2 เดิมใน API-CONTRACT ถูกแทนที่แล้ว
+
+> **ทิศทาง API (ผู้ใช้ฝั่งแพนตัดสิน 2026-10-31 = ทาง A, รอฝั่งเพื่อนอนุมัติ):** Backend สร้าง `/api/v1/*` ตาม schema เดิมของเว็บ (API-CONTRACT §2 เดิม: `imports`, `requests/interpret`, `schedules`, `evaluations`) — เสนอเป็น DEC-002 (Proposed) บนสาขา `comms` แทน DEC-001 ข้อ 2; **โค้ด `apps/web` ปัจจุบันยังเรียก route แบบ §1.2 (v0.3) จึงต้องย้ายกลับเป็น `/api/v1` ก่อนเชื่อม Backend — ยังไม่ได้ทำ** และตาราง/§1.2 นี้เป็นสถานะปัจจุบันของโค้ด ไม่ใช่ทิศทางสุดท้าย
+
+ไฟล์แม่แบบเปล่า + ไฟล์ตัวอย่าง 3 ขนาด (เล็ก/กลาง/ใหญ่) เป็น static file ใน `apps/web/public/samples/` (`EXISTS`); ชุดตัวอย่างสร้างโดย `scripts/generate_sample_data.py` (ข้อมูลสมมติ seed คงที่)
 
 ## 5. ระบบ Mock
 
 - เลือกชุดสถานการณ์ด้วย `VITE_MOCK_SCENARIO` (ค่าเริ่มต้น `success`) เพื่อให้ทดสอบได้ครบ ไม่ใช่เห็นแต่ทางที่สำเร็จ:
-  `success` · `import-errors` · `schedule-partial` · `schedule-infeasible` · `schedule-failed` · `cancel-midway` · `llm-down` · `api-down`
+  `success` · `import-errors` · `schedule-partial` · `schedule-failed` · `api-down` (ยกเลิกระหว่างคำนวณทดสอบได้โดยกดยกเลิกในหน้า 3; ไฟล์ชื่อมีคำว่า `error` ก็ได้ผลตรวจข้อมูลผิดในโหมด mock)
 - Mock job ผ่านสถานะตาม lifecycle ของ contract (`queued → running → …`) พร้อม `stage` เป็นข้อความขั้นตอน **ห้ามสุ่มเปอร์เซ็นต์ปลอมเป็นผลประมวลผล** ถ้า API จริงไม่ส่ง `progress` ให้ UI แสดงแค่ stage
 - หน้า Evaluation ในโหมด mock ต้องแสดงป้าย "ข้อมูลจำลอง" (ดูฟิลด์ `isSimulated` ใน contract)
-- Fixtures ใน phase 2 ให้ดึงจาก `packages/shared/fixtures/` (ตัวเดียวกับตัวอย่างใน contract) เพื่อไม่ให้ซ้ำและเลื่อน
+- Fixtures อยู่ที่ `apps/web/src/mocks/fixtures/` (สร้างจากไฟล์ชุดทดลองจริง ไม่ใช่ผลของอัลกอริทึมจริง) ทุก response ผ่าน `schemas/apiSchemas.js` ก่อนถึงหน้า; `packages/shared/` ยังไม่ถูกสร้าง จึงยังไม่มี fixtures กลางร่วมกับ Backend
+- Mock จำลองเซิร์ฟเวอร์ที่ "จำสถานะ" (ชุดข้อมูลที่ยืนยัน คำขอที่มี `version` งาน ผลล่าสุด) ในหน่วยความจำของหน้าเว็บ รีโหลดแล้วเริ่มใหม่
 
 ## 6. Environment variables
 
 | ตัวแปร | ตัวอย่าง | หมายเหตุ |
 |---|---|---|
 | `VITE_DATA_MODE` | `mock` \| `api` | dev = mock, production = api |
-| `VITE_API_BASE_URL` | `http://localhost:8000` | production ตั้งใน Vercel; ห้ามใส่ secret (ตัวแปร `VITE_*` ฝังในโค้ด browser) |
-| `VITE_MOCK_SCENARIO` | `success` | ใช้เมื่อ mock เท่านั้น |
-| `VITE_POLL_INTERVAL_MS` | `1500` | polling สถานะงาน หยุดเมื่อถึงสถานะสุดท้าย |
+| `VITE_API_BASE_URL` | `http://localhost:8000` | production ตั้งใน Vercel; ห้ามใส่ secret (ตัวแปร `VITE_*` ฝังในโค้ด browser) · `src/config/env.js` ตรวจทุกตัวตอนเริ่มแอป ค่าขาด/ผิดรูปแบบ = ล้มทันที |
+| `VITE_MOCK_SCENARIO` | `success` | ใช้เมื่อ mock เท่านั้น (ค่าที่รองรับดู §5) |
+| `VITE_POLL_INTERVAL_MS` | `1500` | polling สถานะงาน หยุดเมื่อถึงสถานะสุดท้าย (dev = 1000) |
 | `VITE_MAX_UPLOAD_MB` | `10` | ต้องตรงกับ limit ใน contract |
+| `VITE_REQUEST_TIMEOUT_MS` | `15000` | timeout ของทุก request ที่ `httpClient` |
+| `VITE_SITE_URL` | `https://<โดเมนจริง>` | บังคับ ไม่มี `/` ท้าย; ใช้สร้าง sitemap.xml / robots.txt / llms.txt ตอน build (`scripts/seoFiles.js`) |
 | Backend: `ALLOWED_ORIGINS` | `https://<โดเมนจริง>` | CORS ระบุ origin จริงเท่านั้น |
 
 ## 7. การตัดสินใจและความเสี่ยงที่เหลือ
