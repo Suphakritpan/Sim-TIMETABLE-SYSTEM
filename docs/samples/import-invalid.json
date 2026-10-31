@@ -1,0 +1,171 @@
+{
+ "importId": "imp_13d6f13c6a2b7dd9b1d92595b7a78a0c",
+ "status": "invalid",
+ "createdAt": "2026-10-31T07:10:44.313550+00:00",
+ "summary": {
+  "teachers": 2,
+  "rooms": 0,
+  "groups": 3,
+  "courses": 2,
+  "assignments": 2,
+  "requests": 2
+ },
+ "issues": [
+  {
+   "severity": "error",
+   "code": "DUPLICATE_ID",
+   "sheet": "ครู",
+   "row": 4,
+   "message": "รหัสครู T1 ซ้ำกับแถว 2",
+   "fix": "เปลี่ยนรหัสให้ไม่ซ้ำ หรือลบแถวที่ซ้ำ",
+   "column": "รหัสครู"
+  },
+  {
+   "severity": "error",
+   "code": "MISSING_SHEET",
+   "sheet": "ห้อง",
+   "row": 0,
+   "message": "ไม่พบแผ่นงาน ห้อง",
+   "fix": "เพิ่มแผ่นงานชื่อ ห้อง ตามไฟล์แม่แบบ"
+  },
+  {
+   "severity": "error",
+   "code": "MISSING_VALUE",
+   "sheet": "กลุ่มเรียน",
+   "row": 4,
+   "message": "ช่อง ชื่อกลุ่ม ว่าง",
+   "fix": "กรอกค่าในช่อง ชื่อกลุ่ม",
+   "column": "ชื่อกลุ่ม"
+  },
+  {
+   "severity": "error",
+   "code": "INVALID_VALUE",
+   "sheet": "กลุ่มเรียน",
+   "row": 4,
+   "message": "จำนวนนักเรียน (คน) ต้องเป็นจำนวนเต็มมากกว่า 0 (พบ 0)",
+   "fix": "ใส่จำนวนเต็มที่มากกว่า 0",
+   "column": "จำนวนนักเรียน (คน)"
+  }
+ ],
+ "periods": {
+  "days": [
+   "MON",
+   "TUE",
+   "WED",
+   "THU",
+   "FRI"
+  ],
+  "perDay": 8,
+  "morning": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "afternoon": [
+   5,
+   6,
+   7,
+   8
+  ],
+  "blocked": [
+   {
+    "day": "WED",
+    "fromPeriod": 7,
+    "toPeriod": 8
+   }
+  ]
+ },
+ "teachers": [
+  {
+   "id": "T1",
+   "name": "ครูสมมติ หนึ่ง",
+   "dept": "ไอที",
+   "maxPerDay": 6,
+   "unavailable": [
+    {
+     "day": "TUE",
+     "fromPeriod": 8,
+     "toPeriod": 8
+    }
+   ]
+  },
+  {
+   "id": "T2",
+   "name": "ครูสมมติ สอง",
+   "dept": "ไอที",
+   "maxPerDay": 6,
+   "unavailable": []
+  }
+ ],
+ "rooms": [],
+ "groups": [
+  {
+   "id": "G1",
+   "name": "กลุ่มหนึ่ง",
+   "dept": "ไอที",
+   "size": 30
+  },
+  {
+   "id": "G2",
+   "name": "กลุ่มสอง",
+   "dept": "ไอที",
+   "size": 10
+  },
+  {
+   "id": "G9",
+   "name": "",
+   "size": 0
+  }
+ ],
+ "courses": [
+  {
+   "code": "C1",
+   "name": "วิชาหนึ่ง",
+   "theory": 1,
+   "practice": 2,
+   "credit": 2,
+   "dept": "ไอที",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "C2",
+   "name": "วิชาสอง",
+   "theory": 2,
+   "practice": 0,
+   "credit": 2,
+   "dept": "ไอที",
+   "practiceRoomType": null
+  }
+ ],
+ "assignments": [
+  {
+   "id": "S1",
+   "courseCode": "C1",
+   "groupIds": [
+    "G1"
+   ],
+   "teacherId": "T1"
+  },
+  {
+   "id": "S2",
+   "courseCode": "C2",
+   "groupIds": [
+    "G1",
+    "G2"
+   ],
+   "teacherId": "T2"
+  }
+ ],
+ "requests": [
+  {
+   "id": "R1",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูสมมติ หนึ่ง ขอไม่สอนคาบแรก"
+  },
+  {
+   "id": "R2",
+   "text": "ไม่มีผู้ส่ง"
+  }
+ ]
+}

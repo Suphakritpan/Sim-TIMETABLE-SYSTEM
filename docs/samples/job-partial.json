@@ -1,0 +1,105 @@
+{
+ "jobId": "job_f6d675cfcec5a75115372d4956812dad",
+ "status": "completed_partial",
+ "progress": 0.95,
+ "seed": 1,
+ "method": "team",
+ "result": {
+  "items": [
+   {
+    "day": "TUE",
+    "kind": "theory",
+    "period": 6,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S1"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S2"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 6,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S4"
+   },
+   {
+    "day": "TUE",
+    "kind": "theory",
+    "period": 1,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S5"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 5,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S6"
+   },
+   {
+    "day": "MON",
+    "kind": "theory",
+    "period": 1,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S7"
+   },
+   {
+    "day": "THU",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S8"
+   },
+   {
+    "day": "WED",
+    "kind": "theory",
+    "period": 2,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S9"
+   },
+   {
+    "day": "FRI",
+    "kind": "theory",
+    "period": 6,
+    "roomId": "LR-1",
+    "periodCount": 3,
+    "assignmentId": "S10"
+   }
+  ],
+  "stats": {
+   "penalty": 0,
+   "scheduled": 9,
+   "unscheduled": 1,
+   "roomConflicts": 0,
+   "elapsedSeconds": 0.446,
+   "groupConflicts": 0,
+   "otherViolations": 0,
+   "teacherConflicts": 0,
+   "totalAssignments": 10
+  },
+  "conflicts": [],
+  "explanation": "จัดบล็อกที่ยากที่สุดก่อน คือบล็อกที่มีเวลาและห้องให้เลือกน้อย คาบติดกันยาว และเรียนรวมหลายกลุ่ม เพราะถ้าเก็บไว้ท้ายจะไม่เหลือที่ลง จากนั้นย้ายบล็อกอื่นเพื่อวางส่วนที่เหลือ แล้วค้นหาตำแหน่งที่คะแนนโทษน้อยลง",
+  "unscheduled": [
+   {
+    "message": "ไม่เหลือช่องที่ครู กลุ่ม และห้องว่างพร้อมกัน 3 คาบ",
+    "reasonCode": "NO_FREE_SLOT",
+    "assignmentId": "S3"
+   }
+  ],
+  "requestResults": [],
+  "infeasibleReasons": []
+ }
+}

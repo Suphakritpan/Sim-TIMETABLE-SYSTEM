@@ -1,0 +1,22 @@
+name: sim-timetable
+# Development: only the database runs in Docker (`uv run dev.py up` starts it).
+# The production services (api, worker, web) are added at the deploy step.
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app  # dev only; production takes it from .env
+      POSTGRES_DB: app
+    ports:
+      - "127.0.0.1:${DB_PORT:-5434}:5432"  # 5434: other projects on this machine use 5432 and 5433
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "app"]
+      interval: 2s
+      retries: 15
+
+volumes:
+  dbdata:
