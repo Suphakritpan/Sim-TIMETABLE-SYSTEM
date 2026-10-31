@@ -1,0 +1,60 @@
+{
+ "evaluationId": "eval_MOCK01",
+ "importId": "imp_MOCK01",
+ "seed": 42,
+ "isSimulated": true,
+ "methods": [
+  {
+   "method": "baseline",
+   "metrics": {
+    "scheduledRate": 1.0,
+    "conflicts": 54,
+    "otherViolations": 7,
+    "penalty": 48,
+    "elapsedSeconds": 0.01
+   },
+   "description": {
+    "method": "วางวิชาลงช่องแรกที่ว่างตามลำดับ",
+    "whereAiUsed": "ไม่ใช้",
+    "settings": "ไม่มี"
+   }
+  },
+  {
+   "method": "team",
+   "metrics": {
+    "scheduledRate": 1.0,
+    "conflicts": 0,
+    "otherViolations": 0,
+    "penalty": 1,
+    "elapsedSeconds": 4.69
+   },
+   "description": {
+    "method": "ค้นหาแบบสุ่มด้วยเลขตั้งต้น เลือกช่องที่คะแนนโทษเพิ่มน้อยที่สุด",
+    "whereAiUsed": "ตัวอย่างข้อมูลจำลอง (ยังไม่ใช่ผลของอัลกอริทึมจริง)",
+    "settings": "seed=42"
+   }
+  }
+ ],
+ "metricDefinitions": [
+  {
+   "key": "conflicts",
+   "label": "จุดที่ชน (ครู/ห้อง/กลุ่ม)",
+   "higherIsBetter": false
+  },
+  {
+   "key": "otherViolations",
+   "label": "ผิดกฎข้ออื่น",
+   "higherIsBetter": false
+  },
+  {
+   "key": "penalty",
+   "label": "คะแนนโทษรวม",
+   "higherIsBetter": false
+  },
+  {
+   "key": "elapsedSeconds",
+   "label": "เวลาที่ใช้ (วินาที)",
+   "higherIsBetter": false
+  }
+ ]
+}

@@ -1,0 +1,139 @@
+/*
+ * Design tokens ของระบบ — ต้องตรงกับ DESIGN_SYSTEM.md §2 ทุกค่า (แก้ที่เอกสารก่อนเสมอ)
+ * ใช้ที่: นำเข้าผ่าน src/index.css; component ใช้คลาส Tailwind ที่สร้างจากไฟล์นี้เท่านั้น
+ * ไฟล์นี้เป็นที่เดียวในโปรเจกต์ที่อนุญาตให้มีค่าสี hex
+ */
+
+/* Primitive: ห้ามอ้างตรงจาก component ใช้ semantic ใน @theme ด้านล่าง */
+:root {
+  --p-white: #ffffff;
+  --p-sky-25: #f8fafc;
+  --p-sky-50: #f1f5fd;
+  --p-sky-75: #eaf1fe;
+  --p-sky-100: #e4ecfc;
+  --p-sky-300: #6b8fcb;
+  --p-blue-600: #2563eb;
+  --p-blue-700: #1d4ed8;
+  --p-blue-800: #1e40af;
+  --p-ink-900: #0f172a;
+  --p-ink-600: #475569;
+  --p-green-700: #047857;
+  --p-green-600: #059669;
+  --p-green-100: #d1fae5;
+  --p-amber-700: #b45309;
+  --p-amber-100: #fef3c7;
+  --p-red-700: #b91c1c;
+  --p-red-600: #dc2626;
+  --p-red-100: #fee2e2;
+  --p-cyan-700: #0369a1;
+  --p-cyan-100: #e0f2fe;
+  --p-indigo-700: #4338ca;
+  --p-indigo-100: #e0e7ff;
+}
+
+/* ล้างค่าเริ่มต้นของ Tailwind เพื่อให้ใช้ได้เฉพาะ token ที่อนุมัติ (กฎข้อ 2) */
+@theme inline {
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --ease-*: initial;
+
+  --color-page: var(--p-white);
+  --color-subtle: var(--p-sky-25);
+  --color-tint: var(--p-sky-75);
+  --color-hover: var(--p-sky-50);
+  --color-line-subtle: var(--p-sky-100);
+  --color-line-control: var(--p-sky-300);
+  --color-ink: var(--p-ink-900);
+  --color-ink-muted: var(--p-ink-600);
+  --color-on-action: var(--p-white);
+  --color-action: var(--p-blue-600);
+  --color-action-hover: var(--p-blue-700);
+  --color-action-press: var(--p-blue-800);
+  --color-action-soft-bg: var(--p-sky-100);
+  --color-action-soft-text: var(--p-blue-700);
+  --color-success-text: var(--p-green-700);
+  --color-success-fill: var(--p-green-600);
+  --color-success-bg: var(--p-green-100);
+  --color-warning-text: var(--p-amber-700);
+  --color-warning-bg: var(--p-amber-100);
+  --color-danger-text: var(--p-red-700);
+  --color-danger-fill: var(--p-red-600);
+  --color-danger-bg: var(--p-red-100);
+  --color-info-text: var(--p-cyan-700);
+  --color-info-bg: var(--p-cyan-100);
+  --color-accent-text: var(--p-indigo-700);
+  --color-accent-bg: var(--p-indigo-100);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-arch: 200px 200px 20px 20px;
+  --radius-full: 9999px;
+
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 12px 24px -16px rgb(37 99 235 / 0.18);
+  --shadow-raised: 0 2px 4px rgb(15 23 42 / 0.05), 0 16px 32px -16px rgb(37 99 235 / 0.28);
+  --shadow-overlay: 0 24px 48px -12px rgb(15 23 42 / 0.25);
+  --shadow-focus: 0 0 0 2px var(--p-white), 0 0 0 4px var(--p-blue-600);
+
+  --font-display: "Noto Serif Thai", serif;
+  --font-sans: "Noto Sans Thai", system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1rem;
+  --text-base--line-height: 1.7;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.4;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.3;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 1.25;
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 1.2;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Motion durations ใช้เป็นตัวแปร CSS ปกติ (Tailwind ไม่มี namespace สำหรับ duration) */
+:root {
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 360ms;
+  --duration-stagger: 60ms;
+
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-overlay: 40;
+  --z-dialog: 50;
+  --z-toast: 60;
+}
+
+/* กฎ P6: ผู้ใช้ที่ปิดการเคลื่อนไหว ต้องไม่เห็นแอนิเมชันใด ๆ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0.01ms;
+    --duration-base: 0.01ms;
+    --duration-slow: 0.01ms;
+    --duration-stagger: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

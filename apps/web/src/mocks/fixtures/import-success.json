@@ -1,0 +1,622 @@
+{
+ "importId": "imp_MOCK01",
+ "status": "valid",
+ "createdAt": "2026-10-31T09:30:00Z",
+ "summary": {
+  "teachers": 8,
+  "rooms": 5,
+  "groups": 4,
+  "courses": 15,
+  "assignments": 29,
+  "requests": 6
+ },
+ "issues": [],
+ "periods": {
+  "days": [
+   "MON",
+   "TUE",
+   "WED",
+   "THU",
+   "FRI"
+  ],
+  "perDay": 8,
+  "morning": [
+   1,
+   4
+  ],
+  "afternoon": [
+   5,
+   8
+  ],
+  "blocked": [
+   {
+    "day": "WED",
+    "fromPeriod": 7,
+    "toPeriod": 8
+   }
+  ]
+ },
+ "teachers": [
+  {
+   "id": "TIT01",
+   "name": "ครูศักดิ์ชัย ปัญญาดี",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 5,
+   "unavailable": [
+    {
+     "day": "TUE",
+     "fromPeriod": 8,
+     "toPeriod": 8
+    },
+    {
+     "day": "WED",
+     "fromPeriod": 1,
+     "toPeriod": 2
+    }
+   ]
+  },
+  {
+   "id": "TIT02",
+   "name": "ครูจิราพร จันทร์แก้ว",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 8,
+   "unavailable": [
+    {
+     "day": "TUE",
+     "fromPeriod": 5,
+     "toPeriod": 8
+    },
+    {
+     "day": "THU",
+     "fromPeriod": 5,
+     "toPeriod": 5
+    },
+    {
+     "day": "FRI",
+     "fromPeriod": 4,
+     "toPeriod": 4
+    }
+   ]
+  },
+  {
+   "id": "TIT03",
+   "name": "ครูณัฐพล สุขสวัสดิ์",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 6,
+   "unavailable": []
+  },
+  {
+   "id": "TIT04",
+   "name": "ครูอำไพ สุขสวัสดิ์",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 4,
+   "unavailable": [
+    {
+     "day": "MON",
+     "fromPeriod": 3,
+     "toPeriod": 3
+    }
+   ]
+  },
+  {
+   "id": "TIT05",
+   "name": "ครูสมชาย สายสุวรรณ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 4,
+   "unavailable": []
+  },
+  {
+   "id": "TIT06",
+   "name": "ครูประสิทธิ์ ศรีสุข",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "maxPerDay": 7,
+   "unavailable": [
+    {
+     "day": "MON",
+     "fromPeriod": 1,
+     "toPeriod": 4
+    },
+    {
+     "day": "TUE",
+     "fromPeriod": 8,
+     "toPeriod": 8
+    },
+    {
+     "day": "THU",
+     "fromPeriod": 8,
+     "toPeriod": 8
+    }
+   ]
+  },
+  {
+   "id": "TGEN01",
+   "name": "ครูเกียรติศักดิ์ ภูมิใจ",
+   "dept": "สามัญสัมพันธ์",
+   "maxPerDay": 5,
+   "unavailable": [
+    {
+     "day": "FRI",
+     "fromPeriod": 5,
+     "toPeriod": 8
+    }
+   ]
+  },
+  {
+   "id": "TGEN02",
+   "name": "ครูสมพงษ์ ภูมิใจ",
+   "dept": "สามัญสัมพันธ์",
+   "maxPerDay": 5,
+   "unavailable": []
+  }
+ ],
+ "rooms": [
+  {
+   "id": "LR-01",
+   "name": "ห้องบรรยาย LR-01",
+   "type": "ห้องบรรยาย",
+   "capacity": 45,
+   "building": "อาคารเฉลิมพระเกียรติ"
+  },
+  {
+   "id": "LR-02",
+   "name": "ห้องบรรยาย LR-02",
+   "type": "ห้องบรรยาย",
+   "capacity": 45,
+   "building": "อาคาร 2"
+  },
+  {
+   "id": "AUD-01",
+   "name": "ห้องบรรยายรวม AUD-01",
+   "type": "ห้องบรรยาย",
+   "capacity": 90,
+   "building": "อาคาร 3"
+  },
+  {
+   "id": "COM-01",
+   "name": "ห้องคอมพิวเตอร์ COM-01",
+   "type": "ห้องคอมพิวเตอร์",
+   "capacity": 40,
+   "building": "อาคาร 3"
+  },
+  {
+   "id": "COM-02",
+   "name": "ห้องคอมพิวเตอร์ COM-02",
+   "type": "ห้องคอมพิวเตอร์",
+   "capacity": 40,
+   "building": "อาคาร 2"
+  }
+ ],
+ "groups": [
+  {
+   "id": "IT-H11",
+   "name": "ปวส.1/1 เทคโนโลยีสารสนเทศ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "size": 32
+  },
+  {
+   "id": "IT-H12",
+   "name": "ปวส.1/2 เทคโนโลยีสารสนเทศ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "size": 39
+  },
+  {
+   "id": "IT-H21",
+   "name": "ปวส.2/1 เทคโนโลยีสารสนเทศ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "size": 27
+  },
+  {
+   "id": "IT-H22",
+   "name": "ปวส.2/2 เทคโนโลยีสารสนเทศ",
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "size": 22
+  }
+ ],
+ "courses": [
+  {
+   "code": "30000-1104",
+   "name": "หน้าที่พลเมืองและศีลธรรม",
+   "theory": 2,
+   "practice": 0,
+   "credit": 2,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30000-1105",
+   "name": "ภาษาอังกฤษในงานอาชีพ",
+   "theory": 2,
+   "practice": 0,
+   "credit": 2,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30000-1106",
+   "name": "วิทยาศาสตร์เพื่องานอาชีพ",
+   "theory": 2,
+   "practice": 0,
+   "credit": 2,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30000-1107",
+   "name": "สถิติเบื้องต้น",
+   "theory": 3,
+   "practice": 0,
+   "credit": 3,
+   "dept": "สามัญสัมพันธ์",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30001-2010",
+   "name": "การวิเคราะห์ข้อมูล",
+   "theory": 1,
+   "practice": 2,
+   "credit": 2,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2011",
+   "name": "การออกแบบส่วนต่อประสาน",
+   "theory": 1,
+   "practice": 4,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2012",
+   "name": "อินเทอร์เน็ตของสรรพสิ่ง",
+   "theory": 3,
+   "practice": 0,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30001-2013",
+   "name": "ความมั่นคงปลอดภัยไซเบอร์",
+   "theory": 3,
+   "practice": 0,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": null
+  },
+  {
+   "code": "30001-2014",
+   "name": "เครือข่ายคอมพิวเตอร์",
+   "theory": 2,
+   "practice": 2,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2015",
+   "name": "การพัฒนาแอปพลิเคชันมือถือ",
+   "theory": 2,
+   "practice": 3,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2020",
+   "name": "การวิเคราะห์ข้อมูล",
+   "theory": 2,
+   "practice": 2,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2021",
+   "name": "ระบบปฏิบัติการ",
+   "theory": 1,
+   "practice": 2,
+   "credit": 2,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2022",
+   "name": "อินเทอร์เน็ตของสรรพสิ่ง",
+   "theory": 2,
+   "practice": 2,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2023",
+   "name": "การเขียนโปรแกรมเว็บ",
+   "theory": 2,
+   "practice": 3,
+   "credit": 3,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  },
+  {
+   "code": "30001-2024",
+   "name": "ระบบฐานข้อมูล",
+   "theory": 0,
+   "practice": 4,
+   "credit": 2,
+   "dept": "เทคโนโลยีสารสนเทศ",
+   "practiceRoomType": "ห้องคอมพิวเตอร์"
+  }
+ ],
+ "assignments": [
+  {
+   "id": "S0001",
+   "courseCode": "30000-1107",
+   "groupIds": [
+    "IT-H21",
+    "IT-H22"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0002",
+   "courseCode": "30001-2023",
+   "groupIds": [
+    "IT-H22"
+   ],
+   "teacherId": "TIT04"
+  },
+  {
+   "id": "S0003",
+   "courseCode": "30001-2011",
+   "groupIds": [
+    "IT-H12"
+   ],
+   "teacherId": "TIT06"
+  },
+  {
+   "id": "S0004",
+   "courseCode": "30001-2015",
+   "groupIds": [
+    "IT-H12"
+   ],
+   "teacherId": "TIT03"
+  },
+  {
+   "id": "S0005",
+   "courseCode": "30000-1105",
+   "groupIds": [
+    "IT-H11",
+    "IT-H12"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0006",
+   "courseCode": "30001-2023",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0007",
+   "courseCode": "30001-2011",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT05"
+  },
+  {
+   "id": "S0008",
+   "courseCode": "30001-2015",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0009",
+   "courseCode": "30000-1106",
+   "groupIds": [
+    "IT-H11",
+    "IT-H12"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0010",
+   "courseCode": "30000-1104",
+   "groupIds": [
+    "IT-H21",
+    "IT-H22"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0011",
+   "courseCode": "30001-2022",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0012",
+   "courseCode": "30001-2024",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT04"
+  },
+  {
+   "id": "S0013",
+   "courseCode": "30001-2014",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT03"
+  },
+  {
+   "id": "S0014",
+   "courseCode": "30001-2024",
+   "groupIds": [
+    "IT-H22"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0015",
+   "courseCode": "30001-2020",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT05"
+  },
+  {
+   "id": "S0016",
+   "courseCode": "30001-2022",
+   "groupIds": [
+    "IT-H22"
+   ],
+   "teacherId": "TIT06"
+  },
+  {
+   "id": "S0017",
+   "courseCode": "30001-2020",
+   "groupIds": [
+    "IT-H22"
+   ],
+   "teacherId": "TIT04"
+  },
+  {
+   "id": "S0018",
+   "courseCode": "30001-2014",
+   "groupIds": [
+    "IT-H12"
+   ],
+   "teacherId": "TIT05"
+  },
+  {
+   "id": "S0019",
+   "courseCode": "30001-2010",
+   "groupIds": [
+    "IT-H12"
+   ],
+   "teacherId": "TIT06"
+  },
+  {
+   "id": "S0020",
+   "courseCode": "30001-2021",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TIT03"
+  },
+  {
+   "id": "S0021",
+   "courseCode": "30001-2013",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0022",
+   "courseCode": "30001-2012",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0023",
+   "courseCode": "30001-2012",
+   "groupIds": [
+    "IT-H12"
+   ],
+   "teacherId": "TIT06"
+  },
+  {
+   "id": "S0024",
+   "courseCode": "30001-2021",
+   "groupIds": [
+    "IT-H22"
+   ],
+   "teacherId": "TIT01"
+  },
+  {
+   "id": "S0025",
+   "courseCode": "30001-2010",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TIT02"
+  },
+  {
+   "id": "S0026",
+   "courseCode": "30000-1105",
+   "groupIds": [
+    "IT-H21"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0027",
+   "courseCode": "30000-1104",
+   "groupIds": [
+    "IT-H11"
+   ],
+   "teacherId": "TGEN01"
+  },
+  {
+   "id": "S0028",
+   "courseCode": "30000-1104",
+   "groupIds": [
+    "IT-H12"
+   ],
+   "teacherId": "TGEN02"
+  },
+  {
+   "id": "S0029",
+   "courseCode": "30000-1105",
+   "groupIds": [
+    "IT-H22"
+   ],
+   "teacherId": "TGEN01"
+  }
+ ],
+ "requests": [
+  {
+   "id": "R01",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูเกียรติศักดิ์ ภูมิใจ เป็นกรรมการประชุมเครือข่ายอาชีวศึกษาทุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น"
+  },
+  {
+   "id": "R02",
+   "sender": "ฝ่ายวิชาการ",
+   "text": "ครูสมพงษ์ ภูมิใจ ติดภารกิจศึกษาต่อปริญญาโททุกบ่ายวันพุธ ขอไม่มีคาบสอนช่วงบ่ายวันนั้น"
+  },
+  {
+   "id": "R03",
+   "sender": "หัวหน้าแผนกวิชาเทคโนโลยีสารสนเทศ",
+   "text": "แผนกวิชาเทคโนโลยีสารสนเทศขอให้จัดคาบปฏิบัติไว้ช่วงเช้าให้มากที่สุดเท่าที่ทำได้ เพราะช่วงบ่ายห้องปฏิบัติการร้อนมาก"
+  },
+  {
+   "id": "R04",
+   "sender": "ครูจิราพร จันทร์แก้ว",
+   "text": "ครูจิราพร จันทร์แก้ว บ้านอยู่ต่างอำเภอ เดินทางไกล ถ้าเลี่ยงได้ขอไม่สอนคาบแรก (08.00 น.)"
+  },
+  {
+   "id": "R05",
+   "sender": "ครูที่ปรึกษา",
+   "text": "กลุ่ม ปวส.1/1 เทคโนโลยีสารสนเทศ (IT-H11) เป็นนักกีฬาของวิทยาลัย ต้องซ้อมกีฬาทุกวันพฤหัสบดี ขอให้เลิกเรียนไม่เกิน 15.00 น."
+  },
+  {
+   "id": "R06",
+   "sender": "ครูศักดิ์ชัย ปัญญาดี",
+   "text": "ครูศักดิ์ชัย ปัญญาดี ขอสอนเฉพาะวันจันทร์และวันอังคาร เพื่อนำวันที่เหลือไปทำผลงานวิชาการ"
+  }
+ ]
+}
